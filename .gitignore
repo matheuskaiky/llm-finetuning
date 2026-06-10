@@ -1,0 +1,63 @@
+# --- Agent / local config (NEVER commit) ---
+CLAUDE.md
+.claude/
+
+# --- Datasets & artifacts ---
+data/*
+!data/.gitkeep
+*.pdf
+*.parquet
+*.arrow
+
+# --- Model weights & checkpoints ---
+*.ckpt
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+checkpoints/
+outputs/
+models/
+runs/
+
+# --- Experiment tracking ---
+wandb/
+mlruns/
+lightning_logs/
+tensorboard/
+*.log
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.python-version
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- Secrets & env ---
+.env
+.env.*
+!.env.example
+*.key
+credentials.json
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

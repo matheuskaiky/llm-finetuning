@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-finetuning"
+version = "0.1.0"
+description = "End-to-end LLM lifecycle (pretrain, SFT, LoRA/QLoRA, distillation, RAG, guardrails) for UFPI public-sector data."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+# Core dependencies (training pipeline).
+dependencies = [
+    "torch>=2.2",
+    "transformers>=4.44",
+    "datasets>=2.20",
+    "accelerate>=0.33",
+    "peft>=0.12",
+    "trl>=0.9",
+    "bitsandbytes>=0.43",
+    "sentencepiece>=0.2",
+    "pypdf>=4.0",
+    "pdfplumber>=0.11",
+    "pyyaml>=6.0",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+# RAG stack (Q5).
+rag = [
+    "langchain>=0.2",
+    "langchain-community>=0.2",
+    "chromadb>=0.5",
+    "faiss-cpu>=1.8",
+    "sentence-transformers>=3.0",
+]
+# Guardrails stack (Q6).
+guardrails = [
+    "nemoguardrails>=0.9",
+]
+# Experiment tracking & evaluation helpers.
+tracking = [
+    "wandb>=0.17",
+    "tensorboard>=2.17",
+]
+# Developer tooling.
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "pre-commit>=3.7",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
