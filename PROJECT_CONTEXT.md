@@ -73,10 +73,10 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt). (Q&A, splits a seguir.)
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (Q&A, splits a seguir.)
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
-├── training/      # [ ] Trainers (Strategy): continual pretrain, SFT, LoRA/QLoRA, distillation.
+├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
 ├── rag/           # [ ] RagPipeline: retriever + generator (Standard/Agentic/Self-Reflective).
 └── guardrails/    # [ ] GuardrailLayer: filtros de entrada/saída componíveis.
 ```
@@ -133,3 +133,10 @@ métricas numa única passada de forward.
 Heurística para remover cabeçalhos/rodapés de diários: conta as linhas que se
 repetem em pelo menos `boilerplate_threshold` das páginas (mínimo de 2) e as
 descarta. Desativada quando há menos de 3 páginas ou `threshold >= 1.0`.
+
+### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
+Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com
+EOS entre eles) e divididos em blocos de `block_size` tokens. O resto final menor
+que um bloco é descartado por padrão (`drop_remainder=True`). O agrupamento é uma
+função pura, testável sem torch; o `ContinualPretrainTrainer` a usa para montar o
+dataset de treino.

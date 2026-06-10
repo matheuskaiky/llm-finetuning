@@ -110,8 +110,8 @@ class LanguageModelEvaluator(Evaluator):
         return {metric.name: metric.compute() for metric in self.metrics}
 
 
-def save_results(results: dict[str, float], path: str | Path) -> Path:
-    """Persist a metric dict as pretty JSON, creating parent dirs."""
+def save_results(results: dict[str, Any], path: str | Path) -> Path:
+    """Persist a results dict as pretty JSON, creating parent dirs."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")

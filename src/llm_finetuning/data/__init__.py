@@ -3,5 +3,11 @@
 from __future__ import annotations
 
 from .pdf_loader import PdfToTextLoader, normalize_text
+from .text_corpus import TextCorpusLoader, chunk_token_ids
 
-__all__ = ["PdfToTextLoader", "normalize_text"]
+__all__ = [
+    "PdfToTextLoader",
+    "normalize_text",
+    "TextCorpusLoader",
+    "chunk_token_ids",
+]

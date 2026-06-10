@@ -8,6 +8,7 @@ from llm_finetuning.core.registry import (
     EVALUATORS,
     METRICS,
     MODEL_PROVIDERS,
+    TRAINERS,
 )
 
 
@@ -18,5 +19,6 @@ def test_version() -> None:
 def test_builtin_components_registered() -> None:
     assert {"perplexity", "cross_entropy", "token_accuracy"} <= set(METRICS.available())
     assert {"local", "cloud"} <= set(MODEL_PROVIDERS.available())
-    assert "pdf_to_text" in DATASET_LOADERS
+    assert {"pdf_to_text", "text_corpus"} <= set(DATASET_LOADERS.available())
     assert "language_model" in EVALUATORS
+    assert "continual_pretrain" in TRAINERS

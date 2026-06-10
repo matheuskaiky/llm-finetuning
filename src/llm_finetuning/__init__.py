@@ -13,5 +13,6 @@ __version__ = "0.1.0"
 from . import data as _data  # noqa: F401
 from . import evaluation as _evaluation  # noqa: F401
 from . import models as _models  # noqa: F401
+from . import training as _training  # noqa: F401
 
 __all__ = ["__version__"]
