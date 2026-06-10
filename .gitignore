@@ -2,6 +2,10 @@
 CLAUDE.md
 .claude/
 
+# --- Local-only docs (not for the public repo) ---
+tarefa.md
+TEAM.md
+
 # --- Datasets & artifacts ---
 data/*
 !data/.gitkeep
