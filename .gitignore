@@ -24,6 +24,7 @@ checkpoints/
 outputs/
 models/
 runs/
+benchmarks/results/
 
 # --- Experiment tracking ---
 wandb/

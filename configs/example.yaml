@@ -1,0 +1,20 @@
+# Reference config showing the component-spec shape used across the project.
+# `type` selects a registered implementation; `params` are its constructor args.
+name: example
+seed: 42
+
+model:
+  type: local          # -> LocalModelProvider
+  params:
+    model_name: gpt2
+
+dataset:
+  type: pdf_to_text     # -> PdfToTextLoader
+  params:
+    input_dir: data/raw
+    output_dir: data/processed
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/sample_corpus.jsonl
+  max_length: 512
