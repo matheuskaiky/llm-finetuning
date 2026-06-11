@@ -148,14 +148,22 @@ Pipeline para o dataset SIGAA (`data/raw/docentesDC-sigaa`, estrutura
 e ruido (`.venv`, `__MACOSX`, `_archives/`, binarios) e sempre descartado; (2)
 metadados do caminho (professor, ano, mes, dia) e do nome (prefixo numerico de id
 do SIGAA); (3) extracao de texto por tipo, com imports tardios (`pypdf` para pdf;
-leitura direta para txt/tex/csv/md; `html.unescape` + strip para html; `docx`/`pptx`
-degradam se a lib nao estiver instalada); (4) dedup exata via `deduplicate`. A
-dedup agrupa por `text_sha1` (texto normalizado) quando ha texto, senao por
-`content_md5`, elege como canonica a versao mais recente (`max(ano, mes, dia)`,
-desempate por caminho) e preserva `duplicated_dates`/`dup_count`; conteudo que
-aparece em mais de um docente marca `shared_with_professors` sem atribuir autoria.
-Saida: JSONL, um documento canonico por linha. A logica pura (triagem, metadados,
-fingerprint, dedup) e testavel sem o stack de ML.
+`python-docx` para docx; `python-pptx` para pptx; leitura direta para txt/tex/csv/md;
+`html.unescape` + strip para html; doc/ppt legados ficam como `unsupported`); (4)
+dedup em duas camadas. A dedup exata (`deduplicate`) agrupa por `text_sha1` (texto
+normalizado) quando ha texto, senao por `content_md5`, elege como canonica a versao
+mais recente (`max(ano, mes, dia)`, desempate por caminho) e preserva
+`duplicated_dates`/`dup_count`; conteudo que aparece em mais de um docente marca
+`shared_with_professors` sem atribuir autoria. A dedup aproximada
+(`deduplicate_near`, opcional via `near_dedup`) usa MinHash/LSH (`datasketch`) sobre
+shingles de palavras, por professor, com limiar de Jaccard configuravel, colapsando
+variantes leves. Texto extraido de PDFs e bytes indecodificaveis do filesystem podem
+gerar lone surrogates: `sanitize_text` os remove no texto e na linha JSON inteira.
+Saida: JSONL, um documento canonico por linha. `export_plaintext_corpus` materializa
+o texto canonico (acima de `min_chars`) em `.txt` sob `data/processed`, compativel
+com o `TextCorpusLoader` (reaproveita o corpus docente no pre-treino contınuo, Q1).
+A logica pura (triagem, metadados, fingerprint, dedup exata e aproximada, export) e
+testavel sem o stack de ML.
 
 ### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
 Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com

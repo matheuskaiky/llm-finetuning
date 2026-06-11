@@ -14,10 +14,12 @@ from llm_finetuning.data.docente_extractor import (
     DocenteExtractor,
     classify_file,
     deduplicate,
+    deduplicate_near,
     parse_path_metadata,
     parse_sigaa_id,
     sanitize_text,
     text_fingerprint,
+    word_shingles,
 )
 
 
@@ -152,6 +154,88 @@ def test_write_jsonl_survives_surrogate_in_any_field(tmp_path: Path) -> None:
     loaded = json.loads(line)
     assert loaded["text"] == "ok"
     assert "\udce3" not in loaded["professor"]
+
+
+def test_export_plaintext_corpus_filters_and_writes(tmp_path: Path) -> None:
+    from llm_finetuning.data.docente_extractor import export_plaintext_corpus
+
+    records = [
+        {"doc_id": "aaa", "sigaa_id": "10", "text": "x" * 300},
+        {"doc_id": "bbb", "sigaa_id": None, "text": "muito curto"},  # below min_chars
+        {"doc_id": "ccc", "sigaa_id": "12", "text": ""},  # empty, skipped
+    ]
+    out_dir = tmp_path / "corpus"
+    written = export_plaintext_corpus(records, out_dir, min_chars=200)
+    assert len(written) == 1
+    assert written[0].suffix == ".txt"
+    assert written[0].read_text(encoding="utf-8") == "x" * 300
+    # Only the long record is materialized.
+    assert len(list(out_dir.glob("*.txt"))) == 1
+
+
+def test_word_shingles_basic() -> None:
+    sh = word_shingles("a b c d", k=2)
+    assert sh == {"a b", "b c", "c d"}
+    # Fewer tokens than k collapses to a single shingle.
+    assert word_shingles("a b", k=5) == {"a b"}
+
+
+def _near_record(professor: str, date: str, text: str, md5: str) -> dict[str, object]:
+    return {
+        "professor": professor,
+        "date": date,
+        "text": text,
+        "text_sha1": text_fingerprint(text),
+        "content_md5": md5,
+        "source_path": f"{professor}/{date}/{md5}.pdf",
+        "dup_count": 1,
+        "duplicated_dates": [date],
+    }
+
+
+def test_deduplicate_near_collapses_minor_variants() -> None:
+    base = " ".join(f"palavra{i}" for i in range(40))
+    older = _near_record("Ana", "2022-01-01", base, "m1")
+    # Same document plus one extra sentence: high Jaccard, should collapse.
+    newer = _near_record("Ana", "2024-01-01", base + " exercicio extra novo", "m2")
+    out = deduplicate_near([older, newer], threshold=0.6)
+    assert len(out) == 1
+    canon = out[0]
+    assert canon["date"] == "2024-01-01"
+    assert canon["dup_count"] == 2
+    assert set(canon["duplicated_dates"]) == {"2022-01-01", "2024-01-01"}
+
+
+def test_deduplicate_near_keeps_distinct_documents() -> None:
+    a = _near_record("Ana", "2022-01-01", " ".join(f"alpha{i}" for i in range(40)), "m1")
+    b = _near_record("Ana", "2023-01-01", " ".join(f"omega{i}" for i in range(40)), "m2")
+    out = deduplicate_near([a, b], threshold=0.85)
+    assert len(out) == 2
+
+
+def test_deduplicate_near_only_within_same_professor() -> None:
+    text = " ".join(f"w{i}" for i in range(40))
+    a = _near_record("Ana", "2022-01-01", text, "m1")
+    b = _near_record("Bruno", "2024-01-01", text, "m2")
+    out = deduplicate_near([a, b], threshold=0.6)
+    # Identical text but different professors is not merged here (handled as
+    # shared material by the exact pass, not collapsed across authors).
+    assert len(out) == 2
+
+
+def test_deduplicate_near_passes_through_textless_records() -> None:
+    a = {
+        "professor": "Ana",
+        "date": "2022-01-01",
+        "text": "",
+        "text_sha1": "",
+        "content_md5": "m1",
+        "source_path": "Ana/x.pdf",
+        "dup_count": 1,
+        "duplicated_dates": ["2022-01-01"],
+    }
+    out = deduplicate_near([a], threshold=0.85)
+    assert len(out) == 1
 
 
 def _write(p: Path, content: str) -> None:

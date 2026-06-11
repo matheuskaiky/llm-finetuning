@@ -189,6 +189,144 @@ def deduplicate(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     return canonicals
 
 
+def export_plaintext_corpus(
+    records: Iterable[dict[str, Any]],
+    out_dir: str | Path,
+    min_chars: int = 200,
+) -> list[Path]:
+    """Materialize canonical documents as one ``.txt`` per doc for pretraining.
+
+    Writes the cleaned ``text`` of each record with at least ``min_chars``
+    characters into ``out_dir``, producing a plain-text corpus compatible with
+    :class:`~llm_finetuning.data.text_corpus.TextCorpusLoader` (continual
+    pretraining). Records below the threshold or without text are skipped to keep
+    boilerplate and parser noise out of the corpus.
+    """
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    for record in records:
+        text = record.get("text") or ""
+        if len(text) < min_chars:
+            continue
+        doc_id = record.get("doc_id") or text_fingerprint(text)
+        sigaa = record.get("sigaa_id") or "na"
+        out_path = out_dir / f"{sigaa}-{doc_id[:12]}.txt"
+        out_path.write_text(text, encoding="utf-8")
+        written.append(out_path)
+    return written
+
+
+def word_shingles(text: str, k: int = 5) -> set[str]:
+    """Return the set of ``k``-word shingles of normalized text.
+
+    Used as the MinHash input for near-duplicate detection. Text shorter than
+    ``k`` tokens collapses to a single shingle.
+    """
+    tokens = _WS.sub(" ", text.lower()).strip().split(" ")
+    tokens = [t for t in tokens if t]
+    if not tokens:
+        return set()
+    if len(tokens) < k:
+        return {" ".join(tokens)}
+    return {" ".join(tokens[i : i + k]) for i in range(len(tokens) - k + 1)}
+
+
+def _union_find(n: int, edges: Iterable[tuple[int, int]]) -> list[list[int]]:
+    """Group ``0..n-1`` into connected components given undirected ``edges``."""
+    parent = list(range(n))
+
+    def find(x: int) -> int:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for a, b in edges:
+        parent[find(a)] = find(b)
+    clusters: dict[int, list[int]] = {}
+    for i in range(n):
+        clusters.setdefault(find(i), []).append(i)
+    return list(clusters.values())
+
+
+def deduplicate_near(
+    records: Sequence[dict[str, Any]],
+    threshold: float = 0.85,
+    num_perm: int = 128,
+    shingle_size: int = 5,
+) -> list[dict[str, Any]]:
+    """Collapse near-duplicate documents within each professor via MinHash/LSH.
+
+    Runs after the exact pass. Records with text are bucketed by professor; within
+    a bucket, documents whose word-shingle Jaccard estimate is at least
+    ``threshold`` are clustered (transitively) and collapsed to the most recent
+    version, merging ``duplicated_dates`` and summing ``dup_count``. Records
+    without text, or alone in their bucket, pass through unchanged. Cross-professor
+    overlap is intentionally not merged here (handled as shared material by the
+    exact pass).
+    """
+    from datasketch import MinHash, MinHashLSH
+
+    by_professor: dict[Any, list[int]] = {}
+    passthrough: list[dict[str, Any]] = []
+    for idx, record in enumerate(records):
+        if record.get("text"):
+            by_professor.setdefault(record.get("professor"), []).append(idx)
+        else:
+            passthrough.append(record)
+
+    result: list[dict[str, Any]] = list(passthrough)
+    for indices in by_professor.values():
+        if len(indices) == 1:
+            result.append(records[indices[0]])
+            continue
+        minhashes: dict[int, Any] = {}
+        lsh = MinHashLSH(threshold=threshold, num_perm=num_perm)
+        for idx in indices:
+            mh = MinHash(num_perm=num_perm, seed=1)
+            for shingle in word_shingles(records[idx]["text"], shingle_size):
+                mh.update(shingle.encode("utf-8"))
+            minhashes[idx] = mh
+            lsh.insert(str(idx), mh)
+        edges: list[tuple[int, int]] = []
+        local = {idx: pos for pos, idx in enumerate(indices)}
+        for idx in indices:
+            for other in lsh.query(minhashes[idx]):
+                j = int(other)
+                if j != idx:
+                    edges.append((local[idx], local[j]))
+        for cluster in _union_find(len(indices), edges):
+            group = [records[indices[pos]] for pos in cluster]
+            result.append(_collapse_cluster(group))
+    result.sort(key=lambda r: r.get("source_path", ""))
+    return result
+
+
+def _collapse_cluster(group: list[dict[str, Any]]) -> dict[str, Any]:
+    """Merge a near-duplicate cluster into its most recent member."""
+    if len(group) == 1:
+        return group[0]
+    canonical = dict(max(group, key=_date_key))
+    dates: set[str] = set()
+    professors: set[str] = set()
+    count = 0
+    for record in group:
+        member_dates = record.get("duplicated_dates")
+        if not member_dates:
+            member_dates = [record["date"]] if record.get("date") else []
+        dates.update(member_dates)
+        if record.get("professor"):
+            professors.add(record["professor"])
+        count += record.get("dup_count", 1)
+    canonical["dup_count"] = count
+    canonical["duplicated_dates"] = sorted(dates)
+    canonical["near_dup_count"] = len(group)
+    if len(professors) > 1:
+        canonical["shared_with_professors"] = sorted(professors)
+    return canonical
+
+
 @DATASET_LOADERS.register("docente_extractor")
 class DocenteExtractor(DatasetLoader):
     """Triage, text-extract and exact-dedup the docente (SIGAA) corpus to JSONL.
@@ -198,6 +336,8 @@ class DocenteExtractor(DatasetLoader):
         output_path: JSONL file written with one canonical document per line.
         include_code: When True, source-code files are also extracted as a separate
             subcorpus; by default only the factual text bucket is processed.
+        near_dedup: When True, run the near-duplicate pass after the exact one.
+        near_threshold: Jaccard threshold for the near-duplicate pass.
         encoding: Encoding used to read plain-text files.
     """
 
@@ -206,11 +346,15 @@ class DocenteExtractor(DatasetLoader):
         input_dir: str | Path,
         output_path: str | Path,
         include_code: bool = False,
+        near_dedup: bool = True,
+        near_threshold: float = 0.85,
         encoding: str = "utf-8",
     ) -> None:
         self.input_dir = Path(input_dir)
         self.output_path = Path(output_path)
         self.include_code = include_code
+        self.near_dedup = near_dedup
+        self.near_threshold = near_threshold
         self.encoding = encoding
 
     def iter_files(self) -> Iterator[tuple[Path, str]]:
@@ -317,6 +461,8 @@ class DocenteExtractor(DatasetLoader):
             self._build_record(path, bucket) for path, bucket in self.iter_files()
         ]
         records = deduplicate(raw_records)
+        if self.near_dedup:
+            records = deduplicate_near(records, threshold=self.near_threshold)
         self._write_jsonl(records)
         return records
 

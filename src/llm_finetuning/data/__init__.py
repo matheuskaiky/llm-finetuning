@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from .docente_extractor import DocenteExtractor, classify_file, deduplicate
+from .docente_extractor import (
+    DocenteExtractor,
+    classify_file,
+    deduplicate,
+    deduplicate_near,
+    export_plaintext_corpus,
+    word_shingles,
+)
 from .pdf_loader import PdfToTextLoader, normalize_text
 from .text_corpus import TextCorpusLoader, chunk_token_ids
 
@@ -14,4 +21,7 @@ __all__ = [
     "DocenteExtractor",
     "classify_file",
     "deduplicate",
+    "deduplicate_near",
+    "word_shingles",
+    "export_plaintext_corpus",
 ]
