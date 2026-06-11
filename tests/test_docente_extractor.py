@@ -142,6 +142,18 @@ def test_deduplicate_groups_by_md5_when_text_missing() -> None:
     assert out[0]["date"] == "2022-01-01"
 
 
+def test_write_jsonl_survives_surrogate_in_any_field(tmp_path: Path) -> None:
+    out = tmp_path / "out.jsonl"
+    extractor = DocenteExtractor(input_dir=tmp_path, output_path=out)
+    # Surrogate lands in a path-derived field, not in ``text``.
+    record = {"professor": "Jo\udce3o", "text": "ok", "source_path": "a/b\udce7.pdf"}
+    extractor._write_jsonl([record])
+    line = out.read_text(encoding="utf-8").strip()
+    loaded = json.loads(line)
+    assert loaded["text"] == "ok"
+    assert "\udce3" not in loaded["professor"]
+
+
 def _write(p: Path, content: str) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(content, encoding="utf-8")

@@ -324,4 +324,8 @@ class DocenteExtractor(DatasetLoader):
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.output_path, "w", encoding="utf-8") as handle:
             for record in records:
-                handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+                # Sanitize the serialized line as a whole: path-derived fields
+                # (source_path, filename_clean, professor) can carry lone
+                # surrogates from undecodable filesystem bytes, not just ``text``.
+                line = sanitize_text(json.dumps(record, ensure_ascii=False))
+                handle.write(line + "\n")
