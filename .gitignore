@@ -6,6 +6,8 @@ CLAUDE.md
 tarefa.md
 TEAM.md
 PENDENCIAS.md
+NOTAS.md
+PENSAMENTO_*.md
 
 # --- Datasets & artifacts ---
 data/*
@@ -26,6 +28,10 @@ outputs/
 models/
 runs/
 benchmarks/results/
+
+# --- Tooling cache artifacts (Hugging Face cache leaking into cwd, etc.) ---
+hub/
+.check_for_update_done
 
 # --- Experiment tracking ---
 wandb/
