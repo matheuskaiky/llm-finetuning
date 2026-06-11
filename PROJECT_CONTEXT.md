@@ -140,3 +140,19 @@ EOS entre eles) e divididos em blocos de `block_size` tokens. O resto final meno
 que um bloco é descartado por padrão (`drop_remainder=True`). O agrupamento é uma
 função pura, testável sem torch; o `ContinualPretrainTrainer` a usa para montar o
 dataset de treino.
+
+## 6. Testes (TDD)
+
+O fluxo padrão é TDD: escrever primeiro um teste que falha capturando o
+comportamento desejado, implementar o mínimo para passar e então refatorar.
+
+- **Rápidos e sem o stack de ML.** A suíte roda só com `requirements-dev.txt`
+  (sem torch/transformers/datasets). Por isso as dependências pesadas ficam em
+  import tardio e testamos a lógica pura (métricas em numpy, chunking, registry,
+  config, normalização de PDF).
+- **Testes de contrato genéricos** (`tests/test_contracts.py`): verificam que todo
+  componente registrado respeita a interface do núcleo (subclasse correta e método
+  exigido presente), sem fixar comportamento específico de cada questão. Novas
+  implementações passam a ser checadas automaticamente ao se registrarem.
+- **Comandos:** `pytest` e `ruff check .` (config no `pyproject.toml`); rodam
+  também na CI e no `pre-commit`.
