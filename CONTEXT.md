@@ -20,7 +20,7 @@ real: código desacoplado, configurável e reprodutível.
 | Dataset | Conteúdo | Uso principal |
 |---------|----------|---------------|
 | `diariosPrefeituras` | Diários oficiais das prefeituras (PDF -> `.txt`). | Pré-treino contínuo (Q1) e RAG (Q5). |
-| `docentesDC` | Dados de docentes do Departamento de Computação (`.txt`). | Geração de pares Q&A para SFT/LoRA (Q2, Q3) e RAG (Q5). |
+| `docentesDC` | Dados de docentes do Departamento de Computação. Extraídos por `DocenteExtractor` para JSONL canônico (texto + metadados, com dedup) e, opcionalmente, corpus `.txt`. | Geração de pares Q&A para SFT/LoRA (Q2, Q3) e RAG (Q5); o corpus `.txt` exportado também serve ao pré-treino contínuo (Q1). |
 
 > **Artefatos compartilhados (ver `tarefa.md`).** Alguns itens são de uso geral,
 > produzidos uma única vez pelo grupo responsável e consumidos por todos. O nosso
