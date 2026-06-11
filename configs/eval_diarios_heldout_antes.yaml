@@ -1,0 +1,17 @@
+# Q1 held-out perplexity (gazette text disjoint from training), BEFORE training.
+# Measures generalization on unseen in-domain text; compare with *_depois.
+name: eval_diarios_heldout_antes
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: data/processed/diarios_heldout.jsonl
+  max_length: 512
+  stride: 0
+  output_path: benchmarks/pre_treino/results/antes/heldout.json

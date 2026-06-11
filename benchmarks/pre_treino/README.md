@@ -45,6 +45,17 @@ O conjunto de referência (`diarios_qa.jsonl`, um objeto por linha com
 A tarefa de classificação/roteamento descrita nos slides (múltipla escolha) não se
 aplica ao domínio dos diários e foi deixada de fora, por delimitação.
 
+## Conjunto held-out de texto de diário (anticontaminação)
+
+Além das P&R conceituais (que já são held-out por terem sido escritas à mão, fora
+do corpus), há um segundo medidor: um conjunto de documentos de diário **disjunto
+do treino** (gerado com `scripts/diarios_to_text.py --skip <n_treino>`), em
+`data/processed/diarios_heldout.jsonl` (git-ignored, regenerável). Mede a
+perplexidade antes/depois em **texto de domínio inédito**: como o modelo não viu
+esses documentos no treino, a queda reflete generalização, não memorização.
+Configs: `configs/eval_diarios_heldout_antes.yaml` (modelo base) e
+`configs/eval_diarios_heldout_depois.yaml` (checkpoint treinado).
+
 ## Requisitos de qualidade das questões (slides, seção 4)
 
 Relevância, avaliabilidade, realismo, delimitação e análise de erro. As perguntas

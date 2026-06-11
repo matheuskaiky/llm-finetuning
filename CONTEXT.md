@@ -45,6 +45,12 @@ real: código desacoplado, configurável e reprodutível.
 Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
 `README.md` e a seção 7 do `PROJECT_CONTEXT.md`.
 
+> **Modelo da Q1 (pré-treino contínuo).** A Q1 é full-parameter (treina todos os
+> pesos). O 9B não cabe em full fine-tune nas 2x L4, e usar LoRA/QLoRA seria o
+> escopo da Q3. Por isso a Q1 usa um base menor da mesma família,
+> `Qwen/Qwen3-0.6B-Base`, que cabe em full fine-tune numa L4. O `Qwen3.5-9B` segue
+> para inferência, RAG e a Q3 (onde PEFT é o objetivo). Ver `NOTAS.md`.
+
 ## 2. Escopo macro (as 6 frentes)
 
 | # | Frente | Entregável macro |
