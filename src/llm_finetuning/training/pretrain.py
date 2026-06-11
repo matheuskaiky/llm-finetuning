@@ -95,7 +95,6 @@ class ContinualPretrainTrainer(Trainer):
 
         args = TrainingArguments(
             output_dir=self.output_dir,
-            overwrite_output_dir=True,
             num_train_epochs=self.num_train_epochs,
             learning_rate=self.learning_rate,
             per_device_train_batch_size=self.per_device_train_batch_size,
