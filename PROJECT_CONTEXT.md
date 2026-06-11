@@ -34,11 +34,14 @@ llm-finetuning/
 ├── CLAUDE.md            # (EN) Regras do agente de IA - não versionado (.gitignore).
 ├── tarefa.md            # Enunciado original - local, não versionado (.gitignore).
 ├── .gitignore
+├── .env.example         # (EN) Template de variáveis de ambiente; copiar para .env (ignorado).
 ├── pyproject.toml       # Dependências + config de ruff/pytest.
+├── uv.lock              # Lockfile do ambiente (uv). Versionado.
 ├── requirements-dev.txt # Subconjunto leve de deps para testes sem o stack de ML.
 ├── src/llm_finetuning/  # Código-fonte (EN), pacote único. Núcleo + módulos das 6 questões.
 ├── configs/             # Configuração YAML (modelos/métodos/ambiente). Habilita o OCP.
 ├── data/                # Datasets brutos e processados. NÃO versionado.
+├── models/              # Pesos baixados do HF Hub. NÃO versionado.
 ├── benchmarks/          # Conjuntos de perguntas de avaliação (Q1>=25, Q4=100, Q5=30, Q6=30).
 ├── notebooks/           # Experimentos exploratórios (Jupyter).
 ├── scripts/             # Entrypoints de CLI (train/eval/rag/...).
@@ -111,7 +114,10 @@ resolvidos por `instantiate(registry, ComponentSpec)` a partir do YAML.
 - **Config-first:** nada de hiperparâmetros hardcoded; tudo via `configs/`.
 - **Reprodutibilidade:** seed global fixada; resultados de benchmark salvos.
 - **Git:** push sempre sob a conta do usuário; sem coautoria de IA nos commits
-  (ver `CLAUDE.md`).
+  (ver `CLAUDE.md`). **Nunca commitar na `main`:** trabalhar em `dev` ou em
+  branches de feature; `main` só recebe via pull request.
+- **Segredos:** configuração e segredos em `.env` (ignorado pelo Git); manter o
+  `.env.example` versionado em sincronia (ver `CLAUDE.md`, regra 9).
 
 ## 5. Funções complexas
 
@@ -156,3 +162,42 @@ comportamento desejado, implementar o mínimo para passar e então refatorar.
   implementações passam a ser checadas automaticamente ao se registrarem.
 - **Comandos:** `pytest` e `ruff check .` (config no `pyproject.toml`); rodam
   também na CI e no `pre-commit`.
+
+## 7. Ambiente e assets
+
+**Ambiente Python.** Gerenciado por `uv`, isolado em `.venv` no projeto; nada é
+instalado no Python global/conda base. `uv sync` cria o `.venv` a partir do
+`uv.lock`; rodar comandos com `uv run ...`. O conda pode ser usado, mas apenas em
+env separado, sem sujar o base.
+
+**Hardware de referência.** Máquina de desenvolvimento com 2x NVIDIA L4 (24 GB
+cada, ~48 GB no total), que suportam bf16 e FP8. Sem NVLink: modelos maiores que
+24 GB precisam ser shardados entre as duas GPUs (tensor-parallel na inferência;
+ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML podem falhar por
+mismatch de driver, mas o CUDA compute funciona normalmente.
+
+**Modelo e dataset escolhidos.**
+
+| Asset | ID/Origem | Observação |
+|-------|-----------|-----------|
+| LLM base | `Qwen/Qwen3.5-9B` | 9B bf16 (~18 GB); cabe em uma L4. Escolhido por margem de segurança sobre o 27B. |
+| Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. |
+| Dataset docente | Google Drive (zip por grupo) | `docentesDC`/SIGAA. Pasta: drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K. Estrutura aninhada `TIA-Dados_Professores/grupoN/grupoN.zip`, arquivos por professor (`professor/ano/mes/dia/arquivo`). Q2/Q3/Q5. |
+
+Treino do 9B nas 2 L4: full fine-tune só com DeepSpeed ZeRO-3 + offload (lento); o
+caminho prático é **LoRA/QLoRA**.
+
+**Download dos assets.** IDs vêm do `.env` (`BASE_MODEL_ID`, `DATASET_ID`).
+`scripts/download_assets.py` baixa modelo (para `models/`) e dataset (para
+`data/raw/`) do HF Hub:
+
+```bash
+uv run python scripts/download_assets.py --all
+```
+
+O dataset docente vem de uma pasta do Google Drive (zip por grupo). Os links
+diretos do Takeout sao presos a sessao do navegador e nao funcionam server-side:
+baixar pelo navegador (ou `gdown` se a pasta for "qualquer pessoa com o link") e
+colocar os zips em `data/raw/docentesDC-sigaa/`. A extracao achata a camada
+`grupoN`, deixando as pastas por professor no topo e os zips originais em
+`_archives/`. Ver `README.md`.
