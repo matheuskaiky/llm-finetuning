@@ -44,16 +44,67 @@ docs/         Additional documentation
 
 ## Quickstart
 
+The environment is managed with [uv](https://docs.astral.sh/uv/). Nothing is
+installed into the global/conda Python.
+
 ```bash
-# 1. Create and activate a virtual environment
-python3.12 -m venv .venv && source .venv/bin/activate
+# 1. Create the isolated .venv and install dependencies from uv.lock
+uv sync
 
-# 2. Install dependencies (editable)
-pip install -e .
+# 2. Run the test suite
+uv run pytest
 
-# 3. Run the test suite
-pytest
+# 3. Copy the env template and fill in values if needed (e.g. HF_TOKEN)
+cp .env.example .env
 ```
+
+## Download the model and dataset
+
+Weights and datasets are not versioned (see `.gitignore`); each person downloads
+them locally.
+
+### Base model + gazette corpus (Hugging Face)
+
+IDs come from `.env` (`BASE_MODEL_ID`, `DATASET_ID`).
+
+```bash
+# Base model (Qwen/Qwen3.5-9B, ~18 GB) into models/ and
+# gazette corpus (gutoportelaa/dom-pi-corpus-2025) into data/raw/
+uv run python scripts/download_assets.py --all
+
+# Or one at a time
+uv run python scripts/download_assets.py --model
+uv run python scripts/download_assets.py --dataset
+```
+
+### Docente dataset (docentesDC / SIGAA, Google Drive)
+
+Source folder (one `.zip` per group, nested as
+`TIA-Dados_Professores/grupoN/grupoN.zip`, each grouping files per professor):
+
+<https://drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K>
+
+Download it through the browser (the Takeout direct links are session-bound and
+do not work with `curl`/`wget` from a server) and place the `.zip` parts in
+`data/raw/docentesDC-sigaa/`. If the folder is shared as "anyone with the link",
+`gdown` also works:
+
+```bash
+uvx gdown --folder "https://drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K" -O data/raw/docentesDC-sigaa
+```
+
+Then extract, flattening the `grupoN` layer so the tree is `professor/year/...`:
+
+```bash
+# (see the extraction step used in data/raw/docentesDC-sigaa: outer parts ->
+# inner grupoN.zip -> professor folders at the top level; originals kept in _archives/)
+```
+
+## Branch policy
+
+Never commit to `main`. Work on other branches (`dev` or feature branches) and
+merge into `main` through pull requests. Pushes use the author's own GitHub
+account.
 
 ## Delivery milestones
 

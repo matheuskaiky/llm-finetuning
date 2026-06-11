@@ -35,6 +35,16 @@ real: código desacoplado, configurável e reprodutível.
 > O que construímos por conta própria são os datasets/benchmarks específicos de
 > cada questão (ex.: os >= 1.000 pares de SFT, os benchmarks de Q1/Q4/Q5/Q6).
 
+### Escolhas desta equipe
+
+| Item | Escolha | Observação |
+|------|---------|------------|
+| LLM base | `Qwen/Qwen3.5-9B` | 9B bf16 (~18 GB), multilíngue; tamanho com margem para as 2 GPUs L4 da máquina. |
+| Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` | Diário Oficial dos Municípios do Piauí 2025 (parquet, ~195M tokens). |
+
+Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
+`README.md` e a seção 7 do `PROJECT_CONTEXT.md`.
+
 ## 2. Escopo macro (as 6 frentes)
 
 | # | Frente | Entregável macro |
