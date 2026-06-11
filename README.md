@@ -26,9 +26,8 @@ config-driven design (YAML) for environment-agnostic execution (local GPU <-> cl
 
 | File | Purpose |
 |------|---------|
-| [`CONTEXT.md`](CONTEXT.md) | Visão de produto, escopo macro e cronograma de entregas. |
+| [`CONTEXT.md`](CONTEXT.md) | Visão de produto, escopo macro, cronograma e formato da entrega final. |
 | [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) | Contexto técnico: arquitetura, árvore de diretórios e contratos. |
-| [`tarefa.md`](tarefa.md) | Enunciado original da atividade. |
 
 ## Repository layout
 
