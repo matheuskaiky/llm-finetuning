@@ -42,7 +42,7 @@ llm-finetuning/
 ├── configs/             # Configuração YAML (modelos/métodos/ambiente). Habilita o OCP.
 ├── data/                # Datasets brutos e processados. NÃO versionado.
 ├── models/              # Pesos baixados do HF Hub. NÃO versionado.
-├── benchmarks/          # Conjuntos de perguntas de avaliação (Q1>=25, Q4=100, Q5=30, Q6=30).
+├── benchmarks/          # Conjuntos de avaliação. Organizados por fase: pre_treino/ (Q1) e pos_treino/ (Q2/Q3); demais por questão (Q4=100, Q5=30, Q6=30).
 ├── notebooks/           # Experimentos exploratórios (Jupyter).
 ├── scripts/             # Entrypoints de CLI (train/eval/rag/...).
 ├── tests/               # Testes (pytest).
@@ -57,6 +57,11 @@ llm-finetuning/
 >   código. É o ponto de extensão central (OCP): um novo experimento = nova config.
 > - **`data/`** - datasets locais (ignorados pelo Git por tamanho/licença).
 > - **`benchmarks/`** - perguntas + respostas de referência usadas na avaliação.
+>   Separados por fase de treino: `pre_treino/` (Q1, diários) e `pos_treino/`
+>   (Q2/Q3, docentes, a construir). Dentro de cada fase, a avaliação é antes e
+>   depois do treino daquela fase (`results/antes/`, `results/depois/`). A da Q1 é
+>   apenas o antes/depois do pré-treino, sem envolver o pós. As tasks seguem o LM
+>   Eval Harness (YAML declarativo), conforme `SLIDES_BENCHMARK.md`.
 > - **`notebooks/`** - exploração rápida; código estável migra para `src/`.
 > - **`scripts/`** - finos invólucros de CLI que apenas leem uma config e chamam `src/`.
 > - **`tests/`** - testes unitários/integração das abstrações e utilitários.

@@ -116,7 +116,7 @@ da reprodutibilidade e da clareza da análise antes/depois, não só de "rodar".
 | Relatório técnico | `docs/RELATORIO.md` (e PDF exportado) | metodologia + resultados + análise por questão (Q1-Q6). |
 | Notebooks de demonstração | `notebooks/` | um por questão (ou um geral), reproduzindo os experimentos. |
 | Datasets gerados | `data/` (local) + links | pares Q&A (Q2), dataset sintético (Q4); grandes, fora do Git. |
-| Benchmarks | `benchmarks/*.jsonl` | Q1 (>=25), Q4 (100), Q5 (30), Q6 (30), versionados. |
+| Benchmarks | `benchmarks/` | Organizados por fase: `pre_treino/` (Q1, >=25; avaliação antes/depois do pré-treino) e `pos_treino/` (Q2/Q3, a construir). Q4 (100), Q5 (30), Q6 (30). Versionados. |
 | Resultados de avaliação | `benchmarks/results/*.json` + tabelas no relatório | JSON bruto (gerado) e tabela consolidada no relatório. |
 | Checkpoints / adapters | HuggingFace Hub ou Drive | pesos são grandes; hospedar fora e referenciar por link. |
 | Slides da apresentação | `docs/` | material do dia 07/07. |
