@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .docente_extractor import DocenteExtractor, classify_file, deduplicate
 from .pdf_loader import PdfToTextLoader, normalize_text
 from .text_corpus import TextCorpusLoader, chunk_token_ids
 
@@ -10,4 +11,7 @@ __all__ = [
     "normalize_text",
     "TextCorpusLoader",
     "chunk_token_ids",
+    "DocenteExtractor",
+    "classify_file",
+    "deduplicate",
 ]

@@ -76,7 +76,7 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (Q&A, splits a seguir.)
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, DocenteExtractor (SIGAA->JSONL, triagem+dedup). (Q&A, splits a seguir.)
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
 ├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
@@ -101,7 +101,8 @@ resolvidos por `instantiate(registry, ComponentSpec)` a partir do YAML.
 - **`Evaluator` / `Metric`** - `evaluate(model, benchmark) -> dict[str, float]`.
   Métricas: `Perplexity`, `CrossEntropy`, `TokenAccuracy`, `QABenchmark`.
 - **`DatasetLoader`** - `load() -> Dataset`. Inclui `PdfToTextLoader`,
-  `QAPairGenerator` (gera os >=1.000 pares para SFT).
+  `DocenteExtractor` (triagem + extracao de texto + dedup do corpus docente SIGAA
+  para JSONL), `QAPairGenerator` (gera os >=1.000 pares para SFT).
 - **`Registry` / `build_from_config`** - mapeia chaves de config -> classes,
   permitindo registrar novas implementações sem editar o núcleo (OCP).
 - **`RagPipeline`** - composição `Retriever` + `Generator` + (opcional) `Reflector`.
@@ -139,6 +140,22 @@ métricas numa única passada de forward.
 Heurística para remover cabeçalhos/rodapés de diários: conta as linhas que se
 repetem em pelo menos `boilerplate_threshold` das páginas (mínimo de 2) e as
 descarta. Desativada quando há menos de 3 páginas ou `threshold >= 1.0`.
+
+### Extracao e dedup do corpus docente (`data/docente_extractor.py`)
+Pipeline para o dataset SIGAA (`data/raw/docentesDC-sigaa`, estrutura
+`professor/ano/mes/dia/arquivo`). Etapas: (1) triagem por extensao em tres baldes
+(`text`/`code`/`noise`); codigo so entra com `include_code=True` (subcorpus opt-in)
+e ruido (`.venv`, `__MACOSX`, `_archives/`, binarios) e sempre descartado; (2)
+metadados do caminho (professor, ano, mes, dia) e do nome (prefixo numerico de id
+do SIGAA); (3) extracao de texto por tipo, com imports tardios (`pypdf` para pdf;
+leitura direta para txt/tex/csv/md; `html.unescape` + strip para html; `docx`/`pptx`
+degradam se a lib nao estiver instalada); (4) dedup exata via `deduplicate`. A
+dedup agrupa por `text_sha1` (texto normalizado) quando ha texto, senao por
+`content_md5`, elege como canonica a versao mais recente (`max(ano, mes, dia)`,
+desempate por caminho) e preserva `duplicated_dates`/`dup_count`; conteudo que
+aparece em mais de um docente marca `shared_with_professors` sem atribuir autoria.
+Saida: JSONL, um documento canonico por linha. A logica pura (triagem, metadados,
+fingerprint, dedup) e testavel sem o stack de ML.
 
 ### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
 Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com
