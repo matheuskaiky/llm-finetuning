@@ -12,6 +12,7 @@ license = { text = "MIT" }
 
 # Core dependencies (training pipeline).
 dependencies = [
+    "numpy>=1.26",
     "torch>=2.2",
     "transformers>=4.44",
     "datasets>=2.20",

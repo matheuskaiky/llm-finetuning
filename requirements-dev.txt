@@ -1,0 +1,10 @@
+# Lightweight dependency set for running the core/unit tests without the full
+# ML stack (torch, transformers). Install with:
+#   pip install -r requirements-dev.txt && pip install -e . --no-deps
+numpy>=1.26
+pyyaml>=6.0
+pydantic>=2.7
+pydantic-settings>=2.3
+pypdf>=4.0
+pytest>=8.0
+ruff>=0.5

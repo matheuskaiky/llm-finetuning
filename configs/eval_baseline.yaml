@@ -1,0 +1,22 @@
+# Baseline language-model evaluation (issue #4).
+# Computes perplexity, cross-entropy and token accuracy over a benchmark corpus.
+name: eval_baseline
+seed: 42
+
+model:
+  type: local
+  params:
+    # Small model so the baseline runs on CPU; swap for the chosen LLM.
+    model_name: gpt2
+    dtype: null
+    device_map: null
+
+evaluation:
+  metrics:
+    - perplexity
+    - cross_entropy
+    - token_accuracy
+  benchmark: benchmarks/sample_corpus.jsonl
+  max_length: 512
+  stride: 0
+  output_path: benchmarks/results/baseline_gpt2.json

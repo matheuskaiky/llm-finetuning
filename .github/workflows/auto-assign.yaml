@@ -1,0 +1,48 @@
+name: Auto Assign Issue on Commit
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  assign-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checar commits e atribuir issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Pega a lista de commits que acabaram de ser enviados
+            const commits = context.payload.commits;
+            if (!commits) return;
+
+            // Expressão para procurar palavras-chave seguidas de #numero (ex: fixes #12, closes #34)
+            const issueRegex = /(?:fix(?:es|ed)?|clos(?:e|es|ed)?|resolv(?:e|es|ed)?)\s+#(\d+)/ig;
+            // Pega o nome do usuário que fez o push
+            const user = context.actor; 
+
+            for (const commit of commits) {
+              let match;
+              // Procura pelas menções na mensagem do commit
+              while ((match = issueRegex.exec(commit.message)) !== null) {
+                const issueNumber = parseInt(match[1], 10);
+                console.log(`Issue #${issueNumber} encontrada no commit. Atribuindo a ${user}...`);
+
+                try {
+                  // Chama a API do GitHub para adicionar o usuário como Assignee
+                  await github.rest.issues.addAssignees({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issueNumber,
+                    assignees: [user]
+                  });
+                  console.log(`Sucesso: Issue #${issueNumber} atribuída a ${user}`);
+                } catch (error) {
+                  console.log(`Falha: Não foi possível atribuir a issue #${issueNumber}. Talvez ela não exista.`);
+                }
+              }
+            }
