@@ -39,17 +39,30 @@ real: código desacoplado, configurável e reprodutível.
 
 | Item | Escolha | Observação |
 |------|---------|------------|
-| LLM base | `Qwen/Qwen3.5-9B` | 9B bf16 (~18 GB), multilíngue; tamanho com margem para as 2 GPUs L4 da máquina. |
+| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B já rodou; alvo de escala 1.7B/4B). Ver nota da Q1 abaixo. |
+| VLM/instruct grande | `Qwen/Qwen3.5-9B` (multimodal, instruct) e `Qwen/Qwen3.5-9B-Base` (multimodal, base) | Vision-language (vision encoder, vocab 248320). Reservados para Q3 (LoRA/QLoRA em 4-bit), Q4 (teacher na destilação) e Q5 (RAG/inferência), não para o full-parameter da Q1. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` | Diário Oficial dos Municípios do Piauí 2025 (parquet, ~195M tokens). |
+
+> **Princípio base vs instruct (Q1-Q3).** Partimos de modelos **base** (só
+> pré-treino, sem pós-treino de chat) nas questões 1 a 3, para que a comparação
+> antes/depois meça o efeito do *nosso* treino e não o alinhamento de fábrica de um
+> instruct. Os modelos instruct/multimodais ficam para inferência, RAG e destilação.
 
 Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
 `README.md` e a seção 7 do `PROJECT_CONTEXT.md`.
 
 > **Modelo da Q1 (pré-treino contínuo).** A Q1 é full-parameter (treina todos os
-> pesos). O 9B não cabe em full fine-tune nas 2x L4, e usar LoRA/QLoRA seria o
-> escopo da Q3. Por isso a Q1 usa um base menor da mesma família,
-> `Qwen/Qwen3-0.6B-Base`, que cabe em full fine-tune numa L4. O `Qwen3.5-9B` segue
-> para inferência, RAG e a Q3 (onde PEFT é o objetivo). Ver `NOTAS.md`.
+> pesos), então o tamanho é limitado pela memória das 2x L4 (48 GB). Regra prática
+> (AdamW, ~16 bytes/param entre pesos, gradiente e estados): 0.6B e 1.7B cabem full
+> fine-tune em uma única L4 (1.7B com activation checkpointing); 4B em diante
+> precisaria dividir os estados entre as duas placas (FSDP). A Q1 usa a família
+> densa de texto `Qwen/Qwen3-*-Base` como escada de tamanho: `Qwen3-0.6B-Base` e
+> `Qwen3-1.7B-Base` (feitos, single-GPU). O `Qwen3-4B-Base` está pronto (config e
+> pipeline FSDP), mas bloqueado: o treino multi-GPU via NCCL não inicializa nesta
+> máquina porque a NVML está quebrada (driver/library version mismatch, o mesmo
+> defeito do `nvidia-smi`); pedido de suporte em `docs/SUPORTE_INFRA_MULTIGPU.md`.
+> Os VLM grandes (`Qwen3.5-9B-Base`, `Qwen3.5-35B-A3B-Base`) ficam para a Q3 (PEFT
+> em 4-bit) e RAG/inferência. Ver `NOTAS.md` e `results/`.
 
 ## 2. Escopo macro (as 6 frentes)
 

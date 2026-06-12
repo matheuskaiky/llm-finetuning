@@ -203,19 +203,23 @@ env separado, sem sujar o base.
 **Hardware de referência.** Máquina de desenvolvimento com 2x NVIDIA L4 (24 GB
 cada, ~48 GB no total), que suportam bf16 e FP8. Sem NVLink: modelos maiores que
 24 GB precisam ser shardados entre as duas GPUs (tensor-parallel na inferência;
-ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML podem falhar por
-mismatch de driver, mas o CUDA compute funciona normalmente.
+ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML falham por mismatch de
+driver; o CUDA compute de uma placa funciona normalmente, mas o treino multi-GPU
+via NCCL não inicializa (a NCCL chama `nvmlInit` e aborta), então hoje só roda
+single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
 
 **Modelo e dataset escolhidos.**
 
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
-| LLM base | `Qwen/Qwen3.5-9B` | 9B bf16 (~18 GB); cabe em uma L4. Escolhido por margem de segurança sobre o 27B. |
+| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU); 4B pronto mas pendente do multi-GPU. Texto puro, vocab 151936. |
+| VLM grande (Q3/Q4/Q5) | `Qwen/Qwen3.5-9B` (instruct) e `Qwen/Qwen3.5-9B-Base` (base) | Vision-language (vision encoder, hibrido Gated DeltaNet + MoE, vocab 248320). Não full-parameter na Q1; servem a LoRA/QLoRA (4-bit), destilação e RAG. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. |
 | Dataset docente | Google Drive (zip por grupo) | `docentesDC`/SIGAA. Pasta: drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K. Estrutura aninhada `TIA-Dados_Professores/grupoN/grupoN.zip`, arquivos por professor (`professor/ano/mes/dia/arquivo`). Q2/Q3/Q5. |
 
-Treino do 9B nas 2 L4: full fine-tune só com DeepSpeed ZeRO-3 + offload (lento); o
-caminho prático é **LoRA/QLoRA**.
+Q1 é full-parameter, limitada por memória: 0.6B cabe numa L4; ~1.7B com FSDP ou
+AdamW 8-bit; ~4B no teto (FSDP + activation checkpointing); 9B full-parameter não
+cabe nas 2x L4 e fica para LoRA/QLoRA (Q3). Modelos base, não instruct, em Q1-Q3.
 
 **Download dos assets.** IDs vêm do `.env` (`BASE_MODEL_ID`, `DATASET_ID`).
 `scripts/download_assets.py` baixa modelo (para `models/`) e dataset (para

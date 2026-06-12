@@ -1,0 +1,49 @@
+# Q1 continued pre-training of Qwen3-1.7B-Base (full-parameter) on the diarios
+# corpus. Single L4: full fine-tune fits in 24 GB with gradient checkpointing
+# (recompute activations; result identical). Same recipe as the 0.6B run, only the
+# model changes. Evaluates antes/depois on the diarios Q&A set in-process.
+#
+# Multi-GPU note: a 2x L4 FSDP path was prepared (full_shard auto_wrap), but NCCL
+# fails to initialize on this node because NVML is broken (driver/library version
+# mismatch), so distributed training is unavailable here. This config therefore
+# runs single-GPU. The FSDP knobs (trainer.fsdp / fsdp_config) remain supported by
+# the trainer for when the driver is fixed.
+#
+# Run:
+#   CUDA_VISIBLE_DEVICES=0 python scripts/train.py \
+#     --config configs/pretrain_diarios_qwen3_1p7b.yaml
+name: pretrain_diarios_qwen3_1p7b
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-1.7B-Base
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_qwen3_1p7b_diarios
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
+    optim: adamw_torch
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois/pretrain_qwen3_1p7b.json

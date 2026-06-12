@@ -30,6 +30,14 @@ class ContinualPretrainTrainer(Trainer):
         logging_steps: Logging interval in steps.
         fp16: Enable fp16 mixed precision.
         bf16: Enable bf16 mixed precision.
+        gradient_checkpointing: Recompute activations in the backward pass to
+            trade compute for memory (mathematically identical result).
+        optim: Optimizer name forwarded to TrainingArguments (e.g.
+            ``"adamw_torch"``). Kept full-parameter; not a PEFT switch.
+        fsdp: TrainingArguments FSDP mode string (e.g.
+            ``"full_shard auto_wrap"``); empty disables sharding (single device).
+        fsdp_config: FSDP options dict (e.g. layer class to wrap). Forwarded only
+            when ``fsdp`` is set.
     """
 
     def __init__(
@@ -45,6 +53,10 @@ class ContinualPretrainTrainer(Trainer):
         logging_steps: int = 10,
         fp16: bool = False,
         bf16: bool = False,
+        gradient_checkpointing: bool = False,
+        optim: str = "adamw_torch",
+        fsdp: str = "",
+        fsdp_config: dict[str, Any] | None = None,
     ) -> None:
         self.output_dir = output_dir
         self.block_size = block_size
@@ -57,6 +69,41 @@ class ContinualPretrainTrainer(Trainer):
         self.logging_steps = logging_steps
         self.fp16 = fp16
         self.bf16 = bf16
+        self.gradient_checkpointing = gradient_checkpointing
+        self.optim = optim
+        self.fsdp = fsdp
+        self.fsdp_config = fsdp_config
+
+    def _training_arguments_kwargs(self) -> dict[str, Any]:
+        """Build the TrainingArguments kwargs (pure: no transformers import).
+
+        Sharding (``fsdp``) and ``gradient_checkpointing`` only rearrange memory or
+        recompute activations; they keep the run full-parameter and leave the
+        optimization result unchanged. ``gradient_checkpointing_kwargs`` and
+        ``fsdp_config`` are added only when their feature is enabled.
+        """
+        kwargs: dict[str, Any] = {
+            "output_dir": self.output_dir,
+            "num_train_epochs": self.num_train_epochs,
+            "learning_rate": self.learning_rate,
+            "per_device_train_batch_size": self.per_device_train_batch_size,
+            "gradient_accumulation_steps": self.gradient_accumulation_steps,
+            "weight_decay": self.weight_decay,
+            "warmup_ratio": self.warmup_ratio,
+            "logging_steps": self.logging_steps,
+            "save_strategy": "no",
+            "report_to": [],
+            "fp16": self.fp16,
+            "bf16": self.bf16,
+            "gradient_checkpointing": self.gradient_checkpointing,
+            "optim": self.optim,
+            "fsdp": self.fsdp,
+        }
+        if self.gradient_checkpointing:
+            kwargs["gradient_checkpointing_kwargs"] = {"use_reentrant": False}
+        if self.fsdp and self.fsdp_config:
+            kwargs["fsdp_config"] = self.fsdp_config
+        return kwargs
 
     def _concatenate_token_ids(self, texts: list[str], tokenizer: Any) -> list[int]:
         """Tokenize documents and concatenate, inserting EOS between them."""
@@ -93,20 +140,11 @@ class ContinualPretrainTrainer(Trainer):
         block_dataset = self._build_block_dataset(dataset, tokenizer)
         collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
-        args = TrainingArguments(
-            output_dir=self.output_dir,
-            num_train_epochs=self.num_train_epochs,
-            learning_rate=self.learning_rate,
-            per_device_train_batch_size=self.per_device_train_batch_size,
-            gradient_accumulation_steps=self.gradient_accumulation_steps,
-            weight_decay=self.weight_decay,
-            warmup_ratio=self.warmup_ratio,
-            logging_steps=self.logging_steps,
-            save_strategy="no",
-            report_to=[],
-            fp16=self.fp16,
-            bf16=self.bf16,
-        )
+        if self.gradient_checkpointing and hasattr(net, "config"):
+            # KV cache is incompatible with activation checkpointing during training.
+            net.config.use_cache = False
+
+        args = TrainingArguments(**self._training_arguments_kwargs())
         hf_trainer = HfTrainer(
             model=net,
             args=args,

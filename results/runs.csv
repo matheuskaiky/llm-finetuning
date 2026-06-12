@@ -1,0 +1,5 @@
+date,question,model,params,variant,modality,method,dataset,eval_set,ppl_before,ppl_after,ce_before,ce_after,tokacc_before,tokacc_after,train_loss,blocks,gpus,config,notes
+2026-06-11,Q1,Qwen/Qwen3-0.6B-Base,0.6B,base,text,full_param_pretrain,dom-pi-corpus-2025,heldout_150docs,11.467,6.884,2.439,1.929,0.524,0.603,1.6275,7802,1xL4,configs/pretrain_diarios_qwen3_0p6b.yaml,disjoint held-out (skip 2000); anti-contamination
+2026-06-11,Q1,Qwen/Qwen3-0.6B-Base,0.6B,base,text,full_param_pretrain,dom-pi-corpus-2025,diarios_qa_33,11.582,10.128,2.449,2.315,0.503,0.521,1.6275,7802,1xL4,configs/pretrain_diarios_qwen3_0p6b.yaml,conceptual Q&A benchmark (formulaic-text caveat on tokacc)
+2026-06-12,Q1,Qwen/Qwen3-1.7B-Base,1.7B,base,text,full_param_pretrain,dom-pi-corpus-2025,heldout_150docs,8.587,5.732,2.150,1.746,0.564,0.627,1.4731,7802,1xL4,configs/pretrain_diarios_qwen3_1p7b.yaml,single-GPU full FT + grad checkpointing; disjoint held-out
+2026-06-12,Q1,Qwen/Qwen3-1.7B-Base,1.7B,base,text,full_param_pretrain,dom-pi-corpus-2025,diarios_qa_33,7.708,7.068,2.042,1.956,0.547,0.552,1.4731,7802,1xL4,configs/pretrain_diarios_qwen3_1p7b.yaml,conceptual Q&A benchmark
