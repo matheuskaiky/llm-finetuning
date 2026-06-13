@@ -72,6 +72,27 @@ Leituras:
 - Ablação do dataset balanceado (licitações podadas) em `*_balanced_*` testa se a
   repetição das licitações achatava a diferença entre os modos.
 
+### Ablação: corpus cheio vs balanceado (licitações podadas)
+
+Dataset balanceado = 75 licitação / 75 outros (grafo mais rico: 411 entidades vs
+202). Mesma metodologia (3 modos, juiz fixo 8B), benchmark próprio ancorado.
+
+| Motor | modo | cheio | balanceado |
+|-------|------|-------|------------|
+| Qwen3-8B | baseline | 1.10 | 1.77 |
+| Qwen3-8B | standard | 2.70 | 3.50 |
+| Qwen3-8B | agentic_graph | 2.63 | 3.37 |
+| gemma-1b-it | standard | 2.07 | 2.40 |
+| gemma-1b-it | agentic_graph | 2.03 | 2.70 |
+| gemma-1b-pt | standard | 0.73 | 0.87 |
+
+Conclusões: podar as licitações repetitivas **eleva a recuperação** de forma clara
+(8B standard 2.70 -> 3.50), confirmando que elas poluíam o índice. Mas isso ajuda o
+**retrieval**, não especificamente o grafo (os modos seguem próximos). Em produção
+não se descartam licitações: estratégias para preservá-las em `docs/RAG_ROADMAP.md`.
+O `gemma-1b-pt` (base) chega a piorar com RAG (standard 0.87 < baseline 1.10): um
+modelo base fraco se confunde com o contexto recuperado.
+
 ## Convenção de colunas (runs.csv)
 
 `date, question, model, params, variant (base|instruct|vlm), modality (text|vlm),

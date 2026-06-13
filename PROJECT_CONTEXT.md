@@ -85,7 +85,7 @@ src/llm_finetuning/
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
 ├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
-├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client, extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), agent (LangGraph self-reflexivo), judge.
+├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client, extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), agent (LangGraph self-reflexivo), pipelines (modos Standard/Agentic como RagRunner + registro), judge, doc_select (deteccao/balanceamento de licitacoes).
 └── guardrails/    # [ ] GuardrailLayer: filtros de entrada/saída componíveis.
 ```
 
@@ -219,8 +219,9 @@ single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
 | Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU); 4B pronto mas pendente do multi-GPU. Texto puro, vocab 151936. |
-| VLM grande (Q3/Q4/Q5) | `Qwen/Qwen3.5-9B` (instruct) e `Qwen/Qwen3.5-9B-Base` (base) | Vision-language (vision encoder, hibrido Gated DeltaNet + MoE, vocab 248320). Não full-parameter na Q1; servem a LoRA/QLoRA (4-bit), destilação e RAG. |
-| Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
+| Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
+| Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. Variante balanceada (licitações podadas) só para diagnóstico. |
 | Dataset docente | Google Drive (zip por grupo) | `docentesDC`/SIGAA. Pasta: drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K. Estrutura aninhada `TIA-Dados_Professores/grupoN/grupoN.zip`, arquivos por professor (`professor/ano/mes/dia/arquivo`). Q2/Q3/Q5. |
 
 Q1 é full-parameter, limitada por memória: 0.6B cabe numa L4; ~1.7B com FSDP ou

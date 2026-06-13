@@ -135,8 +135,9 @@ da reprodutibilidade e da clareza da análise antes/depois, não só de "rodar".
 | Relatório técnico | `docs/RELATORIO.md` (e PDF exportado) | metodologia + resultados + análise por questão (Q1-Q6). |
 | Notebooks de demonstração | `notebooks/` | um por questão (ou um geral), reproduzindo os experimentos. |
 | Datasets gerados | `data/` (local) + links | pares Q&A (Q2), dataset sintético (Q4); grandes, fora do Git. |
-| Benchmarks | `benchmarks/` | Organizados por fase: `pre_treino/` (Q1, >=25; avaliação antes/depois do pré-treino) e `pos_treino/` (Q2/Q3, a construir). Q4 (100), Q5 (30), Q6 (30). Versionados. |
-| Resultados de avaliação | `benchmarks/results/*.json` + tabelas no relatório | JSON bruto (gerado) e tabela consolidada no relatório. |
+| Benchmarks | `benchmarks/` | Organizados por fase: `pre_treino/` (Q1, >=25; antes/depois do pré-treino) e `pos_treino/` (Q2/Q3, a construir). `rag/` (Q5, 30 perguntas factual+multi-hop). Q4 (100), Q6 (30). Versionados. |
+| Resultados de avaliação | `results/runs.csv` + `results/README.md` + `results/benchmark_rag_*.csv` | Ledger versionado (Q1 escada/cross-family; Q5 ablação 3 modos x motores). JSON bruto por corrida em `benchmarks/*/results/` (git-ignored). |
+| Roadmap/decisões do RAG | `docs/RAG_ROADMAP.md` | Estratégias para licitações (índices segmentados + roteador, dedup, MMR) e plano de testar fine-tuned (Q1-Q4) no RAG. |
 | Checkpoints / adapters | HuggingFace Hub ou Drive | pesos são grandes; hospedar fora e referenciar por link. |
 | Slides da apresentação | `docs/` | material do dia 07/07. |
 
