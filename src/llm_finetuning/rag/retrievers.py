@@ -61,12 +61,27 @@ class Retriever(Protocol):
 class VectorRetriever:
     name = "vector"
 
-    def __init__(self, store: Any, top_k: int = 5) -> None:
+    def __init__(
+        self,
+        store: Any,
+        top_k: int = 5,
+        use_mmr: bool = False,
+        mmr_fetch_k: int = 20,
+        mmr_lambda: float = 0.5,
+    ) -> None:
         self.store = store
         self.top_k = top_k
+        self.use_mmr = use_mmr
+        self.mmr_fetch_k = mmr_fetch_k
+        self.mmr_lambda = mmr_lambda
 
     def retrieve(self, question: str) -> str:
-        hits = self.store.search(question, k=self.top_k)
+        if self.use_mmr:
+            hits = self.store.search_mmr(
+                question, k=self.top_k, fetch_k=self.mmr_fetch_k, lambda_=self.mmr_lambda
+            )
+        else:
+            hits = self.store.search(question, k=self.top_k)
         return "\n\n".join(f"[{h.doc_id}] {h.text}" for h in hits)
 
 

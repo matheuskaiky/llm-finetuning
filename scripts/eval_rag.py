@@ -62,6 +62,8 @@ def main() -> None:
     parser.add_argument("--judge-device", default="cuda:1", help="device for the judge model")
     parser.add_argument("--vector-dir", default=None, help="override index.vector_dir")
     parser.add_argument("--graph-path", default=None, help="override index.graph_path")
+    parser.add_argument("--mmr", action="store_true", help="enable MMR reranking on the vector retriever")
+    parser.add_argument("--mmr-lambda", type=float, default=None, help="MMR lambda (relevance vs diversity)")
     args = parser.parse_args()
 
     modes = [m.strip() for m in args.modes.split(",") if m.strip()]
@@ -74,6 +76,10 @@ def main() -> None:
         cfg.index.vector_dir = args.vector_dir
     if args.graph_path:
         cfg.index.graph_path = args.graph_path
+    if args.mmr:
+        cfg.agent.use_mmr = True
+    if args.mmr_lambda is not None:
+        cfg.agent.mmr_lambda = args.mmr_lambda
     questions = load_benchmark(args.benchmark)
     if args.limit:
         questions = questions[: args.limit]
@@ -90,9 +96,15 @@ def main() -> None:
     # Query embedder on CPU; GPUs stay free for the LLM (avoids device_map offload).
     embedder = Embedder(cfg.embedder.model_name, "cpu", cfg.embedder.batch_size)
     store = VectorStore.load(cfg.index.vector_dir, embedder)
-    graph = KnowledgeGraph.load(cfg.index.graph_path)
-    vec = VectorRetriever(store, cfg.agent.top_k_vector)
-    gra = GraphRetriever(graph, cfg.agent.max_graph_hops)
+    vec = VectorRetriever(
+        store, cfg.agent.top_k_vector, cfg.agent.use_mmr,
+        cfg.agent.mmr_fetch_k, cfg.agent.mmr_lambda,
+    )
+    # The graph is only needed for the agentic_graph mode; load it lazily so
+    # retrieval-only experiments (e.g. a vector-only deduped index) need no graph.
+    need_graph = "agentic_graph" in modes
+    graph = KnowledgeGraph.load(cfg.index.graph_path) if need_graph else None
+    gra = GraphRetriever(graph, cfg.agent.max_graph_hops) if need_graph else None
 
     # One runner per requested mode (Strategy). Adding a mode = a new runner class
     # registered in rag.pipelines; this loop does not change.

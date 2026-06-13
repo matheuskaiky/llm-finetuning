@@ -98,6 +98,32 @@ class VectorStore:
             out.append(Retrieved(self._texts[i], self._doc_ids[i], float(score)))
         return out
 
+    def search_mmr(self, query: str, k: int = 5, fetch_k: int = 20, lambda_: float = 0.5) -> list[Retrieved]:
+        """Retrieve with MMR: fetch ``fetch_k`` by similarity, then pick ``k``
+        balancing relevance and diversity (avoids near-duplicate licitacao chunks)."""
+        if self._index is None:
+            raise RuntimeError("index not built/loaded")
+        from .rerank import mmr_select
+
+        qv = self.embedder.encode([query])  # (1, d), normalized
+        fetch = min(fetch_k, len(self._texts))
+        scores, idxs = self._index.search(qv, fetch)
+        cand = [i for i in idxs[0] if i >= 0]
+        if not cand:
+            return []
+        cand_vecs = self._reconstruct(cand)
+        order = mmr_select(qv[0], cand_vecs, k, lambda_)
+        score_by_idx = {int(i): float(s) for i, s in zip(idxs[0], scores[0], strict=False)}
+        return [
+            Retrieved(self._texts[cand[o]], self._doc_ids[cand[o]], score_by_idx.get(cand[o], 0.0))
+            for o in order
+        ]
+
+    def _reconstruct(self, idxs: list[int]) -> Any:
+        import numpy as np
+
+        return np.vstack([self._index.reconstruct(int(i)) for i in idxs]).astype("float32")
+
     def save(self, directory: str | Path) -> Path:
         import faiss
 

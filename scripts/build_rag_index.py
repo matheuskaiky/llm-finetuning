@@ -55,6 +55,11 @@ def iter_docs(src_dir: str, config: str, limit: int, skip: int, min_tokens: int)
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument(
+        "--vectors-only",
+        action="store_true",
+        help="build only the FAISS vector store, skip the (slow) LLM graph extraction",
+    )
     args = parser.parse_args()
     cfg = load_rag_config(args.config)
 
@@ -85,6 +90,14 @@ def main() -> None:
             chunk_doc_ids.append(ch.doc_id)
     print(f"docs read; {len(chunk_texts)} chunks total")
 
+    if cfg.chunking.dedup_near:
+        from llm_finetuning.rag.doc_select import near_dup_keep_mask
+
+        mask = near_dup_keep_mask(chunk_texts, cfg.chunking.dedup_threshold)
+        chunk_texts = [t for t, k in zip(chunk_texts, mask, strict=False) if k]
+        chunk_doc_ids = [d for d, k in zip(chunk_doc_ids, mask, strict=False) if k]
+        print(f"near-dup dedup: kept {len(chunk_texts)} chunks ({sum(mask)} of {len(mask)})")
+
     # 2. Vector store over all chunks.
     from llm_finetuning.rag.vector_store import Embedder, VectorStore
 
@@ -96,6 +109,10 @@ def main() -> None:
     # Free the embedder's GPU memory so the LLM's device_map="auto" keeps all
     # layers on the GPUs (a resident embedder triggers slow CPU offload).
     embedder.unload()
+
+    if args.vectors_only:
+        print("vectors-only: skipping graph extraction")
+        return
 
     # 3. Knowledge graph from the first graph_max_chunks chunks (the costly step).
     from llm_finetuning.rag.llm_client import LocalChatLLM

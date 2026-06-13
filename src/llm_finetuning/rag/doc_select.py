@@ -47,6 +47,34 @@ def is_licitacao(text: str, min_hits: int = 2) -> bool:
     return licitacao_score(text) >= min_hits
 
 
+def word_shingles(text: str, k: int = 5) -> set[str]:
+    """k-word shingles of a text (for near-duplicate detection)."""
+    words = text.split()
+    if len(words) < k:
+        return {" ".join(words)} if words else set()
+    return {" ".join(words[i : i + k]) for i in range(len(words) - k + 1)}
+
+
+def near_dup_keep_mask(texts: list[str], threshold: float = 0.85, num_perm: int = 64) -> list[bool]:
+    """Keep-mask that drops near-duplicate texts (MinHash/LSH), keeping the first of
+    each near-duplicate cluster. Collapses repetitive licitacao chunks without
+    losing the unique ones."""
+    from datasketch import MinHash, MinHashLSH
+
+    lsh = MinHashLSH(threshold=threshold, num_perm=num_perm)
+    keep: list[bool] = []
+    for i, t in enumerate(texts):
+        m = MinHash(num_perm=num_perm)
+        for sh in word_shingles(t):
+            m.update(sh.encode("utf-8"))
+        if lsh.query(m):  # a near-duplicate of something already kept
+            keep.append(False)
+        else:
+            lsh.insert(str(i), m)
+            keep.append(True)
+    return keep
+
+
 def balance_by_licitacao(
     docs: list[tuple[str, str]],
     seed: int = 42,

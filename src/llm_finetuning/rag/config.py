@@ -32,6 +32,10 @@ class ChunkingConfig(BaseModel):
 
     chunk_size: int = 1200
     overlap: int = 200
+    #: Drop near-duplicate chunks (MinHash/LSH) before indexing, collapsing the
+    #: repetitive licitacao chunks while keeping the unique ones.
+    dedup_near: bool = False
+    dedup_threshold: float = 0.85
 
 
 class EmbedderConfig(BaseModel):
@@ -67,6 +71,10 @@ class AgentConfig(BaseModel):
     top_k_vector: int = 5
     max_graph_hops: int = 2
     max_reflections: int = 2
+    #: MMR reranking on the vector retriever (diversity, anti near-duplicate).
+    use_mmr: bool = False
+    mmr_fetch_k: int = 20
+    mmr_lambda: float = 0.5
 
 
 class RagConfig(BaseModel):
