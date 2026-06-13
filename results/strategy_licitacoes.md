@@ -31,3 +31,23 @@ caso especifico, se existir.
 
 MMR e dedup ficam implementados e testados (toggles por config: `agent.use_mmr`,
 `chunking.dedup_near`), desligados por padrao por nao ajudarem aqui.
+
+## Teste dirigido (perguntas NAO-licitacao)
+
+Benchmark so de 30 perguntas factuais NAO-licitacao (geradas de chunks nao-licitacao
+do indice cheio), para isolar o caso "pergunta nao-licitacao afogada por licitacoes".
+Modo standard, mesmo motor/juiz.
+
+| Indice (perguntas nao-licitacao) | standard |
+|----------------------------------|----------|
+| full (poluido, todas as licitacoes) | 2.87 |
+| full + MMR                          | 2.23 |
+| so-nao-licitacao (simula segmentacao) | 2.97 |
+
+Conclusao: remover as licitacoes do indice da apenas +0.10 (1 pergunta de 30, nivel
+de ruido) mesmo no caso dirigido. Ou seja, a poluicao NAO prejudica a recuperacao de
+forma relevante nem para perguntas nao-licitacao. MMR continua piorando. Veredito
+final: a melhor estrategia para manter licitacoes e mante-las todas num indice unico
+com recuperacao simples; segmentacao/MMR/dedup nao se justificam pelo ganho de
+recuperacao (segmentacao segue valida por outros motivos de arquitetura, ver
+docs/RAG_ROADMAP.md). Toggles implementados e desligados por padrao.

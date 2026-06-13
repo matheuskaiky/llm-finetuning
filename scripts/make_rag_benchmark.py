@@ -57,6 +57,11 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("benchmarks/rag/diarios_rag_30.jsonl"))
     parser.add_argument("--n", type=int, default=30)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--exclude-licitacao",
+        action="store_true",
+        help="generate only NON-licitacao factual questions (targeted pollution test)",
+    )
     args = parser.parse_args()
 
     cfg = load_rag_config(args.config)
@@ -66,10 +71,17 @@ def main() -> None:
     # Chunk texts come from the saved vector-store metadata (no embedder needed).
     meta = json.loads((Path(cfg.index.vector_dir) / "meta.json").read_text(encoding="utf-8"))
     texts = meta["texts"]
-    graph = KnowledgeGraph.load(cfg.index.graph_path)
 
-    n_multi = args.n * 2 // 5  # ~40% multi-hop
-    n_fact = args.n - n_multi
+    if args.exclude_licitacao:
+        from llm_finetuning.rag.doc_select import is_licitacao
+
+        texts = [t for t in texts if not is_licitacao(t)]
+        n_fact, n_multi = args.n, 0  # factual-only from non-licitacao chunks
+        graph = None
+    else:
+        graph = KnowledgeGraph.load(cfg.index.graph_path)
+        n_multi = args.n * 2 // 5  # ~40% multi-hop
+        n_fact = args.n - n_multi
 
     items: list[dict[str, str]] = []
     seen: set[str] = set()
@@ -89,8 +101,8 @@ def main() -> None:
             seen.add(qa["question"].casefold())
             items.append({**qa, "type": "factual"})
 
-    # Multi-hop from two-hop graph paths.
-    paths = graph.two_hop_paths(limit=200)
+    # Multi-hop from two-hop graph paths (skipped when graph is None / n_multi=0).
+    paths = graph.two_hop_paths(limit=200) if (graph is not None and n_multi > 0) else []
     random.shuffle(paths)
     for a, r1, b, r2, c in paths:
         if sum(1 for it in items if it["type"] == "multihop") >= n_multi:

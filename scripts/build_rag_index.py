@@ -60,6 +60,11 @@ def main() -> None:
         action="store_true",
         help="build only the FAISS vector store, skip the (slow) LLM graph extraction",
     )
+    parser.add_argument(
+        "--exclude-licitacao",
+        action="store_true",
+        help="index only NON-licitacao chunks (segmented-index simulation)",
+    )
     args = parser.parse_args()
     cfg = load_rag_config(args.config)
 
@@ -89,6 +94,14 @@ def main() -> None:
             chunk_texts.append(ch.text)
             chunk_doc_ids.append(ch.doc_id)
     print(f"docs read; {len(chunk_texts)} chunks total")
+
+    if args.exclude_licitacao:
+        from llm_finetuning.rag.doc_select import is_licitacao
+
+        keep = [not is_licitacao(t) for t in chunk_texts]
+        chunk_texts = [t for t, k in zip(chunk_texts, keep, strict=False) if k]
+        chunk_doc_ids = [d for d, k in zip(chunk_doc_ids, keep, strict=False) if k]
+        print(f"exclude-licitacao: kept {len(chunk_texts)} non-licitacao chunks")
 
     if cfg.chunking.dedup_near:
         from llm_finetuning.rag.doc_select import near_dup_keep_mask
