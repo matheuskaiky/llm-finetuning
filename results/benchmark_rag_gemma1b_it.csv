@@ -1,0 +1,61 @@
+idx,type,question,answer_baseline,score_baseline,answer_agentic_graph,score_agentic_graph,corrected_agentic_graph
+0,factual,Qual é o artigo que trata da possibilidade de adjudicação quando a negociação de melhor condição frustra-se?,"O artigo que trata da possibilidade de adjudicação quando a negociação de melhor condição frustra-se é o **Artigo 132 do Código Civil Brasileiro**. Este artigo estabelece que, em caso de acordo entre as partes sobre a forma de execução de um contrato, a adjudicação é possível, desde que a parte que não obteve a condição desejada possa, em prazo razoável, reivindicar a execução do contrato.",5,Artigo 2.12.,4,False
+1,factual,"Qual o número do ato que corresponde à transferência de 10.000,00 para a TRANSF.ALDIR BLANC LEI N?",Não há um ato específico que corresponda a essa transferência. A informação fornecida não é suficiente para identificar o ato que gerou essa movimentação financeira.,0,Não há informação suficiente no contexto para responder à pergunta.,0,True
+2,factual,Qual é a data de assinatura do documento?,"A data de assinatura do documento depende do documento específico. Para fornecer a data correta, preciso saber a qual documento você se refere. Por favor, forneça o nome do documento ou um resumo do conteúdo.",4,28 de agosto de 2025,0,False
+3,factual,Qual é o nome da divisão responsável pela gestão de imóveis na Diretoria de Investimentos?,A divisão responsável pela gestão de imóveis na Diretoria de Investimentos é a **Divisão de Imóveis**.,4,Assessoria de Gestão de Imóveis.,5,False
+4,factual,Qual é o número da portaria que institui a Comissão Especial para discutir a resolução normativa que regula a oferta da Educação Infantil?,"A portaria que institui a Comissão Especial para discutir a resolução normativa que regula a oferta da Educação Infantil é a **Portaria nº 178/2023**, emitida pelo Ministério da Educação.",4,Portaria Nº 001/2025/CME/SEMEC.,0,False
+5,factual,Qual o nome da pessoa nomeada para o cargo de Chefe do Setor Geral de Controle e Distribuicao?,O nome da pessoa nomeada para o cargo de Chefe do Setor Geral de Controle e Distribuição é **Ricardo Silva**.,4,Francisco José Ribeiro,4,False
+6,factual,Qual foi o dia da realização da audiência pública em Porto Alegre do Piauí?,A audiência pública sobre o projeto de lei que alteraria a legislação ambiental do Piauí foi realizada em 29 de maio de 2023.,0,**Resposta:** 28 de maio de 2025.,5,False
+7,factual,Qual o CNPJ da empresa CONSULTORIA CONTABIL LTDA?,Não tenho acesso a informações pessoais como CNPJ de empresas. A informação sobre o CNPJ da CONSULTORIA CONTABIL LTDA não está disponível publicamente.,0,"Consultoria Contabil LTDA, CNPJ 23.221.481/0001 -60.",5,False
+8,factual,"Qual é o artigo da Lei nº 14.133, de 2021, mencionado no trecho?","O artigo da Lei nº 14.133, de 2021, mencionado no trecho é o artigo 1º, inciso I.",4,**Artigo 2**,2,False
+9,factual,Qual o número do ato da manutenção da Secretaria de Cultura?,"Não tenho acesso a informações específicas sobre o número de atos da manutenção da Secretaria de Cultura. Para obter essa informação, sugiro consultar o site oficial da Secretaria de Cultura ou entrar em contato diretamente com a secretaria.",0,Não há informação suficiente no contexto para responder à pergunta.,0,True
+10,factual,Qual é o código da categoria econômica relacionada às despesas correntes de pessoal e encargos sociais?,O código da categoria econômica relacionada às despesas correntes de pessoal e encargos sociais é **733300**.,5,3. 1. 00. 00,4,False
+11,factual,Qual é o nome do Presidente do Instituto de Previdência dos Servidores do Município de Teresina - IPMT?,O atual Presidente do IPMT é o Sr. José Roberto de Oliveira.,4,O nome do Presidente do Instituto de Previdência dos Servidores do Município de Teresina - IPMT é José João de Magalhães Braga Júnior.,5,False
+12,factual,Qual o valor da remuneração OE para o cargo 1.621.0?,"A remuneração OE (Salário Operacional) para o cargo 1.621.0 varia dependendo da empresa e do nível de experiência. No entanto, estima-se que a remuneração OE para este cargo esteja entre **R$ 6.000,00 e R$ 9.000,00**.
+
+Para obter o valor exato, é necessário consultar a tabela de remuneração da empresa específica.",4,"1.600,00",2,False
+13,factual,"Qual o valor da despesa com 'CONSTRUÇÃO, AMPLIAÇÃO E REFORMA DA EDUCAÇÃO' no exercício de 2026?","Não há dados oficiais ou projeções concretas sobre o valor exato da despesa com ""Construção, Ampliação e Reforma da Educação"" para 2026. As estimativas variam significativamente dependendo da fonte e do modelo de planejamento.
+
+No entanto, a Organização das Nações Unidas (ONU) estima que, em 2023, esse setor representou 3,5% do orçamento global da educação.  
+
+Para obter um valor mais preciso, seria necessário consultar relatórios de organizações como:
+
+*   **UNESCO:**  [https://www.unesco.org/](https://www.unesco.org/)
+*   **Fundo Monetário Internacional (FMI):** [https://www.imf.org/](https://www.imf.org/)
+*   **Banco Mundial:** [https://www.worldbank.org/](https://www.worldbank.org/)
+
+Esses órgãos costumam publicar dados e análises sobre o investimento em educação em diferentes países e regiões.",3,Não há informação suficiente no contexto fornecido para responder à pergunta.,0,True
+14,factual,Qual o valor total do item 2 do trecho?,O valor total do item 2 do trecho é de 1.200.,0,Não há informação suficiente no contexto para responder à pergunta.,0,True
+15,factual,Qual é o valor da subfunção 271 Previdência IIaica em 2028?,"O valor da subfunção 271 Previdência IIaica em 2028 é de R$ 1.777,37.",0,"271 Previdência IIaica | SUBFUNÇÃO: 271 Previdência IIaica |
+| E | ,.,_ | Unld. Orçamento. | Afio | | 2028 | 2028 | 2028 |
+| 1014 | 020200 | 2164 | Contribuições Previdenciárias | | 2.452.000,00 | 2.697.200,00 | 2.819.800,00 |
+| 1380 | 021200 | 2160 | Benefícios Previdenciários | | 15.215.000,00 | 15.975.750,00 | 16.736. 500,00 |
+| 102.000,00 107.100,00 | 112.200,00 | 117.300,00 | 112.200,00 | 100.000,00 | 102.000,00 | 117.300,00 | 112.200,00 | 107.100,00 |
+| 2028 | 2029 | 2028 | 2028 | 2028 | 2028 | 2028 | 2028 | 2028 |
+| 100.000,00 105.000,00 | 110.000,00 | 115.000,00 | 110.000,00 | 100.000,00 | 100.000,00 | 115.000,00 | 110.000,00 | 115.000,00 |
+|",4,False
+16,factual,Qual o CNPJ da PM de Boqueirão do Piauí?,O CNPJ da PM de Boqueirão do Piauí é: **14.362.106.900/000110-03.000**.,5,Não houve informação suficiente para responder à pergunta.,0,True
+17,factual,Qual o valor final do fornecedor ADRIANO R SOARES LTOA no bloco 0005?,"O valor final do fornecedor ADRIANO R SOARES LTOA no bloco 0005 é R$ 1.899,00.",5,"| Item | Produto | Fornecedor | CNPJ/CPF | Modelo | 1 Marca/ Fabricante | Q td | Valor Final | Valor Total | Situação |
+|---|---|---|---|---|---|---|---|---|---|
+| 0005 | Bloco de natureza de Imposto. - Bloco de natureza de impo - Valor Referência:12,49 | ADRIANO R SOARES LTOA | N/C | | | 12,49 | 2 .046,00 | 3.224,00 | MárcioDias Ribeiro |",3,False
+18,multihop,A qual secretaria pertence o Fundo Municipal de Saúde?,O Fundo Municipal de Saúde pertence à Prefeitura de [Cidade/Município].,3,Fundação Hospitalar de Teresina Fundação Hospitalar de Teresina Fundação Hospitalar de Teresina,0,False
+19,multihop,Quem abriu o Crédito Suplementar após a delegação do Secretário Municipal de Planejamento e Coordenação?,O Banco do Brasil abriu o Crédito Suplementar em 2017.,0,Não há informação suficiente no contexto para responder à pergunta. O texto apenas indica que o Secretário Municipal de Planejamento e Coordenação autorizou a abertura do crédito suplementar.,0,True
+20,multihop,Qual município emitiu a portaria que se comunicou com a Secretaria Municipal de Educação?,A portaria que se comunicou com a Secretaria Municipal de Educação foi emitida pelo município de **São Paulo**.,4,Batala.,0,False
+21,multihop,"Quem foi nomeado pela Prefeitura Municipal de Pajeu do Piauí, que é a entidade a que a Secretaria Municipal de Assistência Social e Cidadania pertence?","O nomeado pela Prefeitura Municipal de Pajeu do Piauí foi o Prefeito Municipal, José Roberto Silva.",0,"Dalvan Goncalves de Moura Carvalho, Prefeito do Município de Pajeu do Piauí.",4,False
+22,multihop,"Qual é a secretaria municipal que pertence à Prefeitura Municipal de Pajeu do Piauí, além da Secretaria Municipal de Assistência Social e Cidadania?","A secretaria municipal que pertence à Prefeitura Municipal de Pajeu do Piauí, além da Secretaria Municipal de Assistência Social e Cidadania, é a Secretaria de Desenvolvimento Econômico e Social.",4,Secretaria Municipal de Transportes e Trânsito,0,True
+23,multihop,Qual secretaria possui o poder executivo segundo os fatos apresentados?,A Secretaria de Estado da Fazenda.,4,SECRETARIA MUNICIPAL DE ADMINISTRAÇÃO,4,False
+24,multihop,Quem foi nomeado pela Prefeitura Municipal de Flores do Piauí e concedeu Juscivania dos Santos Silva?,A Prefeitura Municipal de Flores do Piauí nomeou Juscivania Santos Silva como Juscivania.,0,Evandro Ferreira da Costa.,0,False
+25,multihop,A quem a Brigada Civil de Combate a Incendios do Município de Ribeiro Goncalves está vinculada e quem foi nomeado pela Secretaria Municipal de Administracao e Planejamento de Sao Braz do Piauí?,"A Brigada Civil de Combate a Incendios do Município de Ribeiro Goncalves está vinculada à Secretaria Municipal de Administração e Planejamento do município de São Braz do Piauí. O nome do responsável pela vinculação da brigada é [Não foi fornecido no texto, mas pode ser encontrado no site da prefeitura].",3,"A Brigada Civil de Combate a Incendios do Município de Ribeiro Goncalves está vinculada à Secretaria Municipal de Administracao e Planejamento de Sao Braz do Piauí.
+
+O nome do chefe de brigada foi determinado, de acordo com as normas instituidas neste edital.",4,False
+26,multihop,A qual secretaria pertence o Fundo Municipal de Assistência Social?,O Fundo Municipal de Assistência Social pertence à Secretaria Municipal de Assistência Social.,5,A Secretaria Municipal de Assistência Social.,4,False
+27,multihop,Quem é o responsável pela delegação do Secretário Municipal de Planejamento e Coordenação no Município de Teresina?,O Secretário Municipal de Planejamento e Coordenação é o Sr. Ricardo de Oliveira.,4,O Secretário Municipal de Planejamento e Coordenação no Município de Teresina é Iara Britta Gomes de Andrade.,5,False
+28,multihop,"Qual é o número do decreto que delega o secretário municipal de planejamento e coordenação, que abriu crédito suplementar?","O decreto que delega o secretário municipal de planejamento e coordenação a abrir crédito suplementar foi o **decreto nº 1.361/2023**, assinado pelo prefeito de São Paulo, Ricardo Nunes.",4,[1f395839eec04a5d5beeac87ad81db00],1,False
+29,multihop,Qual é a oportunidade de emprego oferecida pela Chamada Pública Simplificada Edital N 001/2025 realizada pela Prefeitura Municipal de Ribeiro Goncalves?,"A Chamada Pública Simplificada Edital N 001/2025 da Prefeitura Municipal de Ribeiro Goncalves oferece oportunidades de emprego em diversas áreas, como:
+
+*   **Serviços de apoio à administração municipal**
+*   **Gestão de obras e serviços**
+*   **Atendimento ao público**
+*   **Tecnologia da informação**
+
+Para obter informações detalhadas sobre as vagas e os requisitos, acesse o edital completo no site da prefeitura.",4,"A Prefeitura Municipal de Ribeiro Gongalves oferece oportunidades de emprego para Operador de Escavadeira, Operador de Retroescavadeira e Operador de Motoniveladora.",4,False

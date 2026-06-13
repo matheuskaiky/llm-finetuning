@@ -39,8 +39,8 @@ real: código desacoplado, configurável e reprodutível.
 
 | Item | Escolha | Observação |
 |------|---------|------------|
-| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B já rodou; alvo de escala 1.7B/4B). Ver nota da Q1 abaixo. |
-| VLM/instruct grande | `Qwen/Qwen3.5-9B` (multimodal, instruct) e `Qwen/Qwen3.5-9B-Base` (multimodal, base) | Vision-language (vision encoder, vocab 248320). Reservados para Q3 (LoRA/QLoRA em 4-bit), Q4 (teacher na destilação) e Q5 (RAG/inferência), não para o full-parameter da Q1. |
+| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B e 1.7B feitos; 4B pendente do multi-GPU). |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, 1 L4) | Instruct de texto puro para extração de grafo, geração e juiz. Variante maior `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (2 L4, MoE) reservada para quando o multi-GPU (NCCL) for corrigido. Embeddings: `BAAI/bge-m3`. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` | Diário Oficial dos Municípios do Piauí 2025 (parquet, ~195M tokens). |
 
 > **Princípio base vs instruct (Q1-Q3).** Partimos de modelos **base** (só

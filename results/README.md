@@ -17,23 +17,60 @@ As métricas brutas por corrida continuam também em
 Avaliação antes/depois do pré-treino sobre os diários. Perplexidade e entropia
 cruzada: menor é melhor. Acurácia de token: maior é melhor.
 
-| Data | Modelo | Tam. | Variante | Método | Conjunto aval. | PPL antes | PPL depois | CE antes | CE depois | TokAcc antes | TokAcc depois | GPUs |
-|------|--------|------|----------|--------|----------------|-----------|------------|----------|-----------|--------------|---------------|------|
-| 2026-06-11 | Qwen3-0.6B-Base | 0.6B | base | full param | held-out (150 docs, disjunto) | 11.467 | 6.884 | 2.439 | 1.929 | 0.524 | 0.603 | 1x L4 |
-| 2026-06-11 | Qwen3-0.6B-Base | 0.6B | base | full param | diarios_qa (33 P&R) | 11.582 | 10.128 | 2.449 | 2.315 | 0.503 | 0.521 | 1x L4 |
-| 2026-06-12 | Qwen3-1.7B-Base | 1.7B | base | full param | held-out (150 docs, disjunto) | 8.587 | 5.732 | 2.150 | 1.746 | 0.564 | 0.627 | 1x L4 |
-| 2026-06-12 | Qwen3-1.7B-Base | 1.7B | base | full param | diarios_qa (33 P&R) | 7.708 | 7.068 | 2.042 | 1.956 | 0.547 | 0.552 | 1x L4 |
+Held-out (texto de diário inédito, disjunto do treino), perplexidade (menor melhor):
 
-O conjunto held-out (texto de diário inédito) mostra o efeito maior, por ser texto
-do mesmo domínio não visto no treino; as P&R conceituais movem menos por serem
-genéricas. A acurácia de token é otimista no texto formulaico dos diários, então a
-perplexidade é a métrica mais informativa.
+| Modelo | Tam. | Variante | PPL antes | PPL depois | TokAcc depois |
+|--------|------|----------|-----------|------------|---------------|
+| Qwen3-0.6B-Base | 0.6B | base | 11.47 | 6.88 | 0.603 |
+| Qwen3-1.7B-Base | 1.7B | base | 8.59 | **5.73** | 0.627 |
+| gemma-3-1b-pt | 1.0B | base | 9.57 | **5.49** | 0.637 |
+| gemma-3-1b-it | 1.0B | instruct | **28.21** | 6.87 | 0.609 |
 
-Escada de tamanho (held-out, perplexidade depois): o modelo maior parte de uma base
-melhor (antes: 11.47 no 0.6B, 8.59 no 1.7B) e chega mais baixo depois (6.88 no
-0.6B, 5.73 no 1.7B). Ou seja, o pré-treino contínuo ajuda nos dois tamanhos e o
-ganho absoluto se mantém ao escalar. O 4B (próxima rung) está pronto, mas depende da
-correção do multi-GPU pela infra (ver `docs/SUPORTE_INFRA_MULTIGPU.md`).
+(qa conceitual e métricas completas em `runs.csv`.)
+
+Leituras:
+- **Escada de tamanho**: o modelo maior parte de base melhor e chega mais baixo
+  depois (Qwen3 0.6B 6.88 -> 1.7B 5.73). O 4B está pronto mas depende do multi-GPU
+  (ver `docs/SUPORTE_INFRA_MULTIGPU.md`).
+- **Cross-family**: o `gemma-3-1b-pt` (1B) termina melhor que o Qwen3-1.7B (5.49 vs
+  5.73) apesar de menor; arquitetura/tokenizer da família importam.
+- **Base vs instruct (evidencia forte)**: o `gemma-3-1b-it` (instruct) começa MUITO
+  pior em texto de diário (perplexidade 28.2 vs 9.6 do base irmao) porque o
+  pos-treino de chat o afasta de texto cru, e mesmo após o pré-treino contínuo
+  termina pior que o base (6.87 vs 5.49). Confirma empiricamente a escolha de partir
+  de modelos **base** nas Q1-Q3.
+- A acurácia de token é otimista no texto formulaico; a perplexidade é mais
+  informativa.
+
+## Q5 - RAG (ablação de 3 modos x 3 motores)
+
+Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por
+um **juiz fixo Qwen3-8B** (igual para todos os motores, para comparação justa).
+Modos: baseline (sem RAG), standard (recupera+gera), agentic_vector (agente, sem
+grafo), agentic_graph (agente + grafo). CSVs em `results/benchmark_rag_compare_*.csv`.
+
+Acerto médio (0-5), corpus cheio, **roteador corrigido** (grafo sempre consultado em
+modo grafo) e benchmark multi-hop sem vazamento:
+
+| Motor | baseline | standard | agentic_vector | agentic_graph |
+|-------|----------|----------|----------------|---------------|
+| Qwen3-8B (instruct) | 1.10 | **2.70** | 2.60 | 2.63 |
+| gemma-3-1b-it (instruct) | 0.67 | 2.07 | **2.23** | 2.03 |
+| gemma-3-1b-pt (base) | 0.47 | 0.73 | 0.73 | **0.87** |
+
+Leituras:
+- **RAG ajuda todo motor**: o maior salto é o `standard` sobre o baseline; a
+  recuperação é o ganho principal.
+- **Grafo/agente quase não separam do standard**, mesmo após corrigir o roteador
+  (que antes deixava o grafo de fora em 29/30). No 8B a recuperação simples satura
+  (2.70) e o agente/grafo não melhoram. Conclusão honesta: nesta tarefa (achar um
+  fato em texto, respondido por um motor forte) o grafo/multi-hop agrega pouco; não
+  era só bug do roteador.
+- **Motor importa, instruct > base para RAG**: 8B > gemma-it > gemma-pt.
+- **Juiz fixo foi essencial**: com auto-julgamento o gemma-it inflava para baseline
+  2.87 e o RAG aparecia negativo (artefato do juiz 1B, não do método).
+- Ablação do dataset balanceado (licitações podadas) em `*_balanced_*` testa se a
+  repetição das licitações achatava a diferença entre os modos.
 
 ## Convenção de colunas (runs.csv)
 

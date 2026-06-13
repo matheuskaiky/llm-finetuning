@@ -1,0 +1,30 @@
+{"question": "Qual é o artigo que trata da possibilidade de adjudicação quando a negociação de melhor condição frustra-se?", "expected_answer": "5.12.2", "type": "factual"}
+{"question": "Qual o número do ato que corresponde à transferência de 10.000,00 para a TRANSF.ALDIR BLANC LEI N?", "expected_answer": "1.719.0", "type": "factual"}
+{"question": "Qual é a data de assinatura do documento?", "expected_answer": "28 de fevereiro de 2025", "type": "factual"}
+{"question": "Qual é o nome da divisão responsável pela gestão de imóveis na Diretoria de Investimentos?", "expected_answer": "Assessoria de Gestão de Imóveis", "type": "factual"}
+{"question": "Qual é o número da portaria que institui a Comissão Especial para discutir a resolução normativa que regula a oferta da Educação Infantil?", "expected_answer": "Portaria Nº 004/2023/CME/SEMEC", "type": "factual"}
+{"question": "Qual o nome da pessoa nomeada para o cargo de Chefe do Setor Geral de Controle e Distribuicao?", "expected_answer": "FRANCISCO JOSE RIBEIRO", "type": "factual"}
+{"question": "Qual foi o dia da realização da audiência pública em Porto Alegre do Piauí?", "expected_answer": "28 de maio de 2025", "type": "factual"}
+{"question": "Qual o CNPJ da empresa CONSULTORIA CONTABIL LTDA?", "expected_answer": "23.221.481/0001-60", "type": "factual"}
+{"question": "Qual é o artigo da Lei nº 14.133, de 2021, mencionado no trecho?", "expected_answer": "art. 124", "type": "factual"}
+{"question": "Qual o número do ato da manutenção da Secretaria de Cultura?", "expected_answer": "13.392.0013.2022.0000", "type": "factual"}
+{"question": "Qual é o código da categoria econômica relacionada às despesas correntes de pessoal e encargos sociais?", "expected_answer": "3.3.90.14", "type": "factual"}
+{"question": "Qual é o nome do Presidente do Instituto de Previdência dos Servidores do Município de Teresina - IPMT?", "expected_answer": "José João de Magalhães Braga Júnior", "type": "factual"}
+{"question": "Qual o valor da remuneração OE para o cargo 1.621.0?", "expected_answer": "2.000,00", "type": "factual"}
+{"question": "Qual o valor da despesa com 'CONSTRUÇÃO, AMPLIAÇÃO E REFORMA DA EDUCAÇÃO' no exercício de 2026?", "expected_answer": "150.000,00", "type": "factual"}
+{"question": "Qual o valor total do item 2 do trecho?", "expected_answer": "95.850,00", "type": "factual"}
+{"question": "Qual é o valor da subfunção 271 Previdência IIaica em 2028?", "expected_answer": "2.697.200,00", "type": "factual"}
+{"question": "Qual o CNPJ da PM de Boqueirão do Piauí?", "expected_answer": "01612566/0001-37", "type": "factual"}
+{"question": "Qual o valor final do fornecedor ADRIANO R SOARES LTOA no bloco 0005?", "expected_answer": "11,12", "type": "factual"}
+{"question": "Qual é a secretaria responsável pela gestão de finanças do Fundo Municipal de Saúde?", "expected_answer": "SECRETARIA DE FINANÇAS", "type": "multihop"}
+{"question": "Qual documento foi aberto pelo secretário municipal de planejamento e coordenação após a delegação recebida pelo prefeito municipal de Teresina?", "expected_answer": "Crédito Suplementar", "type": "multihop"}
+{"question": "Qual é a secretaria municipal de educação que recebeu a comunicação sobre a portaria emitida pelo Pajeu do Piauí?", "expected_answer": "Secretaria Municipal de Educacao", "type": "multihop"}
+{"question": "Quem foi nomeado pelo órgão que pertence à Prefeitura Municipal de Pajeu do Piauí e é responsável pela Assistência Social e Cidadania?", "expected_answer": "Robert Martins de Miranda", "type": "multihop"}
+{"question": "Qual secretaria municipal possui a Secretaria Municipal de Assistência Social e Cidadania?", "expected_answer": "Secretaria Municipal de Planejamento e Administracao", "type": "multihop"}
+{"question": "Qual secretaria pertence ao poder executivo e está relacionada à secretaria de infra-estrutura e serviços urbanos por meio de um relacionamento de posse?", "expected_answer": "SECRETARIA DE FINANÇAS", "type": "multihop"}
+{"question": "Quem foi a última pessoa a receber uma nomeação da Prefeitura Municipal de Flores do Piauí?", "expected_answer": "Juscivania dos Santos Silva", "type": "multihop"}
+{"question": "Quem foi nomeado pela Secretaria Municipal de Administracao e Planejamento de Sao Braz do Piauí para a Brigada Civil de Combate a Incendios do Município de Ribeiro Goncalves?", "expected_answer": "JOAO RAIMUNDO DE SOUSA CRUZ", "type": "multihop"}
+{"question": "Qual é a entidade que possui diretamente o FUNDO MUNICIPAL DE SAÚDE através de uma relação de pertencimento?", "expected_answer": "SECRETARIA DE SAÚDE", "type": "multihop"}
+{"question": "Qual é a secretaria responsável pela gestão das finanças do Fundo Municipal de Assistência Social?", "expected_answer": "SECRETARIA DE FINANÇAS", "type": "multihop"}
+{"question": "Quem é o secretário municipal de planejamento e coordenação de Teresina?", "expected_answer": "SECRETÁRIO MUNICIPAL DE PLANEJAMENTO E COORDENAÇÃO", "type": "multihop"}
+{"question": "Qual é o documento que o Decreto Municipal nº 27.897 delega ao SECRETÁRIO MUNICIPAL DE PLANEJAMENTO E COORDENAÇÃO para abrir?", "expected_answer": "Crédito Suplementar", "type": "multihop"}

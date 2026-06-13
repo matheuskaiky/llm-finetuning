@@ -30,7 +30,7 @@ data/*
 # same-named source packages (e.g. src/llm_finetuning/models/).
 /checkpoints/
 /outputs/
-/models/
+/models/*
 /runs/
 benchmarks/results/
 # Per-question benchmark result outputs (keep the dir + .gitkeep, ignore the JSON).

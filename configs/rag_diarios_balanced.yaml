@@ -1,0 +1,44 @@
+# Q5 GraphRAG over a LICITACAO-BALANCED subset of the diarios corpus.
+# Same as configs/rag_diarios.yaml but downsamples licitacao-heavy documents so
+# they are paired in count with the other document types (procurement notices are
+# repetitive and tend to swamp the vector store and the graph). Writes to a
+# SEPARATE index so the full-corpus index/results are kept for comparison.
+#
+# Build: CUDA_VISIBLE_DEVICES=0 python scripts/build_rag_index.py \
+#          --config configs/rag_diarios_balanced.yaml
+name: rag_diarios_balanced
+seed: 42
+graph_max_chunks: 100
+
+source:
+  src_dir: data/raw/dom-pi-corpus-2025
+  config: curated
+  limit: 150
+  skip: 0
+  min_tokens: 64
+  balance_licitacoes: true
+  pool_size: 1200
+
+chunking:
+  chunk_size: 1200
+  overlap: 200
+
+embedder:
+  model_name: BAAI/bge-m3
+  device: cuda
+  batch_size: 32
+
+llm:
+  model_name: models/Qwen3-8B
+  device: cuda
+  max_new_tokens: 512
+  temperature: 0.0
+
+index:
+  vector_dir: data/processed/rag/diarios_balanced_faiss
+  graph_path: data/processed/rag/diarios_balanced_graph.json
+
+agent:
+  top_k_vector: 5
+  max_graph_hops: 2
+  max_reflections: 2

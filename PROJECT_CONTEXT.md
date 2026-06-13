@@ -85,7 +85,7 @@ src/llm_finetuning/
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
 ├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
-├── rag/           # [ ] RagPipeline: retriever + generator (Standard/Agentic/Self-Reflective).
+├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client, extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), agent (LangGraph self-reflexivo), judge.
 └── guardrails/    # [ ] GuardrailLayer: filtros de entrada/saída componíveis.
 ```
 
@@ -110,7 +110,13 @@ resolvidos por `instantiate(registry, ComponentSpec)` a partir do YAML.
   para JSONL), `QAPairGenerator` (gera os >=1.000 pares para SFT).
 - **`Registry` / `build_from_config`** - mapeia chaves de config -> classes,
   permitindo registrar novas implementações sem editar o núcleo (OCP).
-- **`RagPipeline`** - composição `Retriever` + `Generator` + (opcional) `Reflector`.
+- **`RagPipeline`** (Q5, implementado no pacote `rag/`) - `Retriever` (Protocol)
+  com `VectorRetriever` (FAISS + bge-m3) e `GraphRetriever` (KG NetworkX);
+  `LocalChatLLM` como motor trocável por config (8B bf16 single-GPU, ou 30B FP8
+  multi-GPU via `device_map`); agente LangGraph self-reflexivo
+  (Analyzer/Router -> Retrieve -> Generate -> Critic, com loop de reflexão). A
+  config é `RagConfig` (no próprio pacote, sem tocar no `core`), dirigida por
+  `configs/rag_*.yaml`. Scripts: `build_rag_index`, `make_rag_benchmark`, `eval_rag`.
 - **`GuardrailLayer`** - cadeia componível de filtros de entrada/saída.
 
 ## 4. Convenções

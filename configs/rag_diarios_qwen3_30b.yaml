@@ -1,0 +1,41 @@
+# Q5 GraphRAG variant using the Qwen3-30B-A3B-Instruct-2507-FP8 engine.
+# Kept for when multi-GPU is fixed (driver/NVML), so vLLM tensor-parallel can make
+# the 30B fast. Today it loads across the 2x L4 via device_map=auto but generation
+# is ~28 s/call (naive model-parallel), so the default config uses the 8B instead.
+#
+# Build: CUDA_VISIBLE_DEVICES=0,1 python scripts/build_rag_index.py \
+#          --config configs/rag_diarios_qwen3_30b.yaml
+name: rag_diarios_30b
+seed: 42
+graph_max_chunks: 200
+
+source:
+  src_dir: data/raw/dom-pi-corpus-2025
+  config: curated
+  limit: 150
+  skip: 0
+  min_tokens: 64
+
+chunking:
+  chunk_size: 1200
+  overlap: 200
+
+embedder:
+  model_name: BAAI/bge-m3
+  device: cuda
+  batch_size: 32
+
+llm:
+  model_name: models/Qwen3-30B-A3B-Instruct-2507-FP8
+  device_map: auto
+  max_new_tokens: 512
+  temperature: 0.0
+
+index:
+  vector_dir: data/processed/rag/diarios_faiss
+  graph_path: data/processed/rag/diarios_graph.json
+
+agent:
+  top_k_vector: 5
+  max_graph_hops: 2
+  max_reflections: 2
