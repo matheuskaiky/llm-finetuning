@@ -16,6 +16,16 @@ Mas **balancear apagando licitacoes nao e a solucao de producao**: licitacoes sa
 informacao real e valiosa. O dataset balanceado fica apenas como experimento de
 diagnostico (mantido para comparacao).
 
+> **Contraste com a Q1 (pré-treino):** a MESMA intervenção (podar licitação) tem
+> efeito OPOSTO no pré-treino contínuo. Treinar o Qwen3-0.6B-Base num corpus
+> balanceado (50% das licitações, só elas) piorou a perplexidade em todos os
+> held-outs (completo 6.88/6.86, balanceado 7.16/7.09), inclusive no held-out
+> balanceado. Ou seja: para o RETRIEVAL, a repetição das licitações atrapalha
+> (afoga a diversidade do top-k); para o PRÉ-TREINO, mais texto do domínio (mesmo
+> repetitivo e formulaico) ajuda a prever o próximo token. Bom ponto de discussão:
+> "qualidade de dados" depende da tarefa. Detalhe em `docs/DATASET_BALANCEAMENTO.md`
+> e `results/q1_balanceamento_licitacao.csv`.
+
 ## Estrategias para manter as licitacoes sem poluir (a avaliar)
 
 1. **Indices segmentados por tipo + roteador** (ideia do usuario, recomendada como

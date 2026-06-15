@@ -45,12 +45,12 @@ Leituras:
 ### Base fine-tunado vs instruct sem fine-tuning
 
 Comparação direta da escolha da equipe (partir de modelos base) contra usar um
-instruct de prateleira sem treino. Os instruct Qwen na versão nao-base
+instruct de prateleira sem treino. Os instruct Qwen na versão não-base
 (`Qwen3-0.6B/1.7B/4B/8B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning;
 os `-base`/`-pt` têm antes e depois. Tabela completa em
 `results/q1_base_vs_instruct.csv`. Held-out, perplexidade (menor melhor):
 
-| Tam. (familia) | base antes | base depois (FT) | instruct sem FT |
+| Tam. (família) | base antes | base depois (FT) | instruct sem FT |
 |----------------|------------|------------------|-----------------|
 | 0.6B (qwen3) | 11.47 | **6.88** | 16.30 |
 | 1.7B (qwen3) | 8.59 | **5.73** | 11.92 |
@@ -58,48 +58,76 @@ os `-base`/`-pt` têm antes e depois. Tabela completa em
 | 8B (qwen3) | - | - | 8.17 |
 | 1.0B (gemma3) | 9.57 | **5.49** | 28.21 |
 
-(qwen3 0.6B/1.7B/4B: par base/instruct do mesmo tamanho; 8B so instruct. gemma3:
-`-pt` base e `-it` instruct, par da mesma familia 1B.)
+(qwen3 0.6B/1.7B/4B: par base/instruct do mesmo tamanho; 8B só instruct. gemma3:
+`-pt` base e `-it` instruct, par da mesma família 1B.)
 
 Leituras:
 - **O base fine-tunado vence o instruct do mesmo tamanho com folga**: 0.6B 6.88 vs
-  16.30; 1.7B 5.73 vs 11.92. O pré-treino contínuo no dominio supera o pos-treino
-  de chat para esta tarefa intrinseca.
-- **Tamanho nao compensa dominio**: o `Qwen3-1.7B-Base` fine-tunado (5.73) e ate o
+  16.30; 1.7B 5.73 vs 11.92. O pré-treino contínuo no domínio supera o pós-treino
+  de chat para esta tarefa intrínseca.
+- **Tamanho não compensa domínio**: o `Qwen3-1.7B-Base` fine-tunado (5.73) e até o
   `Qwen3-0.6B-Base` fine-tunado (6.88) batem o `Qwen3-8B` instruct sem treino
   (8.17), um modelo 5x a 13x maior.
-- **Base < instruct ja no ponto de partida**: em todo tamanho, o base antes tem
+- **Base < instruct já no ponto de partida**: em todo tamanho, o base antes tem
   perplexidade menor que o instruct sem treino (0.6B 11.47 < 16.30; 1.7B 8.59 <
-  11.92; 4B 7.17 < 10.02). O `Qwen3-4B-Base` cru (7.17) ja supera o `Qwen3-8B`
-  instruct (8.17). O alinhamento de chat cobra um imposto em texto cru de diario,
-  monotonico nas duas familias (gemma-it no extremo, 28.21).
-- Confirma quantitativamente, em duas familias, a decisao de partir de modelos
+  11.92; 4B 7.17 < 10.02). O `Qwen3-4B-Base` cru (7.17) já supera o `Qwen3-8B`
+  instruct (8.17). O alinhamento de chat cobra um imposto em texto cru de diário,
+  monotônico nas duas famílias (gemma-it no extremo, 28.21).
+- Confirma quantitativamente, em duas famílias, a decisão de partir de modelos
   **base** nas Q1-Q3. O `Qwen3-4B-Base` depois entra aqui quando o job 399 fechar.
 
-### Mini analise (Q1)
+### Mini análise (Q1)
 
-Tres efeitos se somam e apontam na mesma direcao:
+Três efeitos se somam e apontam na mesma direção:
 
-1. **Adaptacao de dominio supera escala.** Para perplexidade em texto de diario, o
-   que mais importa nao e o tamanho do modelo, e ter visto o dominio. Um base
+1. **Adaptação de domínio supera escala.** Para perplexidade em texto de diário, o
+   que mais importa não é o tamanho do modelo, é ter visto o domínio. Um base
    pequeno fine-tunado (Qwen3-1.7B-Base 5.73; gemma-3-1b-pt 5.49) bate um instruct
-   varias vezes maior sem treino (Qwen3-8B 8.17). Em um orcamento de 2x L4, treinar
+   várias vezes maior sem treino (Qwen3-8B 8.17). Em um orçamento de 2x L4, treinar
    um base pequeno rende mais que pegar um instruct grande de prateleira.
-2. **O ponto de partida ja favorece o base.** Antes de qualquer treino, o base tem
+2. **O ponto de partida já favorece o base.** Antes de qualquer treino, o base tem
    perplexidade menor que o instruct do mesmo tamanho em todos os pontos medidos; o
-   pos-treino de chat afasta o modelo de texto cru (imposto de alinhamento),
-   monotonico nas duas familias. A magnitude depende da familia: no Qwen o instruct
+   pós-treino de chat afasta o modelo de texto cru (imposto de alinhamento),
+   monotônico nas duas famílias. A magnitude depende da família: no Qwen o instruct
    0.6B sobe para 16.30 (base antes 11.47), no gemma o `-it` dispara para 28.21
    (base `-pt` 9.57).
-3. **A escolha base vs instruct pesa mais que a familia.** O melhor (gemma-pt
-   treinado, 5.49) e o pior (gemma-it cru, 28.21) sao a mesma familia 1B: a decisao
+3. **A escolha base vs instruct pesa mais que a família.** O melhor (gemma-pt
+   treinado, 5.49) e o pior (gemma-it cru, 28.21) são a mesma família 1B: a decisão
    de partir do base muda o resultado mais que trocar de arquitetura.
 
-Implicacao para o projeto: a decisao de usar modelos `-base`/`-pt` nas Q1-Q3 esta
-validada por evidencia em duas familias, e a escada de tamanho ainda paga (cada
+Implicação para o projeto: a decisão de usar modelos `-base`/`-pt` nas Q1-Q3 está
+validada por evidência em duas famílias, e a escada de tamanho ainda paga (cada
 base maior parte e termina mais baixo). Ressalva: a perplexidade premia o estilo
-formulaico do diario; por isso a leitura principal e a perplexidade, com a acuracia
+formulaico do diário; por isso a leitura principal é a perplexidade, com a acurácia
 de token como apoio.
+
+### Ablação: podar licitações do corpus de treino ajuda a Q1?
+
+Hipótese (vinda do estudo de licitações no RAG): as licitações, repetitivas,
+poderiam estar "poluindo" o treino. Construiu-se um corpus balanceado mexendo
+**só** nas licitações (todos os não-licitação mantidos, 50% das licitações
+sorteadas, seed 42; método em `docs/DATASET_BALANCEAMENTO.md`): 2000 -> 1635 docs,
+licitação de 42.5% para 27.0% dos tokens. Treinou-se o mesmo Qwen3-0.6B-Base nos
+dois corpora (recipe idêntica) e avaliou-se cruzando dois held-outs disjuntos: o
+original (distribuição cheia) e um balanceado (licitação reduzida). Perplexidade,
+menor melhor; dados em `results/q1_balanceamento_licitacao.csv`.
+
+| Corpus de treino | held-out original | held-out balanceado | QA |
+|------------------|-------------------|---------------------|-----|
+| (base, antes) | 11.47 | 11.45 | 11.58 |
+| completo | **6.88** | **6.86** | **10.13** |
+| balanceado | 7.16 | 7.09 | 10.29 |
+
+Conclusão: **podar licitação não ajuda a Q1; piora**. O modelo treinado no corpus
+completo vence em todos os conjuntos, inclusive no held-out balanceado (6.86 vs
+7.09), onde o modelo balanceado teria a melhor chance por estar na própria
+distribuição. Dois efeitos somam contra a poda: (1) o corpus balanceado tem ~21%
+menos tokens (ver menos texto piora a perplexidade); (2) atos de licitação são
+formulaicos e previsíveis, então até ajudam o modelo de linguagem em vez de
+atrapalhar. É o oposto do RAG: lá a repetição das licitações prejudicava a
+diversidade da recuperação; aqui, para prever o próximo token, mais texto do
+domínio (mesmo repetitivo) ajuda. Recomendação: a Q1 fica com o corpus completo; o
+balanceado é mantido só como ablação de diagnóstico (não se apaga o original).
 
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 

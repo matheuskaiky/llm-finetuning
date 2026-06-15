@@ -1,0 +1,10 @@
+model,train_corpus,condition,eval_set,ppl,ce,tokacc,notes
+Qwen3-0.6B-Base,none,base_antes,heldout_orig,11.467,2.439,0.524,base before training (full-dist held-out)
+Qwen3-0.6B-Base,none,base_antes,heldout_balanced,11.445,2.438,0.524,base before training (licitacao-reduced held-out)
+Qwen3-0.6B-Base,full,depois,heldout_orig,6.884,1.929,0.603,trained on full diarios_txt
+Qwen3-0.6B-Base,full,depois,heldout_balanced,6.858,1.925,0.603,trained on full diarios_txt
+Qwen3-0.6B-Base,balanced,depois,heldout_orig,7.155,1.968,0.597,trained on licitacao-balanced corpus
+Qwen3-0.6B-Base,balanced,depois,heldout_balanced,7.093,1.959,0.598,trained on licitacao-balanced corpus
+Qwen3-0.6B-Base,none,base_antes,qa,11.582,2.449,0.503,conceptual Q&A set
+Qwen3-0.6B-Base,full,depois,qa,10.128,2.315,0.521,trained on full diarios_txt
+Qwen3-0.6B-Base,balanced,depois,qa,10.286,2.331,0.521,trained on licitacao-balanced corpus

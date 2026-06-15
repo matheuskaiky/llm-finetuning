@@ -1,0 +1,39 @@
+# Q1 ablation: continued pre-training of Qwen3-0.6B-Base on the licitacao-balanced
+# diarios corpus (data/processed/diarios_txt_balanced: all non-licitacao docs +
+# 50% of licitacao docs, seed 42; built by scripts/build_balanced_corpus.py). Same
+# recipe as configs/pretrain_diarios_qwen3_0p6b.yaml; only the input corpus and the
+# output dir change, so antes/depois is comparable to the full-corpus run. Tests
+# whether pruning repetitive procurement notices helps Q1.
+name: pretrain_diarios_qwen3_0p6b_balanced
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt_balanced
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_qwen3_0p6b_diarios_balanced
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 4
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois/pretrain_qwen3_0p6b_balanced.json

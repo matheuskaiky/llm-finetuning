@@ -97,3 +97,27 @@ def balance_by_licitacao(
     selected = rng.sample(lic, k) + rng.sample(oth, k)
     rng.shuffle(selected)
     return selected
+
+
+def downsample_licitacao(
+    docs: list[tuple[str, str]],
+    keep_fraction: float = 0.5,
+    seed: int = 42,
+    min_hits: int = 2,
+) -> list[tuple[str, str]]:
+    """Reduce only the licitacao documents, leaving non-licitacao untouched.
+
+    Keeps every non-licitacao document and a random ``keep_fraction`` of the
+    licitacao documents (rounded), so the corpus carries fewer repetitive
+    procurement notices without altering the rest. ``docs`` is a list of
+    ``(doc_id, text)``; the result is shuffled and deterministic for a fixed
+    ``seed``. ``keep_fraction`` is clamped to ``[0.0, 1.0]``.
+    """
+    keep_fraction = min(1.0, max(0.0, keep_fraction))
+    lic = [d for d in docs if is_licitacao(d[1], min_hits)]
+    oth = [d for d in docs if not is_licitacao(d[1], min_hits)]
+    rng = random.Random(seed)
+    k = round(len(lic) * keep_fraction)
+    selected = rng.sample(lic, k) + oth
+    rng.shuffle(selected)
+    return selected
