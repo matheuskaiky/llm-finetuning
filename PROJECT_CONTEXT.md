@@ -81,7 +81,7 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, DocenteExtractor (SIGAA->JSONL, triagem+dedup). (Q&A, splits a seguir.)
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (docente: dataset oficial do Hub; Q&A e splits a seguir.)
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
 ├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
@@ -106,8 +106,8 @@ resolvidos por `instantiate(registry, ComponentSpec)` a partir do YAML.
 - **`Evaluator` / `Metric`** - `evaluate(model, benchmark) -> dict[str, float]`.
   Métricas: `Perplexity`, `CrossEntropy`, `TokenAccuracy`, `QABenchmark`.
 - **`DatasetLoader`** - `load() -> Dataset`. Inclui `PdfToTextLoader`,
-  `DocenteExtractor` (triagem + extracao de texto + dedup do corpus docente SIGAA
-  para JSONL), `QAPairGenerator` (gera os >=1.000 pares para SFT).
+  `TextCorpusLoader` e, a seguir, `QAPairGenerator` (gera os >=1.000 pares da Q2 a
+  partir do dataset docente oficial `vickminari/docentesDC`).
 - **`Registry` / `build_from_config`** - mapeia chaves de config -> classes,
   permitindo registrar novas implementações sem editar o núcleo (OCP).
 - **`RagPipeline`** (Q5, implementado no pacote `rag/`) - `Retriever` (Protocol)
@@ -152,29 +152,12 @@ Heurística para remover cabeçalhos/rodapés de diários: conta as linhas que s
 repetem em pelo menos `boilerplate_threshold` das páginas (mínimo de 2) e as
 descarta. Desativada quando há menos de 3 páginas ou `threshold >= 1.0`.
 
-### Extracao e dedup do corpus docente (`data/docente_extractor.py`)
-Pipeline para o dataset SIGAA (`data/raw/docentesDC-sigaa`, estrutura
-`professor/ano/mes/dia/arquivo`). Etapas: (1) triagem por extensao em tres baldes
-(`text`/`code`/`noise`); codigo so entra com `include_code=True` (subcorpus opt-in)
-e ruido (`.venv`, `__MACOSX`, `_archives/`, binarios) e sempre descartado; (2)
-metadados do caminho (professor, ano, mes, dia) e do nome (prefixo numerico de id
-do SIGAA); (3) extracao de texto por tipo, com imports tardios (`pypdf` para pdf;
-`python-docx` para docx; `python-pptx` para pptx; leitura direta para txt/tex/csv/md;
-`html.unescape` + strip para html; doc/ppt legados ficam como `unsupported`); (4)
-dedup em duas camadas. A dedup exata (`deduplicate`) agrupa por `text_sha1` (texto
-normalizado) quando ha texto, senao por `content_md5`, elege como canonica a versao
-mais recente (`max(ano, mes, dia)`, desempate por caminho) e preserva
-`duplicated_dates`/`dup_count`; conteudo que aparece em mais de um docente marca
-`shared_with_professors` sem atribuir autoria. A dedup aproximada
-(`deduplicate_near`, opcional via `near_dedup`) usa MinHash/LSH (`datasketch`) sobre
-shingles de palavras, por professor, com limiar de Jaccard configuravel, colapsando
-variantes leves. Texto extraido de PDFs e bytes indecodificaveis do filesystem podem
-gerar lone surrogates: `sanitize_text` os remove no texto e na linha JSON inteira.
-Saida: JSONL, um documento canonico por linha. `export_plaintext_corpus` materializa
-o texto canonico (acima de `min_chars`) em `.txt` sob `data/processed`, compativel
-com o `TextCorpusLoader` (reaproveita o corpus docente no pre-treino contınuo, Q1).
-A logica pura (triagem, metadados, fingerprint, dedup exata e aproximada, export) e
-testavel sem o stack de ML.
+### Corpus docente (dataset oficial do Hub)
+O dataset docente passou a ser o oficial pre-processado em Hugging Face
+(`vickminari/docentesDC`): 13.762 registros com campos `text` e `nome_professor`,
+em `data/raw/docentesDC/` (jsonl + parquet). A extracao propria do SIGAA
+(`DocenteExtractor`, triagem + dedup) foi removida do codigo: o dataset chega pronto
+e a geracao de pares Q&A da Q2 parte direto desse formato.
 
 ### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
 Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com
@@ -222,7 +205,7 @@ single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
 | Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
 | Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. Variante balanceada (licitações podadas) só para diagnóstico. |
-| Dataset docente | Google Drive (zip por grupo) | `docentesDC`/SIGAA. Pasta: drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K. Estrutura aninhada `TIA-Dados_Professores/grupoN/grupoN.zip`, arquivos por professor (`professor/ano/mes/dia/arquivo`). Q2/Q3/Q5. |
+| Dataset docente | `vickminari/docentesDC` (HF) | Dataset oficial pre-processado do grupo responsavel: 13.762 registros, campos `text` e `nome_professor`. Em `data/raw/docentesDC/` (jsonl + parquet). Substitui o SIGAA bruto e a extracao propria (removida). Q2/Q3/Q5. |
 
 Q1 é full-parameter, limitada por memória: 0.6B cabe numa L4; ~1.7B com FSDP ou
 AdamW 8-bit; ~4B no teto (FSDP + activation checkpointing); 9B full-parameter não
@@ -236,9 +219,7 @@ cabe nas 2x L4 e fica para LoRA/QLoRA (Q3). Modelos base, não instruct, em Q1-Q
 uv run python scripts/download_assets.py --all
 ```
 
-O dataset docente vem de uma pasta do Google Drive (zip por grupo). Os links
-diretos do Takeout sao presos a sessao do navegador e nao funcionam server-side:
-baixar pelo navegador (ou `gdown` se a pasta for "qualquer pessoa com o link") e
-colocar os zips em `data/raw/docentesDC-sigaa/`. A extracao achata a camada
-`grupoN`, deixando as pastas por professor no topo e os zips originais em
-`_archives/`. Ver `README.md`.
+O dataset docente vem do Hub (`vickminari/docentesDC`, dataset oficial
+pre-processado). Baixar com `huggingface_hub.snapshot_download(repo_id=
+"vickminari/docentesDC", repo_type="dataset", local_dir="data/raw/docentesDC")`.
+Ver `README.md`.
