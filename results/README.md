@@ -42,6 +42,65 @@ Leituras:
 - A acurácia de token é otimista no texto formulaico; a perplexidade é mais
   informativa.
 
+### Base fine-tunado vs instruct sem fine-tuning
+
+Comparação direta da escolha da equipe (partir de modelos base) contra usar um
+instruct de prateleira sem treino. Os instruct Qwen na versão nao-base
+(`Qwen3-0.6B/1.7B/4B/8B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning;
+os `-base`/`-pt` têm antes e depois. Tabela completa em
+`results/q1_base_vs_instruct.csv`. Held-out, perplexidade (menor melhor):
+
+| Tam. (familia) | base antes | base depois (FT) | instruct sem FT |
+|----------------|------------|------------------|-----------------|
+| 0.6B (qwen3) | 11.47 | **6.88** | 16.30 |
+| 1.7B (qwen3) | 8.59 | **5.73** | 11.92 |
+| 4B (qwen3) | 7.17 | (job SLURM 399) | 10.02 |
+| 8B (qwen3) | - | - | 8.17 |
+| 1.0B (gemma3) | 9.57 | **5.49** | 28.21 |
+
+(qwen3 0.6B/1.7B/4B: par base/instruct do mesmo tamanho; 8B so instruct. gemma3:
+`-pt` base e `-it` instruct, par da mesma familia 1B.)
+
+Leituras:
+- **O base fine-tunado vence o instruct do mesmo tamanho com folga**: 0.6B 6.88 vs
+  16.30; 1.7B 5.73 vs 11.92. O pré-treino contínuo no dominio supera o pos-treino
+  de chat para esta tarefa intrinseca.
+- **Tamanho nao compensa dominio**: o `Qwen3-1.7B-Base` fine-tunado (5.73) e ate o
+  `Qwen3-0.6B-Base` fine-tunado (6.88) batem o `Qwen3-8B` instruct sem treino
+  (8.17), um modelo 5x a 13x maior.
+- **Base < instruct ja no ponto de partida**: em todo tamanho, o base antes tem
+  perplexidade menor que o instruct sem treino (0.6B 11.47 < 16.30; 1.7B 8.59 <
+  11.92; 4B 7.17 < 10.02). O `Qwen3-4B-Base` cru (7.17) ja supera o `Qwen3-8B`
+  instruct (8.17). O alinhamento de chat cobra um imposto em texto cru de diario,
+  monotonico nas duas familias (gemma-it no extremo, 28.21).
+- Confirma quantitativamente, em duas familias, a decisao de partir de modelos
+  **base** nas Q1-Q3. O `Qwen3-4B-Base` depois entra aqui quando o job 399 fechar.
+
+### Mini analise (Q1)
+
+Tres efeitos se somam e apontam na mesma direcao:
+
+1. **Adaptacao de dominio supera escala.** Para perplexidade em texto de diario, o
+   que mais importa nao e o tamanho do modelo, e ter visto o dominio. Um base
+   pequeno fine-tunado (Qwen3-1.7B-Base 5.73; gemma-3-1b-pt 5.49) bate um instruct
+   varias vezes maior sem treino (Qwen3-8B 8.17). Em um orcamento de 2x L4, treinar
+   um base pequeno rende mais que pegar um instruct grande de prateleira.
+2. **O ponto de partida ja favorece o base.** Antes de qualquer treino, o base tem
+   perplexidade menor que o instruct do mesmo tamanho em todos os pontos medidos; o
+   pos-treino de chat afasta o modelo de texto cru (imposto de alinhamento),
+   monotonico nas duas familias. A magnitude depende da familia: no Qwen o instruct
+   0.6B sobe para 16.30 (base antes 11.47), no gemma o `-it` dispara para 28.21
+   (base `-pt` 9.57).
+3. **A escolha base vs instruct pesa mais que a familia.** O melhor (gemma-pt
+   treinado, 5.49) e o pior (gemma-it cru, 28.21) sao a mesma familia 1B: a decisao
+   de partir do base muda o resultado mais que trocar de arquitetura.
+
+Implicacao para o projeto: a decisao de usar modelos `-base`/`-pt` nas Q1-Q3 esta
+validada por evidencia em duas familias, e a escada de tamanho ainda paga (cada
+base maior parte e termina mais baixo). Ressalva: a perplexidade premia o estilo
+formulaico do diario; por isso a leitura principal e a perplexidade, com a acuracia
+de token como apoio.
+
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por

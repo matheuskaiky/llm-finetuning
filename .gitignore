@@ -11,6 +11,8 @@ PENSAMENTO_*.md
 EXPLICACAO_PROFESSOR.md
 SLIDES_BENCHMARK.md
 docs/SUPORTE_INFRA_MULTIGPU.md
+docs/ROADMAP_GERAL.md
+docs/JOBS_QUEUE.md
 
 # --- Datasets & artifacts ---
 data/*

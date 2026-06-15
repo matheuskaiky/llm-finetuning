@@ -1,12 +1,16 @@
 # Q1 continued pre-training of Qwen3-4B-Base (full-parameter) on the diarios
-# corpus. This is the realistic full-parameter ceiling on 2x L4: FSDP full-shard +
-# activation checkpointing, AdamW 32-bit. per_device batch 1 (accum 8) to stay
-# inside 24 GB/GPU. Same recipe family as 0.6B/1.7B; only the model and the
-# batch/accum split change. Evaluate antes/depois with scripts/evaluate.py.
+# corpus. Full-parameter 4B does not fit in 2x L4 with fp32 AdamW state on-GPU
+# (~24-32 GB/GPU), so FSDP full-shard runs with CPU offload of params/grads/
+# optimizer (~48 GB host RAM, fits the 62.9 GB node) plus activation
+# checkpointing. Slower than on-GPU but reliable for an unattended queued job.
+# per_device batch 1 (accum 8). Same recipe family as 0.6B/1.7B; only the model,
+# the batch/accum split and the offload change. Evaluate antes/depois with
+# scripts/evaluate.py.
 #
-# Launch:
+# Launch (2 GPUs, same node):
 #   torchrun --nproc_per_node=2 scripts/train.py \
 #     --config configs/pretrain_diarios_qwen3_4b.yaml
+# On SLURM, submit scripts/slurm/pretrain_qwen3_4b.sbatch (requests gpu:l4:2).
 name: pretrain_diarios_qwen3_4b
 seed: 42
 
@@ -36,7 +40,7 @@ trainer:
     bf16: true
     gradient_checkpointing: true
     optim: adamw_torch
-    fsdp: "full_shard auto_wrap"
+    fsdp: "full_shard auto_wrap offload"
     fsdp_config:
       transformer_layer_cls_to_wrap: ["Qwen3DecoderLayer"]
       state_dict_type: FULL_STATE_DICT
