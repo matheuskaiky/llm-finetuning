@@ -293,6 +293,16 @@ não se descartam licitações: estratégias para preservá-las em `docs/RAG_ROA
 O `gemma-1b-pt` (base) chega a piorar com RAG (standard 0.87 < baseline 1.10): um
 modelo base fraco se confunde com o contexto recuperado.
 
+### Exemplos qualitativos (sem RAG vs com RAG)
+
+`results/q5_qualitativos.md` (gerado por `scripts/eval_rag_examples.py`) mostra
+respostas lado a lado. Padrão claro: **sem RAG o modelo alucina** (inventa "artigo 42
+do CPC" para uma pergunta sobre os diários) ou **se recusa** ("preciso de mais
+informações"); **com RAG ele ancora** na evidência recuperada e acerta ou chega perto
+(ex.: número de lei, datas, itens normativos). Ilustra a contribuição do RAG e também
+seus limites (algumas respostas ainda imprecisas, em parte por perguntas
+auto-geradas ambíguas, ex.: "qual a data de assinatura do documento?" sem dizer qual).
+
 ## Q6 - guardrails (camada de proteção)
 
 Camada `guardrails/` (filtros componíveis registrados, OCP): bloqueio de jailbreak e
