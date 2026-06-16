@@ -129,6 +129,41 @@ diversidade da recuperação; aqui, para prever o próximo token, mais texto do
 domínio (mesmo repetitivo) ajuda. Recomendação: a Q1 fica com o corpus completo; o
 balanceado é mantido só como ablação de diagnóstico (não se apaga o original).
 
+## Q2 - pós-treino (SFT) sobre o docentesDC
+
+>= 1.000 pares `{instruction, input?, output}` gerados do dataset oficial
+`vickminari/docentesDC` (Qwen3-8B como gerador), SFT full-parameter com loss só na
+resposta. Avaliação antes/depois num held-out de **recall in-domain** (perguntas
+novas sobre os mesmos textos-fonte do treino, sem as perguntas de treino): juiz fixo
+Qwen3-8B (0-5) e perplexidade da resposta (menor melhor). Dados em
+`results/q2_sft.csv`. Experimento A/B: SFT partindo do **base** vs do **checkpoint
+da Q1** (pré-treino contínuo), para ver se Q1 e Q2 se somam.
+
+| Modelo | juiz base | juiz SFT | juiz SFT(Q1) | ppl base | ppl SFT |
+|--------|-----------|----------|--------------|----------|---------|
+| Qwen3-0.6B | 1.49 | 1.49 | 1.61 | 9.29 | **6.44** |
+| Qwen3-1.7B | 1.88 | 1.89 | **1.99** | 7.44 | **5.09** |
+| gemma-3-1b | **0.67** | **1.57** | 1.47 | 10.95 | **7.38** |
+
+Leituras:
+- **O SFT baixa a perplexidade da resposta em todos** (9.29->6.44, 7.44->5.09,
+  10.95->7.38): o modelo aprende a distribuição das respostas do domínio docente.
+  Esse é o antes/depois mais limpo.
+- **O ganho no juiz depende do base.** O `gemma-3-1b-pt` é fraco em seguir instrução
+  (0.67/5) e o SFT dá um salto grande (->1.57, +133%): demonstração clara de que o
+  SFT funciona. Os Qwen base já respondem (1.5-1.9), então o ganho marginal do SFT
+  no juiz é pequeno (o base já faz a maior parte). A perplexidade, teacher-forced,
+  separa mesmo quando a geração greedy de um modelo pequeno ainda erra os fatos
+  específicos.
+- **Q1 + SFT vs SFT puro (juiz):** ajuda no Qwen (sft_q1 > sft_base em 0.6B 1.61 vs
+  1.49 e em 1.7B 1.99 vs 1.89), neutro/levemente negativo no gemma. Lean positivo de
+  que o pré-treino contínuo (Q1) e o SFT (Q2) se somam.
+- **Escala ajuda** (1.7B > 0.6B em juiz e ppl). O 4B (FSDP+offload, SLURM 2-GPU)
+  fica como o tamanho maior a rodar.
+- Caveat de design: um held-out de conteúdo disjunto deixa o juiz chato (modelo não
+  pode saber fatos inéditos); por isso usa-se o recall in-domain. As duas leituras
+  estão no CSV (`eval_set` = recall vs disjoint).
+
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por

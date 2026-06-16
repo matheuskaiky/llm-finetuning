@@ -84,7 +84,7 @@ src/llm_finetuning/
 ├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (docente: dataset oficial do Hub; Q&A e splits a seguir.)
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
-├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
+├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1), SupervisedFineTuneTrainer (Q2, loss so na resposta). LoRA/QLoRA (Q3) e distill a seguir.
 ├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client, extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), agent (LangGraph self-reflexivo), pipelines (modos Standard/Agentic como RagRunner + registro), judge, doc_select (deteccao/balanceamento de licitacoes).
 └── guardrails/    # [ ] GuardrailLayer: filtros de entrada/saída componíveis.
 ```
