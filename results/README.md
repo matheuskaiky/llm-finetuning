@@ -164,6 +164,32 @@ Leituras:
   pode saber fatos inéditos); por isso usa-se o recall in-domain. As duas leituras
   estão no CSV (`eval_set` = recall vs disjoint).
 
+## Q3 - pós-treino LoRA (PEFT) vs SFT pleno
+
+Mesmo dataset, held-out de recall e juiz da Q2; só muda o método (LoRA r=16,
+~1.7% dos params, mesclado no fim). Mesma escada (0.6B, 1.7B, gemma) e A/B (base vs
+checkpoint Q1). Juiz 0-5 / perplexidade da resposta (menor melhor). Dados em
+`results/q3_lora.csv`.
+
+| Modelo (start) | juiz SFT pleno | juiz LoRA | ppl SFT pleno | ppl LoRA |
+|----------------|----------------|-----------|---------------|----------|
+| 0.6B (base) | 1.49 | **1.69** | 6.44 | 6.29 |
+| 0.6B (Q1) | 1.61 | 1.60 | 6.76 | 6.39 |
+| 1.7B (base) | 1.89 | **2.05** | 5.09 | 5.08 |
+| 1.7B (Q1) | 1.99 | **2.11** | 5.14 | 5.09 |
+| gemma (base) | 1.57 | **1.67** | 7.38 | 7.52 |
+| gemma (Q1) | 1.47 | **1.65** | 7.55 | 7.68 |
+
+Leituras:
+- **LoRA iguala ou supera o SFT pleno** no juiz em 5 de 6 casos (empata 1),
+  treinando ~1.7% dos parâmetros. Provável regularização: com só 1.000 exemplos, o
+  full fine-tune de um modelo pequeno tende a overfit/forget, e o LoRA segura isso.
+- Perplexidade comparável entre os dois (LoRA levemente melhor no Qwen, levemente
+  pior no gemma).
+- Conclusão da Q3: **PEFT alcança a qualidade do fine-tune pleno a uma fração do
+  custo** (params, memória, tempo), confirmando o valor de LoRA/QLoRA. QLoRA e o 4B
+  (via SLURM) ficam como extensões (modelos maiores em 1 GPU).
+
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por

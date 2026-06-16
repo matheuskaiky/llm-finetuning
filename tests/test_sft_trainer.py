@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
-from llm_finetuning.training.sft import SupervisedFineTuneTrainer
+from llm_finetuning.training.sft import (
+    DEFAULT_LORA_TARGETS,
+    SupervisedFineTuneTrainer,
+    build_lora_kwargs,
+)
 
 
 class _FakeTok:
@@ -24,6 +28,22 @@ def test_training_arguments_kwargs_registered_and_built():
     assert kw["output_dir"] == "x" and kw["bf16"] is True
     assert kw["gradient_checkpointing_kwargs"] == {"use_reentrant": False}
     assert kw["save_strategy"] == "no"
+
+
+def test_build_lora_kwargs_defaults_and_overrides():
+    kw = build_lora_kwargs({})
+    assert kw["r"] == 16 and kw["lora_alpha"] == 32 and kw["task_type"] == "CAUSAL_LM"
+    assert kw["target_modules"] == DEFAULT_LORA_TARGETS and kw["bias"] == "none"
+    kw2 = build_lora_kwargs({"r": 8, "alpha": 16, "dropout": 0.1,
+                             "target_modules": ["q_proj"]})
+    assert kw2["r"] == 8 and kw2["lora_alpha"] == 16 and kw2["lora_dropout"] == 0.1
+    assert kw2["target_modules"] == ["q_proj"]
+
+
+def test_peft_trainer_registered_and_optional():
+    t_full = SupervisedFineTuneTrainer()
+    t_lora = SupervisedFineTuneTrainer(peft={"r": 8})
+    assert t_full.peft is None and t_lora.peft == {"r": 8}
 
 
 def test_encode_masks_prompt_and_keeps_response():

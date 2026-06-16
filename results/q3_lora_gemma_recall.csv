@@ -1,0 +1,3 @@
+model,mean_judge,mean_resp_ppl,n
+lora_gemma_base,1.673,7.519,150
+lora_gemma_q1,1.653,7.677,150

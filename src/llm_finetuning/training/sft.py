@@ -15,6 +15,26 @@ from ..core.interfaces import ModelBundle, Trainer, TrainResult
 from ..core.registry import TRAINERS
 from ..data.sft_pairs import build_input_and_labels, build_prompt
 
+# Default attention + MLP projections to adapt with LoRA (Qwen3 / gemma share these).
+DEFAULT_LORA_TARGETS = [
+    "q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj",
+]
+
+
+def build_lora_kwargs(peft: dict[str, Any]) -> dict[str, Any]:
+    """Translate a ``peft`` config dict into ``LoraConfig`` kwargs (pure).
+
+    Defaults: r=16, alpha=32, dropout=0.05, the attention+MLP projections, no bias.
+    """
+    return {
+        "r": int(peft.get("r", 16)),
+        "lora_alpha": int(peft.get("alpha", 32)),
+        "lora_dropout": float(peft.get("dropout", 0.05)),
+        "target_modules": peft.get("target_modules", DEFAULT_LORA_TARGETS),
+        "bias": peft.get("bias", "none"),
+        "task_type": "CAUSAL_LM",
+    }
+
 
 @TRAINERS.register("sft")
 class SupervisedFineTuneTrainer(Trainer):
@@ -41,6 +61,7 @@ class SupervisedFineTuneTrainer(Trainer):
         optim: str = "adamw_torch",
         fsdp: str = "",
         fsdp_config: dict[str, Any] | None = None,
+        peft: dict[str, Any] | None = None,
     ) -> None:
         self.output_dir = output_dir
         self.max_length = max_length
@@ -57,6 +78,7 @@ class SupervisedFineTuneTrainer(Trainer):
         self.optim = optim
         self.fsdp = fsdp
         self.fsdp_config = fsdp_config
+        self.peft = peft
 
     def _training_arguments_kwargs(self) -> dict[str, Any]:
         """Build the TrainingArguments kwargs (pure: no transformers import)."""
@@ -116,6 +138,21 @@ class SupervisedFineTuneTrainer(Trainer):
             tokenizer, label_pad_token_id=-100, padding=True
         )
 
+        # PEFT (Q3): adapt only LoRA params. QLoRA = base already loaded in 4-bit by
+        # the provider; prepare it for k-bit training before wrapping.
+        is_peft = self.peft is not None
+        if is_peft:
+            from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+
+            if getattr(net, "is_loaded_in_4bit", False) or getattr(
+                net, "is_loaded_in_8bit", False
+            ):
+                net = prepare_model_for_kbit_training(
+                    net, use_gradient_checkpointing=self.gradient_checkpointing
+                )
+            net = get_peft_model(net, LoraConfig(**build_lora_kwargs(self.peft)))
+            net.print_trainable_parameters()
+
         if self.gradient_checkpointing and hasattr(net, "config"):
             net.config.use_cache = False
 
@@ -127,11 +164,20 @@ class SupervisedFineTuneTrainer(Trainer):
             data_collator=collator,
         )
         outcome = hf_trainer.train()
-        hf_trainer.save_model(self.output_dir)
+
+        # Merge the LoRA adapter into the base and save a standalone checkpoint, so
+        # evaluation loads it like any full model. For a 4-bit base the merge is
+        # applied to the dequantized weights.
+        if is_peft:
+            merged = net.merge_and_unload()
+            merged.save_pretrained(self.output_dir)
+        else:
+            hf_trainer.save_model(self.output_dir)
         tokenizer.save_pretrained(self.output_dir)
 
         metrics = {
             "train_loss": float(outcome.training_loss),
             "num_examples": len(train_dataset),
+            "method": "lora" if is_peft else "full",
         }
         return TrainResult(model=net, metrics=metrics, output_dir=self.output_dir)

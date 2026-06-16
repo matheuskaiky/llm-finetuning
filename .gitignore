@@ -13,6 +13,7 @@ SLIDES_BENCHMARK.md
 docs/SUPORTE_INFRA_MULTIGPU.md
 docs/ROADMAP_GERAL.md
 docs/JOBS_QUEUE.md
+docs/planos/
 
 # --- Datasets & artifacts ---
 data/*

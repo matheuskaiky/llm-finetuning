@@ -1,0 +1,13 @@
+model,params,start,method,eval_set,mean_judge,mean_resp_ppl,n,notes
+Qwen3-0.6B,0.6B,base,lora,recall,1.693,6.289,150,LoRA r16 merged
+Qwen3-0.6B,0.6B,q1,lora,recall,1.600,6.394,150,LoRA from Q1 checkpoint
+Qwen3-1.7B,1.7B,base,lora,recall,2.053,5.083,150,LoRA r16 merged
+Qwen3-1.7B,1.7B,q1,lora,recall,2.113,5.094,150,LoRA from Q1 checkpoint
+gemma-3-1b,1.0B,base,lora,recall,1.673,7.519,150,LoRA r16 merged
+gemma-3-1b,1.0B,q1,lora,recall,1.653,7.677,150,LoRA from Q1 checkpoint
+Qwen3-0.6B,0.6B,base,full,recall,1.493,6.442,150,full SFT (Q2) for comparison
+Qwen3-0.6B,0.6B,q1,full,recall,1.607,6.758,150,full SFT (Q2)
+Qwen3-1.7B,1.7B,base,full,recall,1.893,5.088,150,full SFT (Q2)
+Qwen3-1.7B,1.7B,q1,full,recall,1.993,5.142,150,full SFT (Q2)
+gemma-3-1b,1.0B,base,full,recall,1.567,7.381,150,full SFT (Q2)
+gemma-3-1b,1.0B,q1,full,recall,1.467,7.551,150,full SFT (Q2)
