@@ -190,6 +190,40 @@ Leituras:
   custo** (params, memória, tempo), confirmando o valor de LoRA/QLoRA. QLoRA e o 4B
   (via SLURM) ficam como extensões (modelos maiores em 1 GPU).
 
+## Q4 - destilação de conhecimento (teacher -> student)
+
+Teacher = `Qwen3-8B` (gera Q&A sintético ancorado nos diários, estilo RAG); students
+= escada de modelos menores de boas fontes (`SmolLM2-135M/360M`, `Qwen2.5-0.5B`,
+`Qwen3-0.6B-Base`, `gemma-3-1b-pt`), destilados por response-based SFT nos dados do
+teacher. Benchmark de 100 perguntas (recall in-domain dos diários), juiz 0-5 e
+perplexidade da resposta. **Transfer ratio** = (distill - base)/(teacher - base) =
+fração do gap teacher-student fechado. Dados em `results/q4_distill.csv`.
+
+| Student | params | base juiz | distill juiz | transfer | base ppl | distill ppl |
+|---------|--------|-----------|--------------|----------|----------|-------------|
+| SmolLM2-135M | 135M | 0.07 | **0.34** | 0.46 | 22.2 | 19.9 |
+| SmolLM2-360M | 360M | 0.18 | **0.34** | 0.33 | 12.6 | 11.7 |
+| Qwen2.5-0.5B | 0.5B | 0.34 | **0.46** | 0.38 | 12.4 | **6.3** |
+| Qwen3-0.6B | 0.6B | 0.60 | 0.51 | base~teacher | 10.6 | **6.1** |
+| gemma-3-1b | 1.0B | 0.41 | **0.62** | **0.84** | 11.3 | **4.6** |
+
+(teacher `Qwen3-8B`: juiz 0.66, ppl 10.6.)
+
+Leituras:
+- **Houve transferência de conhecimento:** 4 dos 5 students sobem no juiz. O 135M vai
+  de ~0 (0.07) para 0.34, fechando 46% do gap teacher-student; o gemma fecha **84%**
+  do gap (0.41 -> 0.62, quase alcançando o teacher 0.66).
+- **A perplexidade da resposta despenca em todos** (135M 22->20; qwen2.5 12->6; gemma
+  11->4.6): os students absorveram a distribuição de respostas do teacher, o sinal
+  central da destilação.
+- **Lei de escala da destilação:** students mais fracos/menores têm mais espaço e
+  mostram transferência clara; o `Qwen3-0.6B` base já estava ~ teacher (0.60 vs 0.66),
+  sem gap a fechar, então a destilação não moveu o juiz (mas baixou muito a ppl).
+- **Ressalva:** o teacher (8B closed-book) marca só 0.66 neste recall difícil, um teto
+  fraco. Um teacher com RAG (recuperando os diários) elevaria o teto e a margem de
+  transferência (diferencial B). O logit-KD (`Qwen3-1.7B`->`0.6B`) roda para comparar
+  com o response-based.
+
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por
