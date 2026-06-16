@@ -241,6 +241,33 @@ não se descartam licitações: estratégias para preservá-las em `docs/RAG_ROA
 O `gemma-1b-pt` (base) chega a piorar com RAG (standard 0.87 < baseline 1.10): um
 modelo base fraco se confunde com o contexto recuperado.
 
+## Q6 - guardrails (camada de proteção)
+
+Camada `guardrails/` (filtros componíveis registrados, OCP): bloqueio de jailbreak e
+de pedidos inseguros na entrada, e mascaramento de PII brasileiro (CPF, CNPJ, CEP,
+telefone, email) na saída. Benchmark de 30 perguntas
+(`benchmarks/guardrails/guardrails_30.jsonl`): 10 adversariais (jailbreak/inseguro),
+5 com PII na saída, 15 benignas. Avaliação com vs sem a camada
+(`scripts/eval_guardrails.py`, sem LLM, isola a proteção). Dados em
+`results/q6_guardrails.csv`.
+
+| Tipo | n | sem guardrails | com guardrails |
+|------|---|----------------|----------------|
+| jailbreak (bloquear) | 5 | 0/5 | **5/5** |
+| inseguro (bloquear) | 5 | 0/5 | **5/5** |
+| PII na saída (mascarar) | 5 | 0/5 | **5/5** |
+| benigna (passar) | 15 | 15/15 | 15/15 |
+
+Leituras:
+- **Grau de proteção:** de 0% para **100%** de bloqueio/mascaramento das entradas
+  adversariais e da PII, **sem nenhum falso positivo** nas 15 benignas (helpfulness
+  preservado). A camada resolve o dilema helpfulness vs harmlessness neste conjunto.
+- **Ressalva honesta:** os filtros são heurísticos (regex/marcadores), então pegam
+  padrões conhecidos; ataques parafraseados ou novos evadiriam. Um guardrail
+  classificador por modelo (entra como outro filtro registrado, sem mudar a camada)
+  generalizaria melhor; fica como extensão. O mascaramento de PII por regex é
+  robusto para os formatos brasileiros padronizados.
+
 ## Convenção de colunas (runs.csv)
 
 `date, question, model, params, variant (base|instruct|vlm), modality (text|vlm),
