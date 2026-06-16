@@ -57,8 +57,10 @@ class ContinualPretrainTrainer(Trainer):
         optim: str = "adamw_torch",
         fsdp: str = "",
         fsdp_config: dict[str, Any] | None = None,
+        max_grad_norm: float = 1.0,
     ) -> None:
         self.output_dir = output_dir
+        self.max_grad_norm = max_grad_norm
         self.block_size = block_size
         self.num_train_epochs = num_train_epochs
         self.learning_rate = learning_rate
@@ -98,6 +100,7 @@ class ContinualPretrainTrainer(Trainer):
             "gradient_checkpointing": self.gradient_checkpointing,
             "optim": self.optim,
             "fsdp": self.fsdp,
+            "max_grad_norm": self.max_grad_norm,
         }
         if self.gradient_checkpointing:
             kwargs["gradient_checkpointing_kwargs"] = {"use_reentrant": False}

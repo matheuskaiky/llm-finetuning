@@ -62,8 +62,10 @@ class SupervisedFineTuneTrainer(Trainer):
         fsdp: str = "",
         fsdp_config: dict[str, Any] | None = None,
         peft: dict[str, Any] | None = None,
+        max_grad_norm: float = 1.0,
     ) -> None:
         self.output_dir = output_dir
+        self.max_grad_norm = max_grad_norm
         self.max_length = max_length
         self.num_train_epochs = num_train_epochs
         self.learning_rate = learning_rate
@@ -98,6 +100,7 @@ class SupervisedFineTuneTrainer(Trainer):
             "gradient_checkpointing": self.gradient_checkpointing,
             "optim": self.optim,
             "fsdp": self.fsdp,
+            "max_grad_norm": self.max_grad_norm,
         }
         if self.gradient_checkpointing:
             kwargs["gradient_checkpointing_kwargs"] = {"use_reentrant": False}
