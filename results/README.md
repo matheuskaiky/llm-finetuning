@@ -1,16 +1,47 @@
 # Resultados consolidados (ledger geral)
 
-Registro acumulado de todas as execuções de treino/avaliação do projeto, para o
-relatório e para comparar modelos e tamanhos sem perder corridas anteriores.
-Nenhum resultado é descartado: cada corrida vira uma linha aqui, mesmo as
-substituídas por modelos maiores depois.
+Registro acumulado de todas as execuções de treino/avaliação das 6 questões, para o
+relatório e para comparar modelos, tamanhos e métodos sem perder corridas anteriores.
+Nenhum resultado é descartado. Cada questão tem sua seção abaixo e um CSV próprio em
+`results/`; os números intrínsecos de cada corrida ficam em
+`benchmarks/<fase>/results/<antes|depois>/*.json` (git-ignored).
 
-- `runs.csv` - fonte de dados (uma linha por par modelo x conjunto de avaliação).
-- Esta tabela - leitura humana da mesma informação.
+## Visão geral (Q1-Q6)
 
-As métricas brutas por corrida continuam também em
-`benchmarks/<fase>/results/<antes|depois>/*.json` (git-ignored); este ledger é o
-índice versionado que sobrevive a elas.
+| Q | Tema | Status | Resultado principal | CSV |
+|---|------|--------|---------------------|-----|
+| Q1 | Pré-treino contínuo (full-param) | feito (0.6B, 1.7B, gemma; 4B na fila) | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv` |
+| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma; 4B na fila) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
+| Q3 | LoRA (PEFT) | feito | **LoRA iguala/supera o SFT pleno** treinando ~1.7% dos params | `q3_lora.csv` |
+| Q4 | Destilação teacher->student | feito | transferência: SmolLM2-135M 0.07->0.34, gemma 84% do gap; **logit-KD ~ response-based** | `q4_distill.csv`, `q4_methods.csv` |
+| Q5 | RAG (3 modos x motores) | feito (30B na fila) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos | `benchmark_rag_*.csv`, `q5_qualitativos.md` |
+| Q6 | Guardrails | feito | proteção **0->100%** das adversariais/PII, **0 falsos positivos** nas benignas | `q6_guardrails.csv` |
+
+Pendente (preso na fila do gpunode01, 2 GPUs): 4B da Q1 e Q2 e o motor 30B da Q5.
+Detalhes e leituras por questão abaixo.
+
+## Variação dos resultados (amplitude entre modelos/métodos)
+
+O projeto testou muitos modelos e abordagens; a dispersão dos resultados é parte da
+evidência. Amplitudes observadas (detalhe nas seções):
+
+- **Q1 (held-out ppl depois, menor melhor):** de **5.49** (gemma-3-1b-pt) a **6.88**
+  (Qwen3-0.6B); base antes 8.59-11.47. Base vs instruct sem treino: 0.6B 6.88 (base
+  FT) vs 16.30 (instruct); gemma 5.49 vs 28.21. Corpus cheio vs licitação-podado:
+  6.88 vs 7.16 (podar piora).
+- **Q2 (juiz 0-5 no recall):** SFT de **1.49** (0.6B) a **1.89** (1.7B); o ganho do
+  SFT sobre o base varia de **+0.9** (gemma, base fraco 0.67->1.57) a **~0** (Qwen,
+  base ja forte). ppl da resposta cai em todos (ex.: 1.7B 7.44->5.09).
+- **Q3 (LoRA vs SFT pleno, juiz):** LoRA vence ou empata em **5 de 6** casos; delta
+  de **+0.20** (0.6B base) a **-0.01**; ~1.7% dos params treinados.
+- **Q4 (transfer ratio):** de **0.33** (SmolLM2-360M) a **0.84** (gemma); juiz dos
+  students de 0.07 (135M base) a 0.66 (teacher 8B); ppl da resposta cai de ~5% a ~58%
+  conforme o student. Métodos response-based vs logit-KD: empate (0.51 vs 0.50).
+- **Q5 (juiz 0-5, modo standard):** por motor, de **0.73** (gemma-3-1b-pt base) a
+  **2.70** (Qwen3-8B); por modo no 8B, 2.60-2.70 (recuperação satura). Baseline sem
+  RAG ~1.1.
+- **Q6 (taxa com guardrails):** 100% nas 3 categorias adversariais (jailbreak,
+  inseguro, PII) e 0% de falso positivo nas benignas; sem guardrails, 0% de proteção.
 
 ## Q1 - pré-treino contínuo (full-parameter)
 
