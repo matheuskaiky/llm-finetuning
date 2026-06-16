@@ -1,0 +1,27 @@
+# Q4 response-based distillation: a student is SFT'd on the teacher's synthetic
+# diarios Q&A (data produced by build_sft_pairs with the Qwen3-8B teacher grounded
+# on the diarios corpus). Override --model-name/--output-dir per student.
+name: distill_diarios_response
+seed: 42
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/distill/diarios_distill_train.jsonl
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/distill_qwen3_0p6b
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.00002
+    per_device_train_batch_size: 4
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true

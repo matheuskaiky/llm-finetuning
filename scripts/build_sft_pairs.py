@@ -38,6 +38,20 @@ SYS = (
 )
 
 
+def _load_txt_dir(src_dir: Path, limit: int = 0) -> list[dict]:
+    """Read a directory of .txt files into ``[{"text": ...}]`` records."""
+    import glob
+
+    files = sorted(glob.glob(f"{src_dir}/*.txt"))
+    if limit:
+        files = files[:limit]
+    return [
+        {"text": Path(f).read_text(encoding="utf-8", errors="ignore"),
+         "nome_professor": Path(f).stem}
+        for f in files
+    ]
+
+
 def _load(src: Path, text_key: str) -> list[dict]:
     rows = []
     for line in src.read_text(encoding="utf-8").splitlines():
@@ -101,9 +115,19 @@ def main() -> None:
              "excluding the existing training questions (no exact leakage)",
     )
     parser.add_argument("--n-recall", type=int, default=150)
+    parser.add_argument(
+        "--src-txt-dir", type=Path, default=None,
+        help="read source texts from a directory of .txt files (e.g. the diarios "
+             "corpus for Q4) instead of the --src JSONL",
+    )
+    parser.add_argument("--src-txt-limit", type=int, default=0)
+    parser.add_argument("--out-prefix", default="docentes_sft",
+                        help="output file prefix (e.g. diarios_distill for Q4)")
     args = parser.parse_args()
 
-    records = clean_source_records(_load(args.src, "text"))
+    raw = (_load_txt_dir(args.src_txt_dir, args.src_txt_limit)
+           if args.src_txt_dir else _load(args.src, "text"))
+    records = clean_source_records(raw)
     rng = random.Random(args.seed)
     rng.shuffle(records)
     n_eval = int(len(records) * args.eval_fraction)
@@ -121,11 +145,11 @@ def main() -> None:
         # the training pairs (train_src in order; the train loop consumed its first
         # texts), excluding the exact training questions. The model saw this content
         # during SFT, so this measures recall of injected domain knowledge.
-        train_pairs = _load(args.out_dir / "docentes_sft_train.jsonl", "instruction")
+        train_pairs = _load(args.out_dir / f"{args.out_prefix}_train.jsonl", "instruction")
         recall = _generate(llm, train_src, args.n_recall, args.pairs_per_text,
                            args.max_source_chars, args.max_new_tokens, "recall",
                            exclude=train_pairs)
-        out = args.out_dir / "docentes_sft_recall.jsonl"
+        out = args.out_dir / f"{args.out_prefix}_recall.jsonl"
         with out.open("w", encoding="utf-8") as fh:
             for p in recall:
                 fh.write(json.dumps(p, ensure_ascii=False) + "\n")
@@ -139,7 +163,7 @@ def main() -> None:
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     for name, pairs in (("train", train_pairs), ("heldout", held_pairs)):
-        out = args.out_dir / f"docentes_sft_{name}.jsonl"
+        out = args.out_dir / f"{args.out_prefix}_{name}.jsonl"
         with out.open("w", encoding="utf-8") as fh:
             for p in pairs:
                 fh.write(json.dumps(p, ensure_ascii=False) + "\n")

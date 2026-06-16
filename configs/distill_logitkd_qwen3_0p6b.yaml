@@ -1,0 +1,30 @@
+# Q4 logit-KD: distill Qwen3-1.7B-Base (teacher) into Qwen3-0.6B-Base (student) via
+# KL(teacher||student) + CE on the same diarios synthetic data used by the
+# response-based distillation, so the two methods are comparable. Same vocab (Qwen3).
+name: distill_logitkd_qwen3_0p6b
+seed: 42
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/distill/diarios_distill_train.jsonl
+trainer:
+  type: logit_kd
+  params:
+    teacher_model: models/Qwen3-1.7B-Base
+    kd_alpha: 0.5
+    kd_temperature: 2.0
+    output_dir: outputs/distill_logitkd_qwen3_0p6b
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.00002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true

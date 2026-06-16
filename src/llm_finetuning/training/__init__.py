@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
+from .distill import LogitKDTrainer
 from .pretrain import ContinualPretrainTrainer
 from .sft import SupervisedFineTuneTrainer
 
-__all__ = ["ContinualPretrainTrainer", "SupervisedFineTuneTrainer"]
+__all__ = ["ContinualPretrainTrainer", "SupervisedFineTuneTrainer", "LogitKDTrainer"]
