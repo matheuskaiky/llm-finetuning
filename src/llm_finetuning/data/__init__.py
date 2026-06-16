@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .pdf_loader import PdfToTextLoader, normalize_text
+from .sft_pairs import SftPairsLoader
 from .text_corpus import TextCorpusLoader, chunk_token_ids
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "normalize_text",
     "TextCorpusLoader",
     "chunk_token_ids",
+    "SftPairsLoader",
 ]

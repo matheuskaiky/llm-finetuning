@@ -29,6 +29,12 @@ def _evaluate(model_bundle: object, eval_config: EvaluationConfig) -> dict[str, 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument(
+        "--model-name", help="override model.params.model_name (e.g. a Q1 checkpoint)"
+    )
+    parser.add_argument(
+        "--output-dir", help="override trainer.params.output_dir for this run"
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
@@ -36,6 +42,12 @@ def main() -> None:
 
     if config.model is None or config.dataset is None or config.trainer is None:
         raise SystemExit("config must define 'model', 'dataset' and 'trainer'")
+
+    # CLI overrides keep one config reusable across starting checkpoints/outputs.
+    if args.model_name:
+        config.model.params["model_name"] = args.model_name
+    if args.output_dir:
+        config.trainer.params["output_dir"] = args.output_dir
 
     # Under a distributed launch (torchrun/accelerate, WORLD_SIZE>1) the model is
     # FSDP-sharded inside the Trainer, so in-process before/after evaluation is not

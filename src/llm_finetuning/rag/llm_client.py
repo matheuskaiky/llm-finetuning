@@ -130,3 +130,66 @@ class LocalChatLLM:
             out = self._model.generate(**inputs, **gen_kwargs)
         new_tokens = out[0][inputs["input_ids"].shape[1] :]
         return tok.decode(new_tokens, skip_special_tokens=True).strip()
+
+    def complete(self, prompt: str, max_new_tokens: int | None = None) -> str:
+        """Raw text completion of ``prompt`` (no chat template).
+
+        Used to elicit answers from base and SFT models with the same instruction
+        template, so before/after comparison uses an identical prompt format.
+        """
+        import torch
+
+        self._ensure_loaded()
+        tok = self._tokenizer
+        inputs = tok(prompt, return_tensors="pt").to(self._model.device)
+        do_sample = self.temperature > 0
+        gen_kwargs: dict[str, Any] = {
+            "max_new_tokens": max_new_tokens or self.max_new_tokens,
+            "do_sample": do_sample,
+            "pad_token_id": tok.pad_token_id or tok.eos_token_id,
+        }
+        if do_sample:
+            gen_kwargs["temperature"] = self.temperature
+        with torch.no_grad():
+            out = self._model.generate(**inputs, **gen_kwargs)
+        new_tokens = out[0][inputs["input_ids"].shape[1] :]
+        return tok.decode(new_tokens, skip_special_tokens=True).strip()
+
+    def response_perplexity(self, prompt: str, output: str) -> float:
+        """Teacher-forced perplexity of ``output`` given ``prompt`` (response only).
+
+        Masks the prompt tokens so the loss covers only the reference response;
+        measures how well the model predicts the gold answer.
+        """
+        import math
+
+        import torch
+
+        self._ensure_loaded()
+        tok = self._tokenizer
+        prompt_ids = tok(prompt, add_special_tokens=True)["input_ids"]
+        output_ids = tok(output, add_special_tokens=False)["input_ids"]
+        if not output_ids:
+            return float("nan")
+        input_ids = torch.tensor([prompt_ids + output_ids], device=self._model.device)
+        labels = torch.tensor(
+            [[-100] * len(prompt_ids) + output_ids], device=self._model.device
+        )
+        with torch.no_grad():
+            loss = self._model(input_ids, labels=labels).loss
+        return float(math.exp(loss.item()))
+
+    def unload(self) -> None:
+        """Free the model/tokenizer and release GPU memory."""
+        import gc
+
+        self._model = None
+        self._tokenizer = None
+        gc.collect()
+        try:
+            import torch
+
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        except ImportError:
+            pass
