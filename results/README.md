@@ -355,11 +355,15 @@ Leituras:
 - **Grau de proteção:** de 0% para **100%** de bloqueio/mascaramento das entradas
   adversariais e da PII, **sem nenhum falso positivo** nas 15 benignas (helpfulness
   preservado). A camada resolve o dilema helpfulness vs harmlessness neste conjunto.
-- **Ressalva honesta:** os filtros são heurísticos (regex/marcadores), então pegam
-  padrões conhecidos; ataques parafraseados ou novos evadiriam. Um guardrail
-  classificador por modelo (entra como outro filtro registrado, sem mudar a camada)
-  generalizaria melhor; fica como extensão. O mascaramento de PII por regex é
-  robusto para os formatos brasileiros padronizados.
+- **Ressalva honesta (robustez adversarial medida):** os filtros são heurísticos
+  (regex/marcadores), então pegam padrões conhecidos. Num teste com 10 ataques
+  **parafraseados** (mesma intenção, redação fora da blocklist;
+  `benchmarks/guardrails/guardrails_adversarial.jsonl`,
+  `results/q6_adversarial.csv`), a taxa de bloqueio cai de 100% para **0%**: a camada
+  por regra é frágil a reformulações. Um guardrail classificador por modelo (entra
+  como outro filtro registrado, sem mudar a camada) generalizaria melhor; fica como
+  extensão. O mascaramento de PII por regex é robusto para os formatos brasileiros
+  padronizados.
 
 ## Convenção de colunas (runs.csv)
 
