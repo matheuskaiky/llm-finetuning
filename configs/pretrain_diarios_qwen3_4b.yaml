@@ -39,12 +39,12 @@ trainer:
     logging_steps: 20
     bf16: true
     gradient_checkpointing: true
-    optim: adamw_torch
-    # FSDP CPU offload puts grads on CPU; grad-norm clipping then needs a CPU
-    # backend (gloo) that is not initialized, raising "No backend type ... cpu".
-    # Disable clipping (low LR makes it unnecessary) so the offload path works.
-    max_grad_norm: 0
-    fsdp: "full_shard auto_wrap offload"
+    optim: adamw_bnb_8bit
+    # 4B full FT fits 2x L4 with FSDP full_shard + 8-bit Adam (adamw_bnb_8bit,
+    # ~15 GB/GPU) WITHOUT CPU offload. Offload was dropped: it puts grads on CPU
+    # and the distributed grad-norm reduction needs a gloo backend (not init'd),
+    # failing with 'No backend type ... cpu'. No offload -> grads on GPU -> NCCL ok.
+    fsdp: "full_shard auto_wrap"
     fsdp_config:
       transformer_layer_cls_to_wrap: ["Qwen3DecoderLayer"]
       state_dict_type: FULL_STATE_DICT
