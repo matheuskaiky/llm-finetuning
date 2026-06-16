@@ -1,0 +1,13 @@
+model,family,params,start,condition,eval_set,mean_judge,mean_resp_ppl,n,notes
+Qwen3-0.6B-Base,qwen3,0.6B,base,antes,recall,1.493,9.293,150,base before SFT
+Qwen3-0.6B-Base,qwen3,0.6B,base,sft,recall,1.493,6.442,150,SFT from base
+Qwen3-0.6B-Base,qwen3,0.6B,q1,sft,recall,1.607,6.758,150,SFT from Q1 continued-pretrain checkpoint
+Qwen3-1.7B-Base,qwen3,1.7B,base,antes,recall,1.880,7.438,150,base before SFT
+Qwen3-1.7B-Base,qwen3,1.7B,base,sft,recall,1.893,5.088,150,SFT from base
+Qwen3-1.7B-Base,qwen3,1.7B,q1,sft,recall,1.993,5.142,150,SFT from Q1 continued-pretrain checkpoint
+gemma-3-1b-pt,gemma3,1.0B,base,antes,recall,0.673,10.950,150,base before SFT (weak instruction follower)
+gemma-3-1b-pt,gemma3,1.0B,base,sft,recall,1.567,7.381,150,SFT from base
+gemma-3-1b-pt,gemma3,1.0B,q1,sft,recall,1.467,7.551,150,SFT from Q1 continued-pretrain checkpoint
+Qwen3-0.6B-Base,qwen3,0.6B,base,antes,disjoint,1.767,11.355,150,base; disjoint-content held-out (generalization)
+Qwen3-0.6B-Base,qwen3,0.6B,base,sft,disjoint,1.767,10.049,150,SFT from base; disjoint-content held-out
+Qwen3-0.6B-Base,qwen3,0.6B,q1,sft,disjoint,1.667,9.407,150,SFT from Q1 checkpoint; disjoint-content held-out

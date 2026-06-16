@@ -1,0 +1,44 @@
+# Q5 GraphRAG over a bounded subset of the diarios corpus.
+# Build:  python scripts/build_rag_index.py --config configs/rag_diarios.yaml
+# Eval:   python scripts/eval_rag.py --config configs/rag_diarios.yaml
+name: rag_diarios_dedup
+seed: 42
+graph_max_chunks: 100
+
+source:
+  src_dir: data/raw/dom-pi-corpus-2025
+  config: curated
+  limit: 150
+  skip: 0
+  min_tokens: 64
+
+chunking:
+  dedup_near: true
+  chunk_size: 1200
+  overlap: 200
+
+embedder:
+  model_name: BAAI/bge-m3
+  device: cuda
+  batch_size: 32
+
+llm:
+  # Qwen3-8B instruct in bf16 on a single L4 (~16 GB, fits 24 GB with no quant).
+  # Chosen for speed: the 30B FP8 runs but only ~28 s/generation (naive
+  # model-parallel; tensor-parallel/vLLM needs NCCL, blocked by the driver), and
+  # bitsandbytes 8-bit adds dequant overhead. Native bf16 is the fast path. The 30B
+  # variant is kept in configs/rag_diarios_qwen3_30b.yaml for when multi-GPU is
+  # fixed. Run single-GPU: CUDA_VISIBLE_DEVICES=0
+  model_name: models/Qwen3-8B
+  device: cuda
+  max_new_tokens: 512
+  temperature: 0.0
+
+index:
+  vector_dir: data/processed/rag/diarios_dedup_faiss
+  graph_path: data/processed/rag/diarios_dedup_graph.json
+
+agent:
+  top_k_vector: 5
+  max_graph_hops: 2
+  max_reflections: 2

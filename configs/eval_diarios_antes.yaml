@@ -1,0 +1,16 @@
+# Q1 (pre-treino) benchmark evaluation BEFORE the continued pre-training (antes).
+# Intrinsic metrics over the diarios Q&A set; compare with eval_diarios_depois.
+name: eval_diarios_antes
+seed: 42
+
+model:
+  type: local
+  params:
+    # Base model before any domain adaptation; swap for the chosen LLM.
+    model_name: gpt2
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 512
+  output_path: benchmarks/pre_treino/results/antes/eval.json

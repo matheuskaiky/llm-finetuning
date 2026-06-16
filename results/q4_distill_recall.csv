@@ -1,0 +1,12 @@
+model,mean_judge,mean_resp_ppl,n
+teacher_qwen3_8b,0.66,10.557,100
+base_smollm135,0.07,22.219,100
+distill_smollm135,0.34,19.912,100
+base_smollm360,0.18,12.605,100
+distill_smollm360,0.34,11.735,100
+base_qwen2p5,0.34,12.434,100
+distill_qwen2p5,0.46,6.261,100
+base_qwen3_0p6,0.6,10.558,100
+distill_qwen3_0p6,0.51,6.116,100
+base_gemma,0.41,11.258,100
+distill_gemma,0.62,4.602,100

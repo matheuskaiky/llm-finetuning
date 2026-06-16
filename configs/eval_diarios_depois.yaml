@@ -1,0 +1,16 @@
+# Q1 (pre-treino) benchmark evaluation AFTER the continued pre-training (depois).
+# Same benchmark as eval_diarios_antes; point model_name at the trained checkpoint.
+name: eval_diarios_depois
+seed: 42
+
+model:
+  type: local
+  params:
+    # Checkpoint produced by the continued pre-training run (see pretrain_diarios.yaml).
+    model_name: outputs/pretrain_gpt2_diarios
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 512
+  output_path: benchmarks/pre_treino/results/depois/eval.json

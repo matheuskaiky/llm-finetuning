@@ -1,0 +1,30 @@
+{"question": "Qual o valor da previdência do regime estatutário no trecho?", "expected_answer": "1.861.000,00", "type": "factual"}
+{"question": "Qual é a data de início do contrato segundo a Cláusula Nona?", "expected_answer": "01/02/2025", "type": "factual"}
+{"question": "Qual o número do contrato administrativo mencionado no extrato?", "expected_answer": "01", "type": "factual"}
+{"question": "Qual o CNPJ do fornecedor TIAGO S DA SILVA-EPP mencionado no trecho?", "expected_answer": "30.193.806/0001-04", "type": "factual"}
+{"question": "A partir de quando o reequilíbrio será concedido conforme o parágrafo décimo?", "expected_answer": "Data do protocolo do pedido", "type": "factual"}
+{"question": "Qual é a lei que prevê as sanções para não cumprimento das obrigações estabelecidas na ata?", "expected_answer": "Lei n° 14.133, de 2021", "type": "factual"}
+{"question": "Qual o valor total da compra de 'ABRACADEIRA GRANDE'?", "expected_answer": "R$26, 00", "type": "factual"}
+{"question": "Qual é o nome do setor responsável por emitir parecer sobre a legalidade da concessão de benefício?", "expected_answer": "Setor Juridico da Câmara Municipal", "type": "factual"}
+{"question": "Qual é o valor total do custo por exercício do programa?", "expected_answer": "3.387.393,37", "type": "factual"}
+{"question": "Qual é a data em que o trecho foi registrado?", "expected_answer": "26 de janeiro de 1994", "type": "factual"}
+{"question": "Qual o número do Decreto Municipal referenciado no trecho?", "expected_answer": "039/2021", "type": "factual"}
+{"question": "Qual o valor total a ser pago pelo GRUPO FORMAL com Recursos Próprios?", "expected_answer": "34.402,00", "type": "factual"}
+{"question": "Qual é o número do projeto de lei mencionado no trecho?", "expected_answer": "01/2025", "type": "factual"}
+{"question": "Qual é o tema central da Conferência Municipal dos Direitos da Pessoa Idosa?", "expected_answer": "Envelhecimento Multicultural e Democracia: Urgencia por Equidade, Direitos e Participacao", "type": "factual"}
+{"question": "Quantos cargos de provimento efetivo são mencionados no trecho?", "expected_answer": "02", "type": "factual"}
+{"question": "Qual é o limite máximo para as aquisições ou contratações adicionais por órgão ou entidade?", "expected_answer": "cinquenta por cento dos quantitativos dos itens do instrumento convocatório", "type": "factual"}
+{"question": "Qual é o número da lei federal que regulamenta os contratos celebrados em decorrência do Registro de Preços?", "expected_answer": "14.133", "type": "factual"}
+{"question": "Qual é o CNPJ da Prefeitura Municipal de Jatobá do Piauí?", "expected_answer": "10.612.557 / 0001-46", "type": "factual"}
+{"question": "De qual fundo municipal de saúde as transferências do Governo Federal são direcionadas?", "expected_answer": "Fundo Municipal de Saúde", "type": "multihop"}
+{"question": "Qual é a ação final resultante da transferência do bloco de M1 para a manutenção das ações de atenção básica?", "expected_answer": "MANUTENÇÃO DAS AÇÕES DE ATENÇÃO BÁSICA", "type": "multihop"}
+{"question": "Qual secretaria municipal recebeu os serviços prestados pela empresa +GESTOR GOV'IECH LTDA, que foi contratada pela Prefeitura Municipal de Patos do Piauí?", "expected_answer": "SECRETARIA MUNICIPAL DE SAÚDE PATOS DO PIAUÍ", "type": "multihop"}
+{"question": "Qual é a função que a Secretaria Municipal de Educação de Riacho Frio-PI atribuiu ao cargo ocupado por Lucas Gabriel dos Santos Magalhaes Rocha?", "expected_answer": "Monitora Escolar Avangado", "type": "multihop"}
+{"question": "Qual foi o processo licitatório realizado pela representante Danielly de Sousa Lima?", "expected_answer": "PREGÃO ELETRÔNICO 034/2025", "type": "multihop"}
+{"question": "Qual é a secretaria responsável pela assistência social na prefeitura de Francisco Apolinário Costa Moraes?", "expected_answer": "Secretaria de Assistência Social", "type": "multihop"}
+{"question": "Quem é o cargo que Raímundo Nonato Gomes de Oliveira nomeou para exercer?", "expected_answer": "Diretor Administrativo", "type": "multihop"}
+{"question": "Qual é o documento gerenciado pela secretaria municipal de administração representada por Danielly de Sousa Lima?", "expected_answer": "REQUISIÇÃO DE REGISTRO DE PREÇOS N2 032/2025", "type": "multihop"}
+{"question": "Quem é o CNPJ da pessoa contratada por Danielly de Sousa Lima?", "expected_answer": "R CNPJ MAYRA LIMA", "type": "multihop"}
+{"question": "Qual é o setor econômico que recebe transferências provenientes de um bloco de M1 e, por sua vez, realiza transferências para o setor de serviços?", "expected_answer": "SERVIÇOS DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO", "type": "multihop"}
+{"question": "Qual programa de saúde é financiado por meio de MANUTENÇÃO a partir do Fundo de Recursos do SUS?", "expected_answer": "Saúde da Família", "type": "multihop"}
+{"question": "Qual foi o resultado da contratação feita pela Prefeitura Municipal de Riacho Frio?", "expected_answer": "LICITACAO", "type": "multihop"}

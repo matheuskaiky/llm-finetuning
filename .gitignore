@@ -8,6 +8,12 @@ TEAM.md
 PENDENCIAS.md
 NOTAS.md
 PENSAMENTO_*.md
+EXPLICACAO_PROFESSOR.md
+SLIDES_BENCHMARK.md
+docs/SUPORTE_INFRA_MULTIGPU.md
+docs/ROADMAP_GERAL.md
+docs/JOBS_QUEUE.md
+docs/planos/
 
 # --- Datasets & artifacts ---
 data/*
@@ -23,11 +29,15 @@ data/*
 *.pt
 *.pth
 *.gguf
-checkpoints/
-outputs/
-models/
-runs/
+# Anchored to repo root so these match only the top-level artifact dirs, not
+# same-named source packages (e.g. src/llm_finetuning/models/).
+/checkpoints/
+/outputs/
+/models/*
+/runs/
 benchmarks/results/
+# Per-question benchmark result outputs (keep the dir + .gitkeep, ignore the JSON).
+benchmarks/*/results/**/*.json
 
 # --- Tooling cache artifacts (Hugging Face cache leaking into cwd, etc.) ---
 hub/
@@ -73,3 +83,4 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+logs/

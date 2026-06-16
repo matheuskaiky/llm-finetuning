@@ -42,7 +42,7 @@ llm-finetuning/
 ├── configs/             # Configuração YAML (modelos/métodos/ambiente). Habilita o OCP.
 ├── data/                # Datasets brutos e processados. NÃO versionado.
 ├── models/              # Pesos baixados do HF Hub. NÃO versionado.
-├── benchmarks/          # Conjuntos de perguntas de avaliação (Q1>=25, Q4=100, Q5=30, Q6=30).
+├── benchmarks/          # Conjuntos de avaliação. Organizados por fase: pre_treino/ (Q1) e pos_treino/ (Q2/Q3); demais por questão (Q4=100, Q5=30, Q6=30).
 ├── notebooks/           # Experimentos exploratórios (Jupyter).
 ├── scripts/             # Entrypoints de CLI (train/eval/rag/...).
 ├── tests/               # Testes (pytest).
@@ -57,6 +57,11 @@ llm-finetuning/
 >   código. É o ponto de extensão central (OCP): um novo experimento = nova config.
 > - **`data/`** - datasets locais (ignorados pelo Git por tamanho/licença).
 > - **`benchmarks/`** - perguntas + respostas de referência usadas na avaliação.
+>   Separados por fase de treino: `pre_treino/` (Q1, diários) e `pos_treino/`
+>   (Q2/Q3, docentes, a construir). Dentro de cada fase, a avaliação é antes e
+>   depois do treino daquela fase (`results/antes/`, `results/depois/`). A da Q1 é
+>   apenas o antes/depois do pré-treino, sem envolver o pós. As tasks seguem o LM
+>   Eval Harness (YAML declarativo), conforme `SLIDES_BENCHMARK.md`.
 > - **`notebooks/`** - exploração rápida; código estável migra para `src/`.
 > - **`scripts/`** - finos invólucros de CLI que apenas leem uma config e chamam `src/`.
 > - **`tests/`** - testes unitários/integração das abstrações e utilitários.
@@ -76,11 +81,11 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (Q&A, splits a seguir.)
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (docente: dataset oficial do Hub; Q&A e splits a seguir.)
 ├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
-├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1). SFT/LoRA/distill a seguir.
-├── rag/           # [ ] RagPipeline: retriever + generator (Standard/Agentic/Self-Reflective).
+├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1), SupervisedFineTuneTrainer (Q2, loss so na resposta). LoRA/QLoRA (Q3) e distill a seguir.
+├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client, extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), agent (LangGraph self-reflexivo), pipelines (modos Standard/Agentic como RagRunner + registro), judge, doc_select (deteccao/balanceamento de licitacoes).
 └── guardrails/    # [ ] GuardrailLayer: filtros de entrada/saída componíveis.
 ```
 
@@ -101,10 +106,17 @@ resolvidos por `instantiate(registry, ComponentSpec)` a partir do YAML.
 - **`Evaluator` / `Metric`** - `evaluate(model, benchmark) -> dict[str, float]`.
   Métricas: `Perplexity`, `CrossEntropy`, `TokenAccuracy`, `QABenchmark`.
 - **`DatasetLoader`** - `load() -> Dataset`. Inclui `PdfToTextLoader`,
-  `QAPairGenerator` (gera os >=1.000 pares para SFT).
+  `TextCorpusLoader` e, a seguir, `QAPairGenerator` (gera os >=1.000 pares da Q2 a
+  partir do dataset docente oficial `vickminari/docentesDC`).
 - **`Registry` / `build_from_config`** - mapeia chaves de config -> classes,
   permitindo registrar novas implementações sem editar o núcleo (OCP).
-- **`RagPipeline`** - composição `Retriever` + `Generator` + (opcional) `Reflector`.
+- **`RagPipeline`** (Q5, implementado no pacote `rag/`) - `Retriever` (Protocol)
+  com `VectorRetriever` (FAISS + bge-m3) e `GraphRetriever` (KG NetworkX);
+  `LocalChatLLM` como motor trocável por config (8B bf16 single-GPU, ou 30B FP8
+  multi-GPU via `device_map`); agente LangGraph self-reflexivo
+  (Analyzer/Router -> Retrieve -> Generate -> Critic, com loop de reflexão). A
+  config é `RagConfig` (no próprio pacote, sem tocar no `core`), dirigida por
+  `configs/rag_*.yaml`. Scripts: `build_rag_index`, `make_rag_benchmark`, `eval_rag`.
 - **`GuardrailLayer`** - cadeia componível de filtros de entrada/saída.
 
 ## 4. Convenções
@@ -140,6 +152,13 @@ Heurística para remover cabeçalhos/rodapés de diários: conta as linhas que s
 repetem em pelo menos `boilerplate_threshold` das páginas (mínimo de 2) e as
 descarta. Desativada quando há menos de 3 páginas ou `threshold >= 1.0`.
 
+### Corpus docente (dataset oficial do Hub)
+O dataset docente passou a ser o oficial pre-processado em Hugging Face
+(`vickminari/docentesDC`): 13.762 registros com campos `text` e `nome_professor`,
+em `data/raw/docentesDC/` (jsonl + parquet). A extracao propria do SIGAA
+(`DocenteExtractor`, triagem + dedup) foi removida do codigo: o dataset chega pronto
+e a geracao de pares Q&A da Q2 parte direto desse formato.
+
 ### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
 Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com
 EOS entre eles) e divididos em blocos de `block_size` tokens. O resto final menor
@@ -173,19 +192,24 @@ env separado, sem sujar o base.
 **Hardware de referência.** Máquina de desenvolvimento com 2x NVIDIA L4 (24 GB
 cada, ~48 GB no total), que suportam bf16 e FP8. Sem NVLink: modelos maiores que
 24 GB precisam ser shardados entre as duas GPUs (tensor-parallel na inferência;
-ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML podem falhar por
-mismatch de driver, mas o CUDA compute funciona normalmente.
+ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML falham por mismatch de
+driver; o CUDA compute de uma placa funciona normalmente, mas o treino multi-GPU
+via NCCL não inicializa (a NCCL chama `nvmlInit` e aborta), então hoje só roda
+single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
 
 **Modelo e dataset escolhidos.**
 
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
-| LLM base | `Qwen/Qwen3.5-9B` | 9B bf16 (~18 GB); cabe em uma L4. Escolhido por margem de segurança sobre o 27B. |
-| Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. |
-| Dataset docente | Google Drive (zip por grupo) | `docentesDC`/SIGAA. Pasta: drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K. Estrutura aninhada `TIA-Dados_Professores/grupoN/grupoN.zip`, arquivos por professor (`professor/ano/mes/dia/arquivo`). Q2/Q3/Q5. |
+| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU); 4B pronto mas pendente do multi-GPU. Texto puro, vocab 151936. |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
+| Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
+| Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. Variante balanceada (licitações podadas) só para diagnóstico. |
+| Dataset docente | `vickminari/docentesDC` (HF) | Dataset oficial pre-processado do grupo responsavel: 13.762 registros, campos `text` e `nome_professor`. Em `data/raw/docentesDC/` (jsonl + parquet). Substitui o SIGAA bruto e a extracao propria (removida). Q2/Q3/Q5. |
 
-Treino do 9B nas 2 L4: full fine-tune só com DeepSpeed ZeRO-3 + offload (lento); o
-caminho prático é **LoRA/QLoRA**.
+Q1 é full-parameter, limitada por memória: 0.6B cabe numa L4; ~1.7B com FSDP ou
+AdamW 8-bit; ~4B no teto (FSDP + activation checkpointing); 9B full-parameter não
+cabe nas 2x L4 e fica para LoRA/QLoRA (Q3). Modelos base, não instruct, em Q1-Q3.
 
 **Download dos assets.** IDs vêm do `.env` (`BASE_MODEL_ID`, `DATASET_ID`).
 `scripts/download_assets.py` baixa modelo (para `models/`) e dataset (para
@@ -195,9 +219,7 @@ caminho prático é **LoRA/QLoRA**.
 uv run python scripts/download_assets.py --all
 ```
 
-O dataset docente vem de uma pasta do Google Drive (zip por grupo). Os links
-diretos do Takeout sao presos a sessao do navegador e nao funcionam server-side:
-baixar pelo navegador (ou `gdown` se a pasta for "qualquer pessoa com o link") e
-colocar os zips em `data/raw/docentesDC-sigaa/`. A extracao achata a camada
-`grupoN`, deixando as pastas por professor no topo e os zips originais em
-`_archives/`. Ver `README.md`.
+O dataset docente vem do Hub (`vickminari/docentesDC`, dataset oficial
+pre-processado). Baixar com `huggingface_hub.snapshot_download(repo_id=
+"vickminari/docentesDC", repo_type="dataset", local_dir="data/raw/docentesDC")`.
+Ver `README.md`.

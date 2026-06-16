@@ -1,0 +1,17 @@
+# Q1 held-out perplexity (gazette text disjoint from training), AFTER training.
+# Same held-out set as *_antes; model is the continued-pretraining checkpoint.
+name: eval_diarios_heldout_depois
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: outputs/pretrain_qwen3_0p6b_diarios
+    dtype: bfloat16
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: data/processed/diarios_heldout.jsonl
+  max_length: 512
+  stride: 0
+  output_path: benchmarks/pre_treino/results/depois/heldout.json

@@ -77,28 +77,24 @@ uv run python scripts/download_assets.py --model
 uv run python scripts/download_assets.py --dataset
 ```
 
-### Docente dataset (docentesDC / SIGAA, Google Drive)
+### Docente dataset (docentesDC, official Hugging Face dataset)
 
-Source folder (one `.zip` per group, nested as
-`TIA-Dados_Professores/grupoN/grupoN.zip`, each grouping files per professor):
-
-<https://drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K>
-
-Download it through the browser (the Takeout direct links are session-bound and
-do not work with `curl`/`wget` from a server) and place the `.zip` parts in
-`data/raw/docentesDC-sigaa/`. If the folder is shared as "anyone with the link",
-`gdown` also works:
+The official, pre-processed dataset is on the Hub at `vickminari/docentesDC`
+(13,762 records, fields `text` and `nome_professor`). It supersedes the earlier
+SIGAA scrape that this repo used to extract itself.
 
 ```bash
-uvx gdown --folder "https://drive.google.com/drive/folders/1aDoEszVYDH1-nNoskLSMCfNLN_cjV16K" -O data/raw/docentesDC-sigaa
+.venv/bin/python - <<'PY'
+import os
+from huggingface_hub import snapshot_download
+snapshot_download(repo_id="vickminari/docentesDC", repo_type="dataset",
+                  local_dir="data/raw/docentesDC", token=os.environ.get("HF_TOKEN"))
+PY
 ```
 
-Then extract, flattening the `grupoN` layer so the tree is `professor/year/...`:
-
-```bash
-# (see the extraction step used in data/raw/docentesDC-sigaa: outer parts ->
-# inner grupoN.zip -> professor folders at the top level; originals kept in _archives/)
-```
+Files land in `data/raw/docentesDC/` (`docentesDC.jsonl`, `docentesDC.parquet`).
+The earlier `DocenteExtractor` SIGAA pipeline was removed from the code base; the
+official dataset arrives pre-processed.
 
 ## Branch policy
 

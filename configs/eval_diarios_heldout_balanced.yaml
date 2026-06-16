@@ -1,0 +1,18 @@
+# Q1 held-out perplexity on the licitacao-balanced held-out set (same skip-2000
+# disjoint pool as diarios_heldout.jsonl, with licitacao downsampled 50%, seed 42).
+# Use --model-name / --output-path overrides to evaluate each checkpoint.
+name: eval_diarios_heldout_balanced
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: data/processed/diarios_heldout_balanced.jsonl
+  max_length: 512
+  stride: 0
+  output_path: benchmarks/pre_treino/results/antes/heldout_balanced.json

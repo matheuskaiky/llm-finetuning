@@ -1,0 +1,4 @@
+model,mean_judge,mean_resp_ppl,n
+base,0.673,10.95,150
+sft_base,1.567,7.381,150
+sft_q1,1.467,7.551,150

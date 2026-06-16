@@ -29,6 +29,6 @@ trainer:
 
 evaluation:
   metrics: [perplexity, cross_entropy, token_accuracy]
-  benchmark: benchmarks/diarios_qa.jsonl
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
   max_length: 512
-  output_path: benchmarks/results/pretrain_diarios.json
+  output_path: benchmarks/pre_treino/results/depois/pretrain_diarios.json

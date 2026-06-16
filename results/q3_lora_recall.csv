@@ -1,0 +1,5 @@
+model,mean_judge,mean_resp_ppl,n
+lora_0p6b_base,1.693,6.289,150
+lora_0p6b_q1,1.6,6.394,150
+lora_1p7b_base,2.053,5.083,150
+lora_1p7b_q1,2.113,5.094,150

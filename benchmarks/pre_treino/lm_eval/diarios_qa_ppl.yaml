@@ -1,0 +1,17 @@
+# LM Eval Harness task: intrinsic metrics over the diarios Q&A reference set.
+# Q1 metrics: perplexity and bits_per_byte (proxy for cross-entropy). Same task is
+# run antes/depois do pre-treino continuo; results go to results/pre and results/pos.
+task: diarios_qa_ppl
+dataset_path: json
+dataset_kwargs:
+  data_files: benchmarks/pre_treino/diarios_qa.jsonl
+output_type: loglikelihood_rolling
+test_split: train
+doc_to_text: ""
+doc_to_target: "{{instruction}} {{output}}"
+metric_list:
+  - metric: word_perplexity
+  - metric: byte_perplexity
+  - metric: bits_per_byte
+metadata:
+  version: 1.0

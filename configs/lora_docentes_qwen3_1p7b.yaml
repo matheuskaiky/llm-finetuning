@@ -1,0 +1,31 @@
+# Q3 LoRA SFT of Qwen3-1.7B-Base on the docentesDC pairs (PEFT, merged on save).
+name: lora_docentes_qwen3_1p7b
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-1.7B-Base
+    dtype: bfloat16
+
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/sft/docentes_sft_train.jsonl
+
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/lora_qwen3_1p7b_base
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.0002
+    per_device_train_batch_size: 4
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    peft:
+      r: 16
+      alpha: 32
+      dropout: 0.05

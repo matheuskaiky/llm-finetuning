@@ -1,0 +1,44 @@
+# Q2 SFT of Qwen3-4B-Base on the docentesDC instruction pairs (full-parameter,
+# completion-only loss). Like the Q1 4B run, 4B does not fit one L4: FSDP
+# full_shard + CPU offload over 2 GPUs. Launch via SLURM (2 GPUs) with torchrun.
+# A/B override (Q1 checkpoint comes from job 399):
+#   torchrun --nproc_per_node=2 scripts/train.py \
+#     --config configs/sft_docentes_qwen3_4b.yaml \
+#     --model-name outputs/pretrain_qwen3_4b_diarios \
+#     --output-dir outputs/sft_qwen3_4b_q1
+name: sft_docentes_qwen3_4b
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-4B-Base
+    dtype: bfloat16
+
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/sft/docentes_sft_train.jsonl
+
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/sft_qwen3_4b_base
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.00002
+    per_device_train_batch_size: 1
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
+    optim: adamw_bnb_8bit
+    # 4B full FT fits 2x L4 with FSDP full_shard + 8-bit Adam (adamw_bnb_8bit,
+    # ~15 GB/GPU) WITHOUT CPU offload. Offload was dropped: it puts grads on CPU
+    # and the distributed grad-norm reduction needs a gloo backend (not init'd),
+    # failing with 'No backend type ... cpu'. No offload -> grads on GPU -> NCCL ok.
+    fsdp: "full_shard auto_wrap"
+    fsdp_config:
+      transformer_layer_cls_to_wrap: ["Qwen3DecoderLayer"]
+      state_dict_type: FULL_STATE_DICT

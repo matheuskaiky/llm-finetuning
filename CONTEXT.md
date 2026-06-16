@@ -20,7 +20,7 @@ real: código desacoplado, configurável e reprodutível.
 | Dataset | Conteúdo | Uso principal |
 |---------|----------|---------------|
 | `diariosPrefeituras` | Diários oficiais das prefeituras (PDF -> `.txt`). | Pré-treino contínuo (Q1) e RAG (Q5). |
-| `docentesDC` | Dados de docentes do Departamento de Computação (`.txt`). | Geração de pares Q&A para SFT/LoRA (Q2, Q3) e RAG (Q5). |
+| `docentesDC` | Dados de docentes do Departamento de Computação. Dataset oficial pré-processado do grupo responsável em Hugging Face (`vickminari/docentesDC`): 13.762 registros com campos `text` e `nome_professor` (slides, fragmentos de código, artigos, notas de aula). Em `data/raw/docentesDC/` (jsonl + parquet). Substitui a extração própria via `DocenteExtractor`/SIGAA, removida do código. | Geração de pares Q&A para SFT/LoRA (Q2, Q3) e RAG (Q5); pode servir ao pré-treino contínuo (Q1). |
 
 > **Artefatos compartilhados (ver `tarefa.md`).** Alguns itens são de uso geral,
 > produzidos uma única vez pelo grupo responsável e consumidos por todos. O nosso
@@ -39,11 +39,30 @@ real: código desacoplado, configurável e reprodutível.
 
 | Item | Escolha | Observação |
 |------|---------|------------|
-| LLM base | `Qwen/Qwen3.5-9B` | 9B bf16 (~18 GB), multilíngue; tamanho com margem para as 2 GPUs L4 da máquina. |
+| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B e 1.7B feitos; 4B pendente do multi-GPU). |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, 1 L4) | Instruct de texto puro para extração de grafo, geração e juiz. Variante maior `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (2 L4, MoE) reservada para quando o multi-GPU (NCCL) for corrigido. Embeddings: `BAAI/bge-m3`. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` | Diário Oficial dos Municípios do Piauí 2025 (parquet, ~195M tokens). |
+
+> **Princípio base vs instruct (Q1-Q3).** Partimos de modelos **base** (só
+> pré-treino, sem pós-treino de chat) nas questões 1 a 3, para que a comparação
+> antes/depois meça o efeito do *nosso* treino e não o alinhamento de fábrica de um
+> instruct. Os modelos instruct/multimodais ficam para inferência, RAG e destilação.
 
 Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
 `README.md` e a seção 7 do `PROJECT_CONTEXT.md`.
+
+> **Modelo da Q1 (pré-treino contínuo).** A Q1 é full-parameter (treina todos os
+> pesos), então o tamanho é limitado pela memória das 2x L4 (48 GB). Regra prática
+> (AdamW, ~16 bytes/param entre pesos, gradiente e estados): 0.6B e 1.7B cabem full
+> fine-tune em uma única L4 (1.7B com activation checkpointing); 4B em diante
+> precisaria dividir os estados entre as duas placas (FSDP). A Q1 usa a família
+> densa de texto `Qwen/Qwen3-*-Base` como escada de tamanho: `Qwen3-0.6B-Base` e
+> `Qwen3-1.7B-Base` (feitos, single-GPU). O `Qwen3-4B-Base` está pronto (config e
+> pipeline FSDP), mas bloqueado: o treino multi-GPU via NCCL não inicializa nesta
+> máquina porque a NVML está quebrada (driver/library version mismatch, o mesmo
+> defeito do `nvidia-smi`); pedido de suporte em `docs/SUPORTE_INFRA_MULTIGPU.md`.
+> Os VLM grandes (`Qwen3.5-9B-Base`, `Qwen3.5-35B-A3B-Base`) ficam para a Q3 (PEFT
+> em 4-bit) e RAG/inferência. Ver `NOTAS.md` e `results/`.
 
 ## 2. Escopo macro (as 6 frentes)
 
@@ -116,8 +135,9 @@ da reprodutibilidade e da clareza da análise antes/depois, não só de "rodar".
 | Relatório técnico | `docs/RELATORIO.md` (e PDF exportado) | metodologia + resultados + análise por questão (Q1-Q6). |
 | Notebooks de demonstração | `notebooks/` | um por questão (ou um geral), reproduzindo os experimentos. |
 | Datasets gerados | `data/` (local) + links | pares Q&A (Q2), dataset sintético (Q4); grandes, fora do Git. |
-| Benchmarks | `benchmarks/*.jsonl` | Q1 (>=25), Q4 (100), Q5 (30), Q6 (30), versionados. |
-| Resultados de avaliação | `benchmarks/results/*.json` + tabelas no relatório | JSON bruto (gerado) e tabela consolidada no relatório. |
+| Benchmarks | `benchmarks/` | Organizados por fase: `pre_treino/` (Q1, >=25; antes/depois do pré-treino) e `pos_treino/` (Q2/Q3, a construir). `rag/` (Q5, 30 perguntas factual+multi-hop). Q4 (100), Q6 (30). Versionados. |
+| Resultados de avaliação | `results/runs.csv` + `results/README.md` + `results/benchmark_rag_*.csv` | Ledger versionado (Q1 escada/cross-family; Q5 ablação 3 modos x motores). JSON bruto por corrida em `benchmarks/*/results/` (git-ignored). |
+| Roadmap/decisões do RAG | `docs/RAG_ROADMAP.md` | Estratégias para licitações (índices segmentados + roteador, dedup, MMR) e plano de testar fine-tuned (Q1-Q4) no RAG. |
 | Checkpoints / adapters | HuggingFace Hub ou Drive | pesos são grandes; hospedar fora e referenciar por link. |
 | Slides da apresentação | `docs/` | material do dia 07/07. |
 

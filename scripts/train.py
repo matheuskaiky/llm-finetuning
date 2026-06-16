@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 
 from llm_finetuning.core import instantiate, load_config, set_global_seed
@@ -28,6 +29,12 @@ def _evaluate(model_bundle: object, eval_config: EvaluationConfig) -> dict[str, 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument(
+        "--model-name", help="override model.params.model_name (e.g. a Q1 checkpoint)"
+    )
+    parser.add_argument(
+        "--output-dir", help="override trainer.params.output_dir for this run"
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
@@ -36,22 +43,37 @@ def main() -> None:
     if config.model is None or config.dataset is None or config.trainer is None:
         raise SystemExit("config must define 'model', 'dataset' and 'trainer'")
 
+    # CLI overrides keep one config reusable across starting checkpoints/outputs.
+    if args.model_name:
+        config.model.params["model_name"] = args.model_name
+    if args.output_dir:
+        config.trainer.params["output_dir"] = args.output_dir
+
+    # Under a distributed launch (torchrun/accelerate, WORLD_SIZE>1) the model is
+    # FSDP-sharded inside the Trainer, so in-process before/after evaluation is not
+    # run here: evaluate separately with scripts/evaluate.py on the base model and
+    # on the saved checkpoint. Only rank 0 prints/saves.
+    is_distributed = int(os.environ.get("WORLD_SIZE", "1")) > 1
+    is_main = int(os.environ.get("RANK", "0")) == 0
+
     provider = instantiate(MODEL_PROVIDERS, config.model)
     model_bundle = provider.load()
     loader = instantiate(DATASET_LOADERS, config.dataset)
     documents = loader.load()
     trainer = instantiate(TRAINERS, config.trainer)
 
+    run_in_process_eval = config.evaluation is not None and not is_distributed
+
     before = None
-    if config.evaluation is not None:
+    if run_in_process_eval:
         before = _evaluate(model_bundle, config.evaluation)
         print("eval before:", json.dumps(before, ensure_ascii=False))
 
     result = trainer.train(model_bundle, documents, config)
-    print(f"training done: output_dir={result.output_dir} metrics={result.metrics}")
+    if is_main:
+        print(f"training done: output_dir={result.output_dir} metrics={result.metrics}")
 
-    after = None
-    if config.evaluation is not None:
+    if run_in_process_eval:
         after = _evaluate(model_bundle, config.evaluation)
         print("eval after:", json.dumps(after, ensure_ascii=False))
         if config.evaluation.output_path:

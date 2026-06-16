@@ -27,16 +27,23 @@ dependencies = [
     "pydantic>=2.7",
     "pydantic-settings>=2.3",
     "tqdm>=4.66",
+    "python-docx>=1.2.0",
+    "python-pptx>=1.0.2",
+    "datasketch>=1.10.0",
 ]
 
 [project.optional-dependencies]
-# RAG stack (Q5).
+# RAG stack (Q5): agentic GraphRAG (LangGraph) + vector (FAISS) + graph (networkx).
 rag = [
+    "langgraph>=0.2",
     "langchain>=0.2",
     "langchain-community>=0.2",
-    "chromadb>=0.5",
     "faiss-cpu>=1.8",
     "sentence-transformers>=3.0",
+    "networkx>=3.3",
+    # FP8 checkpoints (e.g. the 30B engine) need the fine-grained fp8 kernel;
+    # pin to the range transformers 5.11 expects.
+    "kernels>=0.12,<0.13",
 ]
 # Guardrails stack (Q6).
 guardrails = [

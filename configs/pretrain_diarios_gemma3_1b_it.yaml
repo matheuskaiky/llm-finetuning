@@ -1,0 +1,42 @@
+# Q1 cross-family comparison: continued pre-training of google/gemma-3-1b-it
+# (text-only base, Gemma3ForCausalLM) on the diarios corpus, full-parameter on a
+# single L4. Same recipe as the Qwen3 runs (lr, precision, block_size) so the only
+# variables are model family and size. Evaluates antes/depois on the diarios Q&A.
+#
+# Run: CUDA_VISIBLE_DEVICES=0 python scripts/train.py \
+#        --config configs/pretrain_diarios_gemma3_1b_it.yaml
+name: pretrain_diarios_gemma3_1b_it
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/gemma-3-1b-it
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_gemma3_1b_it_diarios
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
+    optim: adamw_torch
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois/pretrain_gemma3_1b_it.json
