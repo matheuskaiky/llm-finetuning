@@ -1,0 +1,5 @@
+method,student,teacher,mean_judge,mean_resp_ppl
+base,Qwen3-0.6B,-,0.60,10.558
+response_based,Qwen3-0.6B,Qwen3-8B,0.51,6.116
+logit_kd,Qwen3-0.6B,Qwen3-1.7B,0.50,6.513
+teacher_ref,Qwen3-8B,-,0.66,10.557

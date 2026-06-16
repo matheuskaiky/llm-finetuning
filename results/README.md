@@ -221,8 +221,26 @@ Leituras:
   sem gap a fechar, então a destilação não moveu o juiz (mas baixou muito a ppl).
 - **Ressalva:** o teacher (8B closed-book) marca só 0.66 neste recall difícil, um teto
   fraco. Um teacher com RAG (recuperando os diários) elevaria o teto e a margem de
-  transferência (diferencial B). O logit-KD (`Qwen3-1.7B`->`0.6B`) roda para comparar
-  com o response-based.
+  transferência (diferencial B).
+
+### Response-based vs logit-KD (Qwen3-0.6B)
+
+Comparação dos dois paradigmas de destilação no mesmo student (`results/q4_methods.csv`):
+
+| Método | teacher | juiz | ppl resposta |
+|--------|---------|------|--------------|
+| base (sem destilar) | - | 0.60 | 10.56 |
+| response-based (SFT nas respostas) | Qwen3-8B | 0.51 | 6.12 |
+| logit-KD (KL nos logits) | Qwen3-1.7B | 0.50 | 6.51 |
+| teacher (referência) | - | 0.66 | 10.56 |
+
+Leituras:
+- **Os dois métodos empatam** no student 0.6B (juiz 0.51 vs 0.50; ppl 6.12 vs 6.51),
+  mesmo o logit-KD usando um teacher menor (1.7B vs 8B). Ambos derrubam fortemente a
+  perplexidade da resposta (10.56 -> ~6.3), transferindo a distribuição do teacher.
+- Nenhum move o juiz para cima aqui porque o `Qwen3-0.6B` base já estava ~ teacher
+  (0.60 vs 0.66) neste recall: sem gap a fechar. O ganho da destilação aparece na
+  perplexidade, e (na tabela anterior) no juiz dos students mais fracos.
 
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
