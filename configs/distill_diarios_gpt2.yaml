@@ -1,0 +1,28 @@
+# Q4 response-based distillation with gpt2 (124M) as the student, SFT'd on the
+# teacher's synthetic diarios Q&A (Qwen3-8B grounded on the corpus). Logit-KD does
+# not apply: gpt2's vocab (50257) differs from the teachers, so only response-based
+# distillation is possible for this student.
+name: distill_diarios_gpt2
+seed: 42
+model:
+  type: local
+  params:
+    model_name: models/gpt2
+    dtype: bfloat16
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/distill/diarios_distill_train.jsonl
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/distill_gpt2
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.00002
+    per_device_train_batch_size: 4
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
