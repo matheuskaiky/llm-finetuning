@@ -35,6 +35,9 @@ def main() -> None:
     parser.add_argument(
         "--output-dir", help="override trainer.params.output_dir for this run"
     )
+    parser.add_argument(
+        "--data-path", help="override dataset.params.path (e.g. a per-teacher distill set)"
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
@@ -48,6 +51,8 @@ def main() -> None:
         config.model.params["model_name"] = args.model_name
     if args.output_dir:
         config.trainer.params["output_dir"] = args.output_dir
+    if args.data_path:
+        config.dataset.params["path"] = args.data_path
 
     # Under a distributed launch (torchrun/accelerate, WORLD_SIZE>1) the model is
     # FSDP-sharded inside the Trainer, so in-process before/after evaluation is not
