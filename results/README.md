@@ -308,6 +308,37 @@ Leituras:
   (0.60 vs 0.66) neste recall: sem gap a fechar. O ganho da destilação aparece na
   perplexidade, e (na tabela anterior) no juiz dos students mais fracos.
 
+### Comparação de professores: o professor importa? (orçamento fixo)
+
+Ablação controlada: mesmo conjunto de 7 alunos, mesmo orçamento (400 pares de
+treino por professor), mesma avaliação (recall fixo + juiz fixo Qwen3-8B); só muda
+o professor que gerou os dados sintéticos. Quatro professores: Qwen3-8B, Qwen3-30B-
+A3B, gemma-3-27b-it, gemma-4-31b-it. Dados em `q4_teacher_compare.csv` e
+`q4_teacher_<tag>_recall.csv`. (Orçamento de 400 pares: não comparar com a tabela
+Q4 principal acima, que usou 1200 pares.)
+
+Média do juiz nos 7 alunos, por professor:
+
+| Professor | média (7 alunos) | gemma-3-1b | qwen2.5-0.5b | qwen3-0.6b | gemma-3-270m | smollm2-360m | smollm2-135m | gpt2 |
+|-----------|------------------|------------|--------------|------------|--------------|--------------|--------------|------|
+| Qwen3-30B-A3B | **0.354** | 0.72 | 0.53 | 0.58 | 0.21 | 0.28 | 0.06 | 0.10 |
+| gemma-4-31b-it | 0.341 | 0.71 | 0.55 | 0.47 | 0.26 | 0.20 | 0.05 | 0.15 |
+| Qwen3-8B | 0.329 | 0.50 | 0.61 | 0.52 | 0.30 | 0.20 | 0.12 | 0.05 |
+| gemma-3-27b-it | 0.314 | 0.63 | 0.46 | 0.49 | 0.26 | 0.22 | 0.09 | 0.05 |
+
+Leituras:
+- **O melhor professor é o Qwen3-30B**, mas a margem é pequena: o intervalo entre o
+  melhor e o pior professor é 0.04 num juiz 0-5. Trocar de professor move pouco.
+- **"Maior" não é monotônico**: o gemma-3-27b (27B) fica abaixo do Qwen3-8B (8B), e o
+  gemma-4-31b (31B) fica acima do 8B mas abaixo do 30B. Família/qualidade do professor
+  pesa mais que a contagem de parâmetros dele.
+- **O aluno domina o professor**: a variação entre alunos (gemma-3-1b 0.50-0.72,
+  qwen2.5-0.5b 0.46-0.61) é muito maior que a variação entre professores para um mesmo
+  aluno; smollm2-135m e gpt2 ficam ~0 com qualquer professor. A capacidade do aluno em
+  ler PT limita o teto, não o professor.
+- **Quem mais ganha com professor forte é o gemma-3-1b** (0.50 com 8B -> 0.72 com 30B):
+  um aluno já capaz aproveita melhor um professor melhor.
+
 ## Família GPT-2 (pioneira): Q1-Q4 em um modelo inglês pequeno
 
 O GPT-2 (124M/355M/774M, BPE inglês, vocabulário 50257, sem variante instruct)
