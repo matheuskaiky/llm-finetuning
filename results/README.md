@@ -360,6 +360,29 @@ Leituras:
   motor mais capaz closed-book, mas o teto com RAG fica proximo (3.03 vs 3.50 do 8B no
   corpus balanceado): a recuperacao nivela motores fortes.
 
+### Métricas de recuperação (hit-rate@k do retriever)
+
+Isola o retriever do gerador: mede se a evidência chega ao prompt. Como o benchmark
+não tem id de documento gold, usa-se o proxy padrão de **answer hit-rate@k** (a resposta
+esperada aparece em algum dos k chunks recuperados). Embedder bge-m3, 30 perguntas.
+Dados em `results/q5_retrieval.csv` (script `scripts/eval_retrieval.py`).
+
+| Método | hit@1 | hit@3 | hit@5 | hit@10 |
+|--------|-------|-------|-------|--------|
+| plain (similaridade) | 0.43 | 0.57 | **0.60** | 0.63 |
+| MMR | 0.43 | 0.47 | 0.47 | 0.57 |
+| plain - factual | 0.50 | 0.67 | 0.67 | 0.72 |
+| plain - multihop | 0.33 | 0.42 | 0.50 | 0.50 |
+
+Leituras:
+- **A recuperação simples (plain) supera a MMR** em hit-rate: o MMR troca relevância por
+  diversidade e, nesta tarefa de achar um fato pontual, isso tira chunks certos do topo.
+- **Factual > multihop** (hit@5 0.67 vs 0.50): perguntas multi-hop espalham a evidência
+  por mais de um documento, mais difícil de cobrir no top-k.
+- **Teto em ~0.63 (hit@10)**: em ~37% das perguntas a resposta nunca aparece nos chunks
+  recuperados (resposta fora do subconjunto indexado, ou fraseada de outro jeito, ou
+  miss do retriever). Isso limita o teto do gerador e explica parte do erro do RAG.
+
 ### Ablação: corpus cheio vs balanceado (licitações podadas)
 
 Dataset balanceado = 75 licitação / 75 outros (grafo mais rico: 411 entidades vs

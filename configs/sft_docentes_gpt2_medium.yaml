@@ -1,0 +1,34 @@
+# Q2 SFT of gpt2-medium on the docentesDC instruction pairs (full-parameter,
+# completion-only loss). Default start is the original base; for the A/B (does Q1
+# help SFT?) override the model:
+#   python scripts/train.py --config configs/sft_docentes_gpt2_medium.yaml \
+#     --model-name outputs/pretrain_gpt2_medium_diarios \
+#     --output-dir outputs/sft_gpt2_medium_q1
+# Evaluation (judge + response perplexity) is separate, in scripts/eval_sft.py.
+name: sft_docentes_gpt2_medium
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/gpt2-medium
+    dtype: bfloat16
+
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/sft/docentes_sft_train.jsonl
+
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/sft_gpt2_medium_base
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.00002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
