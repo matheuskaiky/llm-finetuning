@@ -308,6 +308,36 @@ Leituras:
   (0.60 vs 0.66) neste recall: sem gap a fechar. O ganho da destilação aparece na
   perplexidade, e (na tabela anterior) no juiz dos students mais fracos.
 
+## Família GPT-2 (pioneira): Q1-Q4 em um modelo inglês pequeno
+
+O GPT-2 (124M/355M/774M, BPE inglês, vocabulário 50257, sem variante instruct)
+passou pelo mesmo tratamento dos outros: Q1 (pré-treino contínuo), Q2 (SFT base e
+pós-Q1), Q3 (LoRA base e pós-Q1) e Q4 (aluno na destilação response-based; logit-KD
+não se aplica, vocabulário difere dos teachers). Dados em `q1_gpt2.csv`, `q2_sft.csv`,
+`q3_lora.csv`, `q4_distill.csv`.
+
+Q1 (held-out, perplexidade, antes -> depois): 124M 75.2 -> 59.9; 355M 53.4 -> 40.1;
+774M 44.6 -> 23.8. A adaptação de domínio funciona mesmo num modelo inglês: a
+perplexidade in-domain cai muito (774M quase pela metade). E, ao contrário de
+Qwen/gemma, o GPT-2 **não esquece**: o delta OOD (docentesDC) é negativo nos três
+tamanhos (124M -0.82; 355M -0.37; 774M -0.99). Hipótese: partindo tão mal de
+qualquer texto não-inglês, treino em script latino ajuda de forma ampla, sem o
+trade-off de esquecimento visto nos modelos que já dominavam o português.
+
+Q2/Q3/Q4 (juiz fixo Qwen3-8B, 0-5, recall do docentesDC): o juiz fica baixo em
+todas as variantes. SFT pleno: 124M 0.03, 355M 0.50, 774M 0.25-0.29 (par base/Q1);
+LoRA: 124M 0.11-0.13, 355M 0.09-0.33, 774M 0.20-0.21, comparável ao SFT pleno.
+Destilação: juiz 0.05 (igual ao base), transfer ratio 0. Em todos os casos a
+perplexidade da resposta despenca (SFT 774M 89 -> 38; destilação 1537 -> 134, -91%),
+mas a nota do juiz não acompanha.
+
+Leitura: para a métrica de linguagem (perplexidade), adaptação de domínio melhora o
+GPT-2 de forma clara e sem esquecimento. Para a tarefa downstream em português
+(seguir instrução, responder certo), o tokenizer inglês e a ausência de pré-treino
+em PT limitam o teto: o modelo aprende a **forma** (tokens PT mais prováveis), não a
+**tarefa**. Funciona como piso/referência negativa que dimensiona o quanto a escolha
+de um base já competente em português (Qwen/gemma) importa.
+
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por
