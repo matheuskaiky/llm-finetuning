@@ -1,0 +1,228 @@
+idx,type,question,answer_baseline,score_baseline,answer_standard,score_standard,corrected_standard,answer_agentic_graph,score_agentic_graph,corrected_agentic_graph
+0,factual,Qual é o artigo que trata da possibilidade de adjudicação quando a negociação de melhor condição frustra-se?,الطائف,0,[self],5,False,ведения,0,False
+1,factual,"Qual o número do ato que corresponde à transferência de 10.000,00 para a TRANSF.ALDIR BLANC LEI N?","⋅ 10.000,00",0,"[084c3cc41617b03fd8c3965d4810a851] 1719.60.0.0.00 | ENTIDADES | | | | | |
+| 1719.99.0.0.00 1721.50.0.0.00 | OUTRASTRANSF.RECURSOS UNIÃO COTA-PARTE DO ICMS | 1.200.000,00 15.700.000,00 | 1.260.000,00 16.485.000,00 | 1.320.000,00 17.270.000,00 | 1.380.000,00 18.055.000,00 | 5.160.000,00 67.510.000,00 |
+| 1721.51.0.0.00 | COTA-PARTEDO IPVA | 1.900.000,00 | 1.995.000,00 | 2.090.000,00 | 2.185.000,00 | 8.170.000,00 |
+| 1721.52.0.0.00 | COTA-PARTEDO IPI-MUNICÍPIOS | 25.000,00 | 26.250,00 | 27.500,00 | 28.750,00 | 107.500,00 |
+| 1721.53.0.0.00 1723.50.0.0.00 | COTA-PARTE CONTRIBUIÇÃO INTERVENÇÃO DOMÍNIOECONÔM ICO | 98.000,00 | 102.900,00 |",0,False,"[084c3cc41617b03fd8c3965d4810a851] 1719.60.0.0.00 | ENTIDADES | | | | | |
+| 1719.99.0.0.00 1721.50.0.0.00 | OUTRASTRANSF.RECURSOS UNIÃO COTA-PARTE DO ICMS | 1.200.000,00 15.700.000,00 | 1.260.000,00 16.485.000,00 | 1.320.000,00 17.270.000,00 | 1.380.000,00 18.055.000,00 | 5.160.000,00 67.510.000,00 |
+| 1721.51.0.0.00 | COTA-PARTEDO IPVA | 1.900.000,00 | 1.995.000,00 | 2.090.000,00 | 2.185.000,00 | 8.170.000,00 |
+| 1721.52.0.0.00 | COTA-PARTEDO IPI-MUNICÍPIOS | 25.000,00 | 26.250,00 | 27.500,00 | 28.750,00 | 107.500,00 |
+| 1721.53.0.0.00 1723.50.0.0.00 | COTA-PARTE CONTRIBUIÇÃO INTERVENÇÃO DOMÍNIOECONÔM ICO | 98.000,00 | 102.900,00 |",0,False
+2,factual,Qual é a data de assinatura do documento?,الطائفي,0,[self7333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333,5,False,[self7333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333,5,False
+3,factual,Qual é o nome da divisão responsável pela gestão de imóveis na Diretoria de Investimentos?,الطائف,0,[726feb24806615335122ed7acfc16d1c],5,False,[726feb24806615335122ed7acfc16d1c],5,False
+4,factual,Qual é o número da portaria que institui a Comissão Especial para discutir a resolução normativa que regula a oferta da Educação Infantil?,⋅ 100,0,[fd8a19836f0173f1789946e82c5f0911],0,False,[fd8a19836f0173f1789946e82c5f0911],0,False
+5,factual,Qual o nome da pessoa nomeada para o cargo de Chefe do Setor Geral de Controle e Distribuicao?,⋅,5,"[16b8d135f9565aaabf1469011155cc00] atividades serao exercidas na forma e nos limites da Lei.
+Lei.
+2. Os direitos e deveres do nomeado obedecerao a legislacao Municipal.
+3. Esta Portaria entra em vigor na data de sua publicacao, com efeitos retroativos a 01.08.2025, revogadas as disposicoes em contrario.
+3.Esta Portaria entra em vigor na data de sua publicacao, com efeito retroativo a 01.08.2025., revogadas as disposigoes em contrario.
+Cumpra-se e publica-se.
+Redencao do Gurgueia - PI, em 15 de agosto de 2025.
+ARLEI FIGUEIREDO Asinadode foemo
+ARLEI FIGUEIREDOAssinade de
+303
+Arlei Figueredo Borges
+Prefeito Municipal
+Prefeito Municipal
+
+[16b8d135f9565aaabf1469011155cc00] atividades serao exercidas na forma e nos limites da Lei.
+Lei.
+2. Os direitos e deveres do nomeado obedecerao a legislacao Municipal.
+3. Esta Portaria entra em vigor na data de sua publicacao, com efeitos retroativos a 01.08.2025, revogadas as disposicoes em contrario.
+3.Esta Portaria entra em vigor na data de sua publicacao, com efeito retroativo a 01.08.2025., revogadas as disposigoes em contrario.
+Cumpra-se e publica-se.
+Redencao do Gurgueia - PI, em 15 de agosto de 2025.
+ARLEI FIGUEIREDO Asinadode foemo
+ARLEI FIGUEIREDOAssinade de
+303
+Arlei Figueredo Borges
+Prefeito Municipal
+Prefeito Municipal
+
+[16b8d135f9565aaabf1469011155cc00] atividades serao exercidas na forma e nos limit",0,False,"__[16b8d135f9565aaabf1469011155cc00] atividades serao exercidas na forma e nos limites da Lei.
+Lei.
+2. Os direitos e deveres do nomeado obedecerao a legislacao Municipal.
+3. Esta Portaria entra em vigor na data de sua publicacao, com efeitos retroativos a 01.08.2025., revogadas
+as disposigoes em contrario.
+as disposicoes em contrario.
+Cumpra-se e publica-se.
+Redencao do Gurgueia - PI, em 11 de marco de 2025.
+Redencao do Gurgueia - PI, em 11 de margo de 2025.
+ARLEI FIGUEIREDO
+digital por
+Arlei Figueredo Borges
+Prefeito Municipal
+Prefeito Municipal
+
+[16b8d135f9565aaabf1469011155cc00] atividades serao exercidas na forma e nos limites da Lei.
+Lei.
+2. Os direitos e deveres do nomeado obedecerao a legislagao Municipal.
+3. Esta Portaria entra em vigor na data de sua publicacao, com efeitos retroativos a 03.03.2025., revogadas
+as disposigoes em contrario.
+as disposicoes em contrario.
+Cumpra-se e publica-se.
+Redencao do Gurgueia - PI, em 11 de marco de 2025.
+Redencao do Gurgueia - PI, em 11 de margo de 2025.
+ARLEI FIGUEIREDO
+digital por
+Arlei Figueredo Borges
+Prefeito Municipal
+Prefeito Municipal
+
+Gabinete DO
+REDENCAO DO
+Gabinete dO
+PREFEITO
+PREFEITO
+Portaria n 144 de 13 de marco de 2025
+Portaria n 142 de 11 de margo de 2025
+ARLEI FIGUEREDO BORGES,PREFEITO Municipal DE REDENCAO DO
+GURGUEIA",2,False
+6,factual,Qual foi o dia da realização da audiência pública em Porto Alegre do Piauí?,الطائف,0,"[]{""0fc8abb4c7bada717874ac8600c82c4a""}",0,False,"[]{""28 de maio de 2025""}",5,False
+7,factual,Qual o CNPJ da empresa CONSULTORIA CONTABIL LTDA?,.linkedin,0,"[5022c81f914f31583d4e131b06ca78e4] A, pessoa juridica de direito privado inscrita no
+REMiGIO ADvOGADOs AssOcIADOs, pessoa juridica de direito privado inscrita no.
+CNPJ sob n 22.737.795/0001-64. Inscricao Municipal no 0.234.214/001-5, situada na
+CNPJ sob no 59.445.614/0001-20, Inscricao na OAB-MG no 18.807-25, situada na
+Rua Juiz de Fora, n 284, Sala 1102, Bairro Barro Preto, Belo Horizonte/MG, CEP:
+Rua Juiz de Fora, 284, sala 1102, Barro Preto, Belo Horizonte (MG), CEP 30.180.060.
+30.180-060. Objeto: EXECUCAO DOS SERVICOS DESTINADOS A RECUPERACAO DE
+EXECUCAO DOS SERVICOS DE ADVOCACIA DESTINADA
+(I) CONTRIBUICOES PREVIDENCIAS PAGAS A MAIOR PELO Município, RELATIVAS
+Objeto:
+AO RAT-FAP E AO SALARIO MATERNIDADE. O PRODUTO FINAL DOS SERVICOS E (A)
+RECUPERACAO DE CREDITOS DE FUNDO DE PARTICIPACAO DOS
+A OBTENCAO DE CREDITOS PREVIDENCIARIOS APTOS A SEREM UTILIZADOS COMO
+MUNICiPIOS. Valor Contratado: A CONTRATANTE Pagara a CONTRATADA, no que
+PAGAMENTO DAS CONTRIBUICOES PREVIDENCIARIAS FUTURAS. Valor Contratado:
+tange aos servicos prestados, o percentual de 20% (Vinte porcento) do montante
+A CONTRATANTE Pagara a CONTRATADA, no que tange aos serv",0,False,"[]{""CNPJ: 23.221.481/0001-60""}",5,False
+8,factual,"Qual é o artigo da Lei nº 14.133, de 2021, mencionado no trecho?",الطائفي,0,الطائف,0,False,الطائف,0,False
+9,factual,Qual o número do ato da manutenção da Secretaria de Cultura?,الطائف,0,[084c3cc41617b03fd8c3965d4810a851],0,False,[ad0bd57050d8183ab61ab9a0acb59c11],0,False
+10,factual,Qual é o código da categoria econômica relacionada às despesas correntes de pessoal e encargos sociais?,⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ ⚙ �,0,[ad0bd57050d8183ab61ab9a0acb59c11],0,False,[ad0bd57050d8183ab61ab9a0acb59c11],0,False
+11,factual,Qual é o nome do Presidente do Instituto de Previdência dos Servidores do Município de Teresina - IPMT?,⋅,5,"[726feb24806615335122ed7acfc16d1c] PORTARIA Nº 022/2025 - PREV/IPMT. O PRESIDENTE DO INSTITUTO DE PREVIDÊNCIA DOS SERVIDORES DO MUNICÍPIO DE TERESINA, Estado do Piauí, no uso das atribuições que lhe confere o art. 1º eo art. 2º, §§ 1º ao 4º, todos do Decreto Municipal Nº 23.774, de 10 de Março de 2023; tendo em vista o que consta do Processo nº 2024.07.12477P, RESOLVE por motivo do falecimento, em 11/04/2024, de GENTIL FERREIRA LIMA, servidor público municipal, exercia o cargo de Auxiliar Operacional Administrativo, especialidade Motorista, referência 'C6', matrícula nº 028386, CPF: 337.948.123-87, lotado, quando em atividade, na Fundação Municipal de Saúde - FMS, conceder pensão a MARIA APARECIDA DE MIRANDA PIRES, CPF 566.019.483-49, e FELIPE MIRANDA PIRES FERREIRA cônjuge e filho, respectivamente, nos termos do artigos 12, Ie III, 15, 16, 17, I, 20, III, 21, II, 'f', c/c artigo 6º, § 4º, todos da Lei Municipal nº 5.686/2021, c/c artigo 114, II do Decreto Federal nº 3.048/1999 com redação do Decreto nº 10.410/2020, devendo o referido benefício ser concedido a partir da data do óbito, cabíveis as devidas compensações financeiras, se houver.",0,False,[726feb24806615335122ed7acfc16d1c] lo.,0,False
+12,factual,Qual o valor da remuneração OE para o cargo 1.621.0?,⋅ 1.621.0,0,"[]{""78e49f529a6feebddd7670ae5b07a635""}",0,False,"[78e49f529a6feebddd7670ae5b07a635] 1.621.0 | 2.000,00 | 6.668,66 1.04!5,90 | 6.666,66 1 .045,90 | 6.666,66 754,59 | 13.33:l,32 l 1.800,49; | 199,!51: | 80.000.00 2.000,00 | ! 0,00; | 2.000,00 | 6.666,66 0,00 | l :l:l.3:13,30 ; 2.000,00; | l 6.666,70 l 0,00 ; | ' 40.ooo,oo; 2.000.00; |",2,False
+13,factual,"Qual o valor da despesa com 'CONSTRUÇÃO, AMPLIAÇÃO E REFORMA DA EDUCAÇÃO' no exercício de 2026?","⋅ 1.000.000,00",0,[1aac1fb884d33a46c57b49ac67c45990],0,False,[1aac1fb884d33a46c57b49ac67c45990],0,False
+14,factual,Qual o valor total do item 2 do trecho?,الطائف,0,"[]{""1aac1fb884d33a46c57b49ac67c45990""} 1.500,00 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |",0,False,"[]{""1aac1fb884d33a46c57b49ac67c45990""}",0,False
+15,factual,Qual é o valor da subfunção 271 Previdência IIaica em 2028?,⋅,0,⋅A DEFINIR⋅ medida,0,False,⋅A DEFINIR⋅ medida,0,False
+16,factual,Qual o CNPJ da PM de Boqueirão do Piauí?,⋅ 01.000.000/0001-01,0,[self-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,0,False,ведения,0,False
+17,factual,Qual o valor final do fornecedor ADRIANO R SOARES LTOA no bloco 0005?,"⋅ 1.000,00",0,"[6c27cffec7c189b298c44af5d82166d3] com 100 folh - Valor Referência: 11 ,49 | 0004 - Bloco de DAM com 100 folhas. - Bloco de DAM com 100 folh - Valor Referência: 11 ,49 | 0004 - Bloco de DAM com 100 folhas. - Bloco de DAM com 100 folh - Valor Referência: 11 ,49 |
+| Fornecedor | Valor Final | Valor Total | Situação |
+| ADRIANO R SOARES LTOA | 10,23 | 2 .046,00 | Homologado em 29/08/2025 11 :14:38 Por: Má rcio Dias Ribeiro |
+| 0005 - Bloco de natureza de Imposto. - Bloco de natureza de impo - Valor Referência:12,49 | 0005 - Bloco de natureza de Imposto. - Bloco de natureza de impo - Valor Referência:12,49 | 0005 - Bloco de natureza de Imposto. - Bloco de natureza de impo - Valor Referência:12,49 | 0005 - Bloco de natureza de Imposto. - Bloco de natureza de impo - Valor Referência:12,49 |
+| Fornecedor | Valor Final | Valor Total | Situação |
+| ADRIANO R SOARES LTOA | 11,12 | 2 .224,00 | Homologado em 29/08/2025 11 :14:38 Por: Már cio Dias Ribeiro |
+| 0006 - Bloco de nota fiscal de serviço avulso carbonado com 4 vias. - Bloco de nota fiscal de s - Valor Referência:19,28 | 0006 - Bloco de nota fiscal de serviço avulso carbonado com 4 vias. - Bloco de nota fiscal de s - Valor Referência:19,28",5,False,[6c27cffec7c189b298c44af5d82166d3],0,False
+18,multihop,Qual é a secretaria responsável pela gestão de finanças do Fundo Municipal de Saúde?,الطائف,0,"[69375d570d07a95ecf9dd33d3323c376] Secretaria Municipal de Educação | 132.100,00 |
+| 0205 | Sec.M.de Obras, Transportes, Habitação eS. Publicos | 4.695.863,50 |
+| 0206 | Sec. M. de Saúdee saneamento | 322.600,00 |
+| 0207 | Fundo Municipal da Saúde | 8.046.510,00 |
+| 0208 | Sec. M. de Assist. Social e Cidadania | 167.560,00 |
+| 0209 | Fundo Municipal da AssistênciaSocial | 1.532.070,00 |
+| 0210 | FUNDEB | 11.192.000,00 |
+| 0211 | Unidade Mista de Saúde- Rosalina Passos | 246.900,00 |
+| 0212 | Secretaria Munic. de Finanças, Gestão, Controle e Tesouraria | 462.110,00 |
+| 0213 | Sec.Munic. de Esporte, Lazer, Cultura e Turismo | 1.198.600,00 |
+| 0214 | Fundo Municipal de Educação | 3.289.020,00 |
+
+40.143.083,50
+
+[1b80137a3b27f1759a6d96e8ed47aee4] PORTARIA Nº 95/2025, DE 20 DE MARÇO DE 2025. O PRESIDENTE DA FUNDAÇÃO MUNICIPAL DE SAÚDE, no uso das atribuições legais e considerando a necessidade de identificação formal dos servido -res responsáveis pela gestão de recursos financeiros na FMS, CONSIDE -RANDO o processo Administrativo n° 0004",0,False,ведения,0,False
+19,multihop,Qual documento foi aberto pelo secretário municipal de planejamento e coordenação após a delegação recebida pelo prefeito municipal de Teresina?,الطائف,0,"[13cf0904883cf979cb92caec4c614009] . *Lei de autoria da Mesa Diretora (em cumprimento à Lei Municipal nº 4.322/2012).
+
+LEI PROMULGADA Nº 6.184, DE 26 DE FEVEREIRO DE 2025.
+
+Acrescentam-se	e	modificam-se	dispositivos	da	Lei	Municipal	nº	4.200,	de 15 de dezembro de 2011, e suas posteriores alterações, que 'Institui o Plano de Cargos e Salários da Carreira de Procurador do Legislativo Municipal de Teresina', e dá outras providências. O PREFEITO MUNICIPAL DE TERESINA, Estado do Piauí. Faço saber que o Plenário da Câmara Municipal de Teresina aprovou e, eu, promulgo a seguinte Lei: Art. 1º O Capítulo V, da Lei Municipal nº 4.200, de 15 de dezembro de 2011, e suas posteriores alterações, passa a vigorar com a seguinte redação, alterando-lhes os arts. 11 e 12, e revogando os arts. 13 e 14: 'CAPÍTULO V - DA TRAJETÓRIA NA CARREIRA: Art. 11. A progressão consiste na passagem de um nível para outro imediatamente seguinte, de acordo com a regulamentação constante na Lei nº 4.882, de 30 de março de 2016, e suas alterações posteriores, que dispõe sobre o Plano de Cargos, Carreiras e Vencimentos dos servidores públicos permanentes e efetivos dos quadros de pessoal da Câmara Municipal de Teresina. Art. 12. A promoção consiste na passagem",1,False,"[1f395839eec04a5d5beeac87ad81db00] PORTARIA Nº 790, DE 12 DE DEZEMBRO DE 2025. Abre Crédito Suplementar no Orçamento-Programa vigente, no valor de R$ 1.103.110,00 (UM MILHÃO, CENTO E TRÊS MIL, CENTO E DEZ REAIS) O SECRETÁRIO MUNICIPAL DE PLANEJAMENTO E COORDENAÇÃO, no uso de suas atribuições legais e com suporte nas Leis nº 4.320, de 17 de março de 1964, Lei nº 6.125, de 31 de julho de 2024 e Lei nº 6.163, de 20 de dezembro de 2024. CONSIDERANDO que, anteriormente, a abertura de créditos adicionais, no âmbito do Município de Teresina, era realizada por meio de decreto do Prefeito Municipal de Teresina; CONSIDERANDO que a Lei nº 6.188, de 20 de março de 2025, alterou a Lei nº 6.125, de 31 de julho de 2024, acrescentando os arts. 15-Ae 16-A, os quais dispõem que os créditos adicionais, aprovados pela Câmara Municipal de Teresina, são considerados, automaticamente, abertos com a publicação da respectiva Lei e que o Prefeito Municipal pode delegar ao Secretário Municipal de Planejamento e Coordenação a competência para promover as alterações orçamentárias, autorizadas na Lei Orçamentária Anual, por meio de ato próprio; CONSIDERANDO que o Decreto Municipal nº 27.897, de 01 de abril de 2025, dispõe sobre a delegação, ao Secretário Municipal de Planejamento e Coordenação a competência para promover as alterações orçamentárias, autorizadas na Lei Orçamentária An",5,False
+20,multihop,Qual é a secretaria municipal de educação que recebeu a comunicação sobre a portaria emitida pelo Pajeu do Piauí?,⋅,0,"[179c63419d6be434d55af7079d4a1efd] 421
+Ano Xxlll - Teresina (Pl) - Quinta-Feira, 06 de Fevereito de 2025 - Edicao VcCLV
+
+Estado do Piauí
+Prefeitura Municipal DE RIBEIRA DO Piauí
+Prefeitura Municipal DE RIBEIRO GONCALVES
+CNPJ N 01.612.604/0001-51
+Secretaria Municipal DE EDUCACAO
+CEP - 64.725-000 - Ribeira do Piauí - PI
+CNPJ: 06.099.762/0001-73 e-mail educacaoribeirog@gmail.com
+notasribeira@gmail.com
+CHAMADA PUBLICA N 002/2025
+CHAMADA PUBLICA SIMPLIFICADA
+DIVULGACAO FINAL DA RELACAO DE CLASSIFICACAO
+Portaria N073/2025
+CARGO: CUIDADOR ESCOLAR
+CARGA HORARIA: 40 HORAS
+CLASSIFICACAO
+CANDIDATO (A)
+NOTA
+NOTA
+NOTA
+CURRiCULOENTREVISTA
+O PREFEITO Municipal DE RIBEIRA DO Piauí-PI, no uso das atribuigOes que Ihe
+MAYARA MOREIRA DE SOUSA
+confere o art. 37 da Constituicao Federal ea Lei Organica Municipal
+SANDRA MARIA DA CRUZ MIRANDA DUARTE
+MARIA DINA DE SOUSA
+MAYARA GONCALVES DE A. SILVA BARBOSA
+RAYSE FERREIRA DO NASCIMENTO
+KALINE OLIVEIRA DA COSTA
+SUELI GOMES PEREIRA
+Resolve:
+LILIAN PEREIRA LUSTOSA
+MARCELA GOMES DA SILVA
+Nomear ANTONIO MISSIAS VIEIRA DA COSTA, portador do CPF no 917.914.483-72
+100
+LUCILEIA BAR",0,False,"[179c63419d6be434d55af7079d4a1efd] 421
+Ano Xxlll - Teresina (Pl) - Terca-Feira, 11 de Fevereiro de 2025 - Edicao VCcLVIII
+
+Estado do Piauí
+Prefeitura Municipal DE RIBEIRA DO Piauí
+Prefeitura Municipal DE RIBEIRO GONCALVES
+CNPJ N 01.612.604/0001-51
+Secretaria Municipal DE EDUCACAO
+CEP - 64.725-000 - Ribeira do Piauí - PI
+CNPJ: 06.099.762/0001-73 e-mail educacaoribeirog@gmail.com
+notasribeira@gmail.com
+CHAMADA PUBLICA N 002/2025
+CHAMADA PUBLICA SIMPLIFICADA
+DIVULGACAO FINAL DA RELACAO DE CLASSIFICACAO
+Portaria N073/2025
+CARGO: CUIDADOR ESCOLAR
+CARGA HORARIA: 40 HORAS
+CLASSIFICACAO
+CANDIDATO (A)
+NOTA
+NOTA
+NOTA
+CURRiCULOENTREVISTA
+O PREFEITO Municipal DE RIBEIRA DO Piauí-PI, no uso das atribuigOes que Ihe
+MAYARA MOREIRA DE SOUSA
+confere o art. 37 da Constituicao Federal ea Lei Organica Municipal
+SANDRA MARIA DA CRUZ MIRANDA DUARTE
+MARIA DINA DE SOUSA
+MAYARA GONCALVES DE A. SILVA BARBOSA
+RAYSE FERREIRA DO NASCIMENTO
+KALINE OLIVEIRA DA COSTA
+SUELI GOMES PEREIRA
+Resolve:
+LILIAN PEREIRA LUSTOSA
+MARCELA GOMES DA SILVA
+Nomear ANTONIO MISSIAS VIEIRA DA COSTA, portador do CPF no 917.914.483-72
+100
+LUCILEIA BAR",0,False
+21,multihop,Quem foi nomeado pelo órgão que pertence à Prefeitura Municipal de Pajeu do Piauí e é responsável pela Assistência Social e Cidadania?,⋅,5,[0efd6a71d3f883ab3f7db3a63d6caf49],0,False,[179c63419d6be434d55af7079d4a1efd],0,False
+22,multihop,Qual secretaria municipal possui a Secretaria Municipal de Assistência Social e Cidadania?,⋅,0,[084c3cc41617b03fd8c3965d4810a851] | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E CIDADANIA | SECRETARIA MUN. DE DESENVOLVIMENTO SOCIAL E C,0,False,"[]{""02 16""}",0,False
+23,multihop,Qual secretaria pertence ao poder executivo e está relacionada à secretaria de infra-estrutura e serviços urbanos por meio de um relacionamento de posse?,⋅ Secretaria de Infraestrutura e Serviços Urbanos,0,[084c3cc41617b03fd8c3965d4810a851],0,False,"[]{""1007 !Construção , Ampl. e Recuperação de Rede de Energia""}",0,False
+24,multihop,Quem foi a última pessoa a receber uma nomeação da Prefeitura Municipal de Flores do Piauí?,الطائف,0,الطائف,0,False,الطائف,0,False
+25,multihop,Quem foi nomeado pela Secretaria Municipal de Administracao e Planejamento de Sao Braz do Piauí para a Brigada Civil de Combate a Incendios do Município de Ribeiro Goncalves?,⋅,5,[5ee1100bbacb84c521cfdffa4b282a6e],0,False,.linkedin,0,False
+26,multihop,Qual é a entidade que possui diretamente o FUNDO MUNICIPAL DE SAÚDE através de uma relação de pertencimento?,الطائف,0,"[084c3cc41617b03fd8c3965d4810a851] Secretário Municipal de Saúde Secretário Municipal de Secretário Municipal de S de Secretário Municipal de Saúde Presidente da Fundação Municipal de Saúde
+
+Fundação Hospitalar de Teresina Fundação Hospitalar de Teresina Fundação Hospitalar de Teresina Fundação Hospitalar de Teresina MARIA DE FÁTIMA CARVALHO GARCEZ OLIVEIRA spitalar de Teresina Fundação Hospitalar de Teresina un pitalar de eresina un spitalar de resina MARIA DE FÁTIMA CARVALHO GARCEZ OLIVEIRA Fundação Hospitalar de Teresina LUÍS CARLOS MARTINS ALVES Presidente da Fundação Municipal de Cultura Presidente da Fundação Municipal de Cultura Monsenhor Chaves
+
+Presidente da Fundação Municipal de Saúde Presidente da Fundação Municipal de Saúde Presidente da Fundação Municipal de Saúde Presidente da Fundação Municipal de Saúde FRANCISCO DAS CHAGAS DE SÁ E PÁDUA Presidente da FMS (em exercício) Presid Mu Presidente da Fundação Municipal de Saúde Presid Presid un FRANCISCO DAS CHAGAS DE SÁ E PÁDUA Presidente da FMS (em exercício) Presidente da Fundação Municipal de Saúde Monsenhor Chaves JAMES GUERRA JUNIOR MIGUEL ANTÔNIO DE OLIVEIRA NETO Presidente da PRODATER
+
+Presidente da Fundação Cultural Mons. Chaves Presidente da Fundação
+
+[084c3cc41617b03fd8c3965d4810a851] 0804 FUNDO MUNICIPAL DE SAÚDE | Jnid. Executora: 020804 FUNDO MUNICIPAL DE SAÚDE | Jnid. Executora: 020804 FUNDO MUNICIPAL DE SAÚDE | Jnid. Executora: 020804 FUNDO MUNICIPAL DE SAÚDE |
+| lleta Ffslca R8latlva a: ·ADEFINIR·medida em: ""'li,· | lleta Ffslca R8",0,False,Cumhur,0,False
+27,multihop,Qual é a secretaria responsável pela gestão das finanças do Fundo Municipal de Assistência Social?,⋅,0,الطائف,0,False,"[]{""1b80137a3b27f1759a6d96e8ed47aee4""}",0,False
+28,multihop,Quem é o secretário municipal de planejamento e coordenação de Teresina?,⋅,0,.security,0,False,.security,0,False
+29,multihop,Qual é o documento que o Decreto Municipal nº 27.897 delega ao SECRETÁRIO MUNICIPAL DE PLANEJAMENTO E COORDENAÇÃO para abrir?,⋅,5,"[7262a76a4918e17a8a7805637729394c] PORTARIA Nº 143, DE 19 DE MAIO DE 2025. Abre Crédito Suplementar no Orçamento-Programa vigente, no valor de R$ 300.000,00 (TREZENTOS MIL REAIS). O SECRETÁRIO MUNICIPAL DE PLANEJAMENTO E COORDENAÇÃO, no uso de suas atribuições legais e com suporte na Lei nº 4.320, de 17 de março de 1964, na Lei nº 6.125, de 31 de julho de 2024, na Lei nº 6.163, de 20 de dezembro de 2024 e na Lei nº 6.188, de 20 de março de 2025; CONSIDERANDO que, anteriormente, a abertura de créditos adicionais, no âmbito do Município de Teresina, era realizada por meio de decreto do Prefeito Municipal de Teresina; CONSIDERANDO que a Lei nº 6.188, de 20 de março de 2025, alterou a Lei nº 6.125, de 31 de julho de 2024, acrescentando os arts. 15-Ae 16-A, os quais dispõem que os créditos adicionais, aprovados pela Câmara Municipal de Teresina, são considerados, automaticamente, abertos com a publicação da respectiva Lei e que o Prefeito Municipal pode delegar ao Secretário Municipal de Planejamento e Coordenação a competência para promover as alterações orça -mentárias, autorizadas na Lei Orçamentária Anual, por meio de ato próprio; CONSIDERANDO que o Decreto Municipal nº 27.897, de 01 de abril de 2025, dispõe sobre a delegação, ao Secretário Municipal de Planejamento e Coordenação, das alterações orçamentárias autor",4,False,"[1f395839eec04a5d5beeac87ad81db00] PORTARIA Nº 790, DE 12 DE DEZEMBRO DE 2025. Abre Crédito Suplementar no Orçamento-Programa vigente, no valor de R$ 1.103.110,00 (UM MILHÃO, CENTO E TRÊS MIL, CENTO E DEZ REAIS) O SECRETÁRIO MUNICIPAL DE PLANEJAMENTO E COORDENAÇÃO, no uso de suas atribuições legais e com suporte nas Leis nº 4.320, de 17 de março de 1964, Lei nº 6.125, de 31 de julho de 2024 e Lei nº 6.163, de 20 de dezembro de 2024. CONSIDERANDO que, anteriormente, a abertura de créditos adicionais, no âmbito do Município de Teresina, era realizada por meio de decreto do Prefeito Municipal de Teresina; CONSIDERANDO que a Lei nº 6.188, de 20 de março de 2025, alterou a Lei nº 6.125, de 31 de julho de 2024, acrescentando os arts. 15-Ae 16-A, os quais dispõem que os créditos adicionais, aprovados pela Câmara Municipal de Teresina, são considerados, automaticamente, abertos com a publicação da respectiva Lei e que o Prefeito Municipal pode delegar ao Secretário Municipal de Planejamento e Coordenação a competência para promover as alterações orçamentárias, autorizadas na Lei Orçamentária Anual, por meio de ato próprio; CONSIDERANDO que o Decreto Municipal nº 27.897, de 01 de abril de 2025, dispõe sobre a delegação, ao Secretário Municipal de Planejamento e Coordenação, das alterações orçamentárias autorizadas na Lei Orçamentária de 2025,",4,False

@@ -102,6 +102,10 @@ def main() -> None:
     parser.add_argument("--out-dir", type=Path, default=Path("data/processed/sft"))
     parser.add_argument("--model", default="models/Qwen3-8B")
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--device-map", default=None,
+                        help="device_map for large teachers (e.g. 'auto' to model-parallel a 27B/30B)")
+    parser.add_argument("--load-in-4bit", action="store_true",
+                        help="4-bit NF4 load for big bf16 teachers (gemma-27b/31b) on L4s")
     parser.add_argument("--n-train", type=int, default=1000)
     parser.add_argument("--n-heldout", type=int, default=150)
     parser.add_argument("--pairs-per-text", type=int, default=2)
@@ -138,6 +142,7 @@ def main() -> None:
     from llm_finetuning.rag.llm_client import LocalChatLLM
 
     llm = LocalChatLLM(model_name=args.model, device=args.device,
+                       device_map=args.device_map, load_in_4bit=args.load_in_4bit,
                        max_new_tokens=args.max_new_tokens, temperature=0.7)
 
     if args.recall:

@@ -389,6 +389,36 @@ Leituras:
   motor mais capaz closed-book, mas o teto com RAG fica proximo (3.03 vs 3.50 do 8B no
   corpus balanceado): a recuperacao nivela motores fortes.
 
+### Students destilados como motor RAG (Q4 -> Q5)
+
+Pergunta: um aluno destilado pequeno e barato pode servir de motor de geracao no RAG?
+Cada student da Q4 rodou como motor sobre o mesmo indice e benchmark de 30 perguntas,
+juiz fixo Qwen3-8B (comparavel a tabela de motores acima). Dados em `q5_engines.csv`
+(`kind=distill-student`) e `q5_student_*.csv`.
+
+| Motor (student destilado) | baseline | standard | agentic_graph |
+|---------------------------|----------|----------|---------------|
+| qwen2.5-0.5b-distill | 0.07 | **3.87** | 3.53 |
+| gemma-1b-distill | 0.73 | 1.30 | 1.33 |
+| qwen3-0.6b-distill | 0.83 | 0.83 | 1.10 |
+| smollm2-360m-distill | 0.17 | 0.87 | 1.17 |
+| smollm2-135m-distill | 0.00 | 0.47 | 0.33 |
+| gpt2-distill | 0.00 | 0.00 | 0.00 |
+
+Leituras:
+- **Sim, e bem**: o `qwen2.5-0.5b-distill` salta de 0.07 closed-book para 3.87 com RAG
+  standard (ganho +3.80), acima do proprio Qwen3-8B standard (2.70) no mesmo juiz fixo.
+  Um motor 16x menor, quase nulo sem contexto, vira competitivo quando le a evidencia
+  recuperada: a recuperacao carrega o resultado, nao o tamanho do motor.
+- **O ganho exige que o motor use o contexto**: o `qwen3-0.6b-distill` parte do maior
+  baseline (0.83) mas nao melhora com standard (0.83), provavelmente respondendo do
+  proprio conhecimento destilado e subutilizando a recuperacao; o grafo o ajuda de leve
+  (1.10). Capacidade de seguir o contexto importa mais que conhecimento previo.
+- **Piso ingles**: o `gpt2-distill` fica em 0.00 em todos os modos. Sem PT no
+  tokenizer/pre-treino, nem o RAG resgata; confirma o limite visto na secao GPT-2.
+- Escala dos students nao ordena o resultado (135M < 360M, mas 0.5B > 0.6B > 1B aqui):
+  o que separa e a familia/qualidade do aluno em ler PT, nao a contagem de parametros.
+
 ### Métricas de recuperação (hit-rate@k do retriever)
 
 Isola o retriever do gerador: mede se a evidência chega ao prompt. Como o benchmark
