@@ -1,0 +1,35 @@
+# Q3 LoRA SFT of gpt2-medium (355M) on the docentesDC pairs (PEFT). A/B override
+# for the Q1 checkpoint:
+#   python scripts/train.py --config configs/lora_docentes_gpt2_medium.yaml \
+#     --model-name outputs/pretrain_gpt2_medium_diarios --output-dir outputs/lora_gpt2_medium_q1
+name: lora_docentes_gpt2_medium
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/gpt2-medium
+    dtype: bfloat16
+
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/sft/docentes_sft_train.jsonl
+
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/lora_gpt2_medium_base
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.0002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    peft:
+      r: 16
+      alpha: 32
+      dropout: 0.05
+      target_modules: ["c_attn", "c_proj", "c_fc"]

@@ -60,6 +60,8 @@ def main() -> None:
         "comparison). Default: judge with the engine itself.",
     )
     parser.add_argument("--judge-device", default="cuda:1", help="device for the judge model")
+    parser.add_argument("--llm-model", default=None,
+                        help="override llm.model_name (reuse one config across engines)")
     parser.add_argument("--vector-dir", default=None, help="override index.vector_dir")
     parser.add_argument("--graph-path", default=None, help="override index.graph_path")
     parser.add_argument("--mmr", action="store_true", help="enable MMR reranking on the vector retriever")
@@ -72,6 +74,8 @@ def main() -> None:
         raise SystemExit(f"unknown modes {unknown}; valid: {sorted(RUNNERS)}")
 
     cfg = load_rag_config(args.config)
+    if args.llm_model:  # reuse one engine config across different generators
+        cfg.llm.model_name = args.llm_model
     if args.vector_dir:  # reuse an engine config with a different index
         cfg.index.vector_dir = args.vector_dir
     if args.graph_path:

@@ -11,3 +11,12 @@ gemma-3-1b-pt,gemma3,1.0B,q1,sft,recall,1.467,7.551,150,SFT from Q1 continued-pr
 Qwen3-0.6B-Base,qwen3,0.6B,base,antes,disjoint,1.767,11.355,150,base; disjoint-content held-out (generalization)
 Qwen3-0.6B-Base,qwen3,0.6B,base,sft,disjoint,1.767,10.049,150,SFT from base; disjoint-content held-out
 Qwen3-0.6B-Base,qwen3,0.6B,q1,sft,disjoint,1.667,9.407,150,SFT from Q1 checkpoint; disjoint-content held-out
+gpt2,gpt2,124M,base,antes,recall,0.067,187.223,150,base before SFT (English BPE; weak PT instruction follower)
+gpt2,gpt2,124M,base,sft,recall,0.033,92.302,150,SFT from base
+gpt2,gpt2,124M,q1,sft,recall,0.033,90.871,150,SFT from Q1 continued-pretrain checkpoint
+gpt2-medium,gpt2,355M,base,antes,recall,0.033,85.321,150,base before SFT
+gpt2-medium,gpt2,355M,base,sft,recall,0.5,54.171,150,SFT from base
+gpt2-medium,gpt2,355M,q1,sft,recall,0.5,52.724,150,SFT from Q1 continued-pretrain checkpoint
+gpt2-large,gpt2,774M,base,antes,recall,0.0,88.95,150,base before SFT
+gpt2-large,gpt2,774M,base,sft,recall,0.247,39.465,150,SFT from base
+gpt2-large,gpt2,774M,q1,sft,recall,0.287,37.772,150,SFT from Q1 continued-pretrain checkpoint

@@ -10,14 +10,17 @@ Nenhum resultado é descartado. Cada questão tem sua seção abaixo e um CSV pr
 
 | Q | Tema | Status | Resultado principal | CSV |
 |---|------|--------|---------------------|-----|
-| Q1 | Pré-treino contínuo (full-param) | feito (0.6B, 1.7B, gemma; 4B na fila) | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv` |
-| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma; 4B na fila) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
+| Q1 | Pré-treino contínuo (full-param) | feito (0.6B, 1.7B, gemma) | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv`, `q1_forgetting.csv` |
+| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
 | Q3 | LoRA (PEFT) | feito | **LoRA iguala/supera o SFT pleno** treinando ~1.7% dos params | `q3_lora.csv` |
 | Q4 | Destilação teacher->student | feito | transferência: SmolLM2-135M 0.07->0.34, gemma 84% do gap; **logit-KD ~ response-based** | `q4_distill.csv`, `q4_methods.csv` |
-| Q5 | RAG (3 modos x motores) | feito (30B na fila) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos | `benchmark_rag_*.csv`, `q5_qualitativos.md` |
+| Q5 | RAG (3 modos x motores) | feito (inclui motor 30B) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos; retrieval hit-rate | `benchmark_rag_*.csv`, `q5_rag_30b.csv`, `q5_retrieval.csv`, `q5_qualitativos.md` |
 | Q6 | Guardrails | feito | proteção **0->100%** das adversariais/PII, **0 falsos positivos** nas benignas | `q6_guardrails.csv` |
 
-Pendente (preso na fila do gpunode01, 2 GPUs): 4B da Q1 e Q2 e o motor 30B da Q5.
+Limite de hardware: o 4B em full fine-tuning (Q1/Q2) **não cabe nas 2x L4** de 22 GB
+(quatro otimizadores FSDP testados, todos falham; ver NOTAS e o config do 4B). A escada
+0.6B/1.7B/gemma cobre a Q1; 4B e 8B ficam fora dos resultados de Q1 por não terem
+treino full-parameter (limite de hardware documentado, não linha de resultado).
 Detalhes e leituras por questão abaixo.
 
 ## Variação dos resultados (amplitude entre modelos/métodos)
@@ -61,8 +64,9 @@ Held-out (texto de diário inédito, disjunto do treino), perplexidade (menor me
 
 Leituras:
 - **Escada de tamanho**: o modelo maior parte de base melhor e chega mais baixo
-  depois (Qwen3 0.6B 6.88 -> 1.7B 5.73). O 4B está pronto mas depende do multi-GPU
-  (ver `docs/SUPORTE_INFRA_MULTIGPU.md`).
+  depois (Qwen3 0.6B 6.88 -> 1.7B 5.73). A escada full-parameter para nos modelos
+  que cabem em 1x L4 (0.6B/1.7B/gemma-1b); o 4B full FT não cabe nas 2x L4 (limite
+  de hardware, ver NOTAS), então não tem resultado de Q1.
 - **Cross-family**: o `gemma-3-1b-pt` (1B) termina melhor que o Qwen3-1.7B (5.49 vs
   5.73) apesar de menor; arquitetura/tokenizer da família importam.
 - **Base vs instruct (evidencia forte)**: o `gemma-3-1b-it` (instruct) começa MUITO
@@ -77,35 +81,33 @@ Leituras:
 
 Comparação direta da escolha da equipe (partir de modelos base) contra usar um
 instruct de prateleira sem treino. Os instruct Qwen na versão não-base
-(`Qwen3-0.6B/1.7B/4B/8B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning;
-os `-base`/`-pt` têm antes e depois. Tabela completa em
+(`Qwen3-0.6B/1.7B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning; os
+`-base`/`-pt` têm antes e depois. Tabela completa em
 `results/q1_base_vs_instruct.csv`. Held-out, perplexidade (menor melhor):
 
 | Tam. (família) | base antes | base depois (FT) | instruct sem FT |
 |----------------|------------|------------------|-----------------|
 | 0.6B (qwen3) | 11.47 | **6.88** | 16.30 |
 | 1.7B (qwen3) | 8.59 | **5.73** | 11.92 |
-| 4B (qwen3) | 7.17 | (job SLURM 399) | 10.02 |
-| 8B (qwen3) | - | - | 8.17 |
 | 1.0B (gemma3) | 9.57 | **5.49** | 28.21 |
 
-(qwen3 0.6B/1.7B/4B: par base/instruct do mesmo tamanho; 8B só instruct. gemma3:
-`-pt` base e `-it` instruct, par da mesma família 1B.)
+(qwen3 0.6B/1.7B: par base/instruct do mesmo tamanho. gemma3: `-pt` base e `-it`
+instruct, par da mesma família 1B.)
 
 Leituras:
 - **O base fine-tunado vence o instruct do mesmo tamanho com folga**: 0.6B 6.88 vs
   16.30; 1.7B 5.73 vs 11.92. O pré-treino contínuo no domínio supera o pós-treino
   de chat para esta tarefa intrínseca.
-- **Tamanho não compensa domínio**: o `Qwen3-1.7B-Base` fine-tunado (5.73) e até o
-  `Qwen3-0.6B-Base` fine-tunado (6.88) batem o `Qwen3-8B` instruct sem treino
-  (8.17), um modelo 5x a 13x maior.
+- **Domínio supera o pós-treino de chat**: o `Qwen3-0.6B-Base` fine-tunado (6.88)
+  já bate o `Qwen3-1.7B` instruct sem treino (11.92), um modelo quase 3x maior; o
+  pré-treino contínuo no domínio rende mais que o alinhamento de chat para esta
+  tarefa intrínseca.
 - **Base < instruct já no ponto de partida**: em todo tamanho, o base antes tem
   perplexidade menor que o instruct sem treino (0.6B 11.47 < 16.30; 1.7B 8.59 <
-  11.92; 4B 7.17 < 10.02). O `Qwen3-4B-Base` cru (7.17) já supera o `Qwen3-8B`
-  instruct (8.17). O alinhamento de chat cobra um imposto em texto cru de diário,
-  monotônico nas duas famílias (gemma-it no extremo, 28.21).
+  11.92). O alinhamento de chat cobra um imposto em texto cru de diário, monotônico
+  nas duas famílias (gemma-it no extremo, 28.21).
 - Confirma quantitativamente, em duas famílias, a decisão de partir de modelos
-  **base** nas Q1-Q3. O `Qwen3-4B-Base` depois entra aqui quando o job 399 fechar.
+  **base** nas Q1-Q3.
 
 ### Mini análise (Q1)
 
@@ -114,8 +116,8 @@ Três efeitos se somam e apontam na mesma direção:
 1. **Adaptação de domínio supera escala.** Para perplexidade em texto de diário, o
    que mais importa não é o tamanho do modelo, é ter visto o domínio. Um base
    pequeno fine-tunado (Qwen3-1.7B-Base 5.73; gemma-3-1b-pt 5.49) bate um instruct
-   várias vezes maior sem treino (Qwen3-8B 8.17). Em um orçamento de 2x L4, treinar
-   um base pequeno rende mais que pegar um instruct grande de prateleira.
+   maior sem treino (Qwen3-1.7B instruct 11.92). Em um orçamento de 2x L4, treinar
+   um base pequeno rende mais que pegar um instruct de prateleira.
 2. **O ponto de partida já favorece o base.** Antes de qualquer treino, o base tem
    perplexidade menor que o instruct do mesmo tamanho em todos os pontos medidos; o
    pós-treino de chat afasta o modelo de texto cru (imposto de alinhamento),
@@ -189,8 +191,8 @@ Leituras:
 - **Q1 + SFT vs SFT puro (juiz):** ajuda no Qwen (sft_q1 > sft_base em 0.6B 1.61 vs
   1.49 e em 1.7B 1.99 vs 1.89), neutro/levemente negativo no gemma. Lean positivo de
   que o pré-treino contínuo (Q1) e o SFT (Q2) se somam.
-- **Escala ajuda** (1.7B > 0.6B em juiz e ppl). O 4B (FSDP+offload, SLURM 2-GPU)
-  fica como o tamanho maior a rodar.
+- **Escala ajuda** (1.7B > 0.6B em juiz e ppl). O 4B full fine-tuning não cabe nas
+  2x L4 (limite de hardware documentado), então 1.7B é o maior tamanho treinado.
 - Caveat de design: um held-out de conteúdo disjunto deixa o juiz chato (modelo não
   pode saber fatos inéditos); por isso usa-se o recall in-domain. As duas leituras
   estão no CSV (`eval_set` = recall vs disjoint).
@@ -220,6 +222,39 @@ Leituras:
 - Conclusão da Q3: **PEFT alcança a qualidade do fine-tune pleno a uma fração do
   custo** (params, memória, tempo), confirmando o valor de LoRA/QLoRA. QLoRA e o 4B
   (via SLURM) ficam como extensões (modelos maiores em 1 GPU).
+
+### Varredura de rank LoRA (Qwen3-0.6B, job 428)
+
+Mesmo eval (juiz fixo Qwen3-8B, 150 itens de recall). Só muda o rank. Dados em
+`results/q3_rank_sweep.csv`.
+
+| Rank | juiz 0-5 | ppl resposta |
+|------|----------|--------------|
+| base | 1.49 | 9.29 |
+| r4 | 1.63 | 6.57 |
+| r8 | 1.66 | 6.39 |
+| r16 | 1.66 | 6.29 |
+| **r32** | **1.78** | 6.54 |
+| r64 | 1.77 | 6.88 |
+
+- O ganho de perplexidade satura cedo: **r8/r16 já capturam quase tudo** (~6.3-6.4).
+- O juiz tem pico em **r=32** (1.78); r64 não melhora. Melhor custo-benefício: r=16-32.
+
+### Curva de dados de SFT (Qwen3-0.6B, job 428)
+
+Quantos pares de SFT bastam. Mesmo eval. Dados em `results/q2_data_curve.csv`.
+
+| Pares | juiz 0-5 | ppl resposta |
+|-------|----------|--------------|
+| base (0) | 1.49 | 9.29 |
+| 250 | 1.65 | 6.95 |
+| 500 | **1.69** | 6.53 |
+| 1000 | 1.49 | 6.44 |
+
+- **Mais dados sempre baixam a perplexidade** (9.29 -> 6.44), de forma monotônica.
+- O juiz, porém, **satura em ~500 pares** e oscila depois (n1000 cai ao nível do base
+  no juiz apesar da menor ppl): retorno decrescente do SFT closed-book, e o juiz mede
+  algo distinto da ppl teacher-forced.
 
 ## Q4 - destilação de conhecimento (teacher -> student)
 
@@ -273,6 +308,67 @@ Leituras:
   (0.60 vs 0.66) neste recall: sem gap a fechar. O ganho da destilação aparece na
   perplexidade, e (na tabela anterior) no juiz dos students mais fracos.
 
+### Comparação de professores: o professor importa? (orçamento fixo)
+
+Ablação controlada: mesmo conjunto de 7 alunos, mesmo orçamento (400 pares de
+treino por professor), mesma avaliação (recall fixo + juiz fixo Qwen3-8B); só muda
+o professor que gerou os dados sintéticos. Quatro professores: Qwen3-8B, Qwen3-30B-
+A3B, gemma-3-27b-it, gemma-4-31b-it. Dados em `q4_teacher_compare.csv` e
+`q4_teacher_<tag>_recall.csv`. (Orçamento de 400 pares: não comparar com a tabela
+Q4 principal acima, que usou 1200 pares.)
+
+Média do juiz nos 7 alunos, por professor:
+
+| Professor | média (7 alunos) | gemma-3-1b | qwen2.5-0.5b | qwen3-0.6b | gemma-3-270m | smollm2-360m | smollm2-135m | gpt2 |
+|-----------|------------------|------------|--------------|------------|--------------|--------------|--------------|------|
+| Qwen3-30B-A3B | **0.354** | 0.72 | 0.53 | 0.58 | 0.21 | 0.28 | 0.06 | 0.10 |
+| gemma-4-31b-it | 0.341 | 0.71 | 0.55 | 0.47 | 0.26 | 0.20 | 0.05 | 0.15 |
+| Qwen3-8B | 0.329 | 0.50 | 0.61 | 0.52 | 0.30 | 0.20 | 0.12 | 0.05 |
+| gemma-3-27b-it | 0.314 | 0.63 | 0.46 | 0.49 | 0.26 | 0.22 | 0.09 | 0.05 |
+
+Leituras:
+- **O melhor professor é o Qwen3-30B**, mas a margem é pequena: o intervalo entre o
+  melhor e o pior professor é 0.04 num juiz 0-5. Trocar de professor move pouco.
+- **"Maior" não é monotônico**: o gemma-3-27b (27B) fica abaixo do Qwen3-8B (8B), e o
+  gemma-4-31b (31B) fica acima do 8B mas abaixo do 30B. Família/qualidade do professor
+  pesa mais que a contagem de parâmetros dele.
+- **O aluno domina o professor**: a variação entre alunos (gemma-3-1b 0.50-0.72,
+  qwen2.5-0.5b 0.46-0.61) é muito maior que a variação entre professores para um mesmo
+  aluno; smollm2-135m e gpt2 ficam ~0 com qualquer professor. A capacidade do aluno em
+  ler PT limita o teto, não o professor.
+- **Quem mais ganha com professor forte é o gemma-3-1b** (0.50 com 8B -> 0.72 com 30B):
+  um aluno já capaz aproveita melhor um professor melhor.
+
+## Família GPT-2 (pioneira): Q1-Q4 em um modelo inglês pequeno
+
+O GPT-2 (124M/355M/774M, BPE inglês, vocabulário 50257, sem variante instruct)
+passou pelo mesmo tratamento dos outros: Q1 (pré-treino contínuo), Q2 (SFT base e
+pós-Q1), Q3 (LoRA base e pós-Q1) e Q4 (aluno na destilação response-based; logit-KD
+não se aplica, vocabulário difere dos teachers). Dados em `q1_gpt2.csv`, `q2_sft.csv`,
+`q3_lora.csv`, `q4_distill.csv`.
+
+Q1 (held-out, perplexidade, antes -> depois): 124M 75.2 -> 59.9; 355M 53.4 -> 40.1;
+774M 44.6 -> 23.8. A adaptação de domínio funciona mesmo num modelo inglês: a
+perplexidade in-domain cai muito (774M quase pela metade). E, ao contrário de
+Qwen/gemma, o GPT-2 **não esquece**: o delta OOD (docentesDC) é negativo nos três
+tamanhos (124M -0.82; 355M -0.37; 774M -0.99). Hipótese: partindo tão mal de
+qualquer texto não-inglês, treino em script latino ajuda de forma ampla, sem o
+trade-off de esquecimento visto nos modelos que já dominavam o português.
+
+Q2/Q3/Q4 (juiz fixo Qwen3-8B, 0-5, recall do docentesDC): o juiz fica baixo em
+todas as variantes. SFT pleno: 124M 0.03, 355M 0.50, 774M 0.25-0.29 (par base/Q1);
+LoRA: 124M 0.11-0.13, 355M 0.09-0.33, 774M 0.20-0.21, comparável ao SFT pleno.
+Destilação: juiz 0.05 (igual ao base), transfer ratio 0. Em todos os casos a
+perplexidade da resposta despenca (SFT 774M 89 -> 38; destilação 1537 -> 134, -91%),
+mas a nota do juiz não acompanha.
+
+Leitura: para a métrica de linguagem (perplexidade), adaptação de domínio melhora o
+GPT-2 de forma clara e sem esquecimento. Para a tarefa downstream em português
+(seguir instrução, responder certo), o tokenizer inglês e a ausência de pré-treino
+em PT limitam o teto: o modelo aprende a **forma** (tokens PT mais prováveis), não a
+**tarefa**. Funciona como piso/referência negativa que dimensiona o quanto a escolha
+de um base já competente em português (Qwen/gemma) importa.
+
 ## Q5 - RAG (ablação de 3 modos x 3 motores)
 
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por
@@ -302,6 +398,103 @@ Leituras:
   2.87 e o RAG aparecia negativo (artefato do juiz 1B, não do método).
 - Ablação do dataset balanceado (licitações podadas) em `*_balanced_*` testa se a
   repetição das licitações achatava a diferença entre os modos.
+
+### Motor 30B (Qwen3-30B-A3B-Instruct-2507-FP8)
+
+O 30B-A3B-FP8 preenche as 2 L4 (device_map=auto), então o juiz aqui e o **proprio
+motor** (auto-julgamento), nao o juiz fixo 8B: estes numeros nao sao diretamente
+comparaveis a tabela acima (a referencia cross-engine continua sendo o juiz fixo 8B).
+Mesmo benchmark de 30 perguntas. Dados em `results/q5_rag_30b.csv` (job 439).
+
+| Motor (auto-juiz) | baseline | standard | agentic_graph |
+|-------------------|----------|----------|---------------|
+| Qwen3-30B-A3B-FP8 | 1.57 | **3.03** | 2.90 |
+
+Leituras:
+- **RAG ajuda mesmo o motor maior**: standard sobe +1.47 sobre o baseline (1.57 ->
+  3.03), o mesmo padrao dos motores menores: a recuperacao e o ganho principal.
+- **Grafo nao separa do standard** (2.90 vs 3.03), reforcando a conclusao geral: nesta
+  tarefa de achar um fato em texto, o grafo/multi-hop agrega pouco. A auto-correcao do
+  agente disparou em 3/30 casos.
+- O baseline do 30B (1.57) ja e maior que o do 8B (1.10 no juiz fixo), coerente com um
+  motor mais capaz closed-book, mas o teto com RAG fica proximo (3.03 vs 3.50 do 8B no
+  corpus balanceado): a recuperacao nivela motores fortes.
+
+### Students destilados como motor RAG (Q4 -> Q5)
+
+Pergunta: um aluno destilado pequeno e barato pode servir de motor de geracao no RAG?
+Cada student da Q4 rodou como motor sobre o mesmo indice e benchmark de 30 perguntas,
+juiz fixo Qwen3-8B (comparavel a tabela de motores acima). Dados em `q5_engines.csv`
+(`kind=distill-student`) e `q5_student_*.csv`.
+
+| Motor (student destilado) | baseline | standard | agentic_graph |
+|---------------------------|----------|----------|---------------|
+| qwen2.5-0.5b-distill | 0.07 | **3.87** | 3.53 |
+| gemma-1b-distill | 0.73 | 1.30 | 1.33 |
+| qwen3-0.6b-distill | 0.83 | 0.83 | 1.10 |
+| smollm2-360m-distill | 0.17 | 0.87 | 1.17 |
+| smollm2-135m-distill | 0.00 | 0.47 | 0.33 |
+| gpt2-distill | 0.00 | 0.00 | 0.00 |
+
+Leituras:
+- **Sim, e bem**: o `qwen2.5-0.5b-distill` salta de 0.07 closed-book para 3.87 com RAG
+  standard (ganho +3.80), acima do proprio Qwen3-8B standard (2.70) no mesmo juiz fixo.
+  Um motor 16x menor, quase nulo sem contexto, vira competitivo quando le a evidencia
+  recuperada: a recuperacao carrega o resultado, nao o tamanho do motor.
+- **O ganho exige que o motor use o contexto**: o `qwen3-0.6b-distill` parte do maior
+  baseline (0.83) mas nao melhora com standard (0.83), provavelmente respondendo do
+  proprio conhecimento destilado e subutilizando a recuperacao; o grafo o ajuda de leve
+  (1.10). Capacidade de seguir o contexto importa mais que conhecimento previo.
+- **Piso ingles**: o `gpt2-distill` fica em 0.00 em todos os modos. Sem PT no
+  tokenizer/pre-treino, nem o RAG resgata; confirma o limite visto na secao GPT-2.
+- Escala dos students nao ordena o resultado (135M < 360M, mas 0.5B > 0.6B > 1B aqui):
+  o que separa e a familia/qualidade do aluno em ler PT, nao a contagem de parametros.
+
+### Motores grandes: gemma-3-27b-it e gemma-4-31b-it (4-bit)
+
+Os dois gemma grandes como motor RAG (4-bit NF4, fixados no GPU0; juiz fixo Qwen3-8B
+no cuda:1), mesmo indice e benchmark. Dados em `q5_engine_gemma-3-27b-it.csv` e
+`q5_engine_gemma-4-31b-it.csv`.
+
+| Motor (4-bit) | baseline | standard | agentic_graph |
+|---------------|----------|----------|---------------|
+| gemma-3-27b-it | 1.30 | **3.10** | 2.97 |
+| gemma-4-31b-it | 1.10 | (OOM, ver abaixo) | (OOM) |
+
+Leituras:
+- **Um gemma grande e motor RAG forte**: o `gemma-3-27b-it` em standard (3.10) supera o
+  `Qwen3-8B` (2.70) no mesmo juiz fixo, confirmando que motor mais capaz ajuda, mas o
+  ganho continua vindo da recuperacao (+1.80 sobre o baseline 1.30).
+- **Limite de hardware no 31B**: o `gemma-4-31b-it` (4-bit ~16 GB) nao cabe de forma
+  confiavel em uma L4 junto do juiz 8B quando ha contexto recuperado: o baseline (sem
+  RAG) roda limpo (1.10), mas o standard sofre OOM em ~11-17 das 30 perguntas mesmo com
+  geracoes de 256 tokens, e o agentic_graph (contexto acumulado) nao fecha. Nas
+  perguntas que couberam o standard fica ~3.36 (na faixa do 27b), entao a limitacao e de
+  memoria, nao de qualidade. Para um numero limpo do 31b seria preciso uma avaliacao em
+  dois passos (gerar com o motor nos dois GPUs, depois julgar), nao feita aqui.
+
+### Métricas de recuperação (hit-rate@k do retriever)
+
+Isola o retriever do gerador: mede se a evidência chega ao prompt. Como o benchmark
+não tem id de documento gold, usa-se o proxy padrão de **answer hit-rate@k** (a resposta
+esperada aparece em algum dos k chunks recuperados). Embedder bge-m3, 30 perguntas.
+Dados em `results/q5_retrieval.csv` (script `scripts/eval_retrieval.py`).
+
+| Método | hit@1 | hit@3 | hit@5 | hit@10 |
+|--------|-------|-------|-------|--------|
+| plain (similaridade) | 0.43 | 0.57 | **0.60** | 0.63 |
+| MMR | 0.43 | 0.47 | 0.47 | 0.57 |
+| plain - factual | 0.50 | 0.67 | 0.67 | 0.72 |
+| plain - multihop | 0.33 | 0.42 | 0.50 | 0.50 |
+
+Leituras:
+- **A recuperação simples (plain) supera a MMR** em hit-rate: o MMR troca relevância por
+  diversidade e, nesta tarefa de achar um fato pontual, isso tira chunks certos do topo.
+- **Factual > multihop** (hit@5 0.67 vs 0.50): perguntas multi-hop espalham a evidência
+  por mais de um documento, mais difícil de cobrir no top-k.
+- **Teto em ~0.63 (hit@10)**: em ~37% das perguntas a resposta nunca aparece nos chunks
+  recuperados (resposta fora do subconjunto indexado, ou fraseada de outro jeito, ou
+  miss do retriever). Isso limita o teto do gerador e explica parte do erro do RAG.
 
 ### Ablação: corpus cheio vs balanceado (licitações podadas)
 

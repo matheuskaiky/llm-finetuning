@@ -39,7 +39,7 @@ real: código desacoplado, configurável e reprodutível.
 
 | Item | Escolha | Observação |
 |------|---------|------------|
-| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B e 1.7B feitos; 4B pendente do multi-GPU). |
+| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B e 1.7B feitos; o 4B não cabe, limite de hardware documentado nas NOTAS). |
 | Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, 1 L4) | Instruct de texto puro para extração de grafo, geração e juiz. Variante maior `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (2 L4, MoE) reservada para quando o multi-GPU (NCCL) for corrigido. Embeddings: `BAAI/bge-m3`. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` | Diário Oficial dos Municípios do Piauí 2025 (parquet, ~195M tokens). |
 
@@ -47,6 +47,14 @@ real: código desacoplado, configurável e reprodutível.
 > pré-treino, sem pós-treino de chat) nas questões 1 a 3, para que a comparação
 > antes/depois meça o efeito do *nosso* treino e não o alinhamento de fábrica de um
 > instruct. Os modelos instruct/multimodais ficam para inferência, RAG e destilação.
+
+> **Expansão multi-família e multi-tamanho.** Além da escada Qwen3, o projeto cobre
+> uma segunda família (`gpt2` 124M/355M/774M) nas Q1-Q4, professores grandes
+> (`gemma-3-27b-it`, `gemma-4-31b-it`, `Qwen3-30B`) comparados entre si como
+> professor da destilação (Q4) e como motor de RAG (Q5), e students destilados
+> (qwen2.5-0.5b, qwen3-0.6b, gemma-1b, smollm2-360m/135m, gpt2) reaproveitados como
+> motores leves de RAG. O detalhamento de qual peça entra em cada questão está em
+> [`docs/IMPLEMENTACAO_QUESTOES.md`](docs/IMPLEMENTACAO_QUESTOES.md).
 
 Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
 `README.md` e a seção 7 do `PROJECT_CONTEXT.md`.

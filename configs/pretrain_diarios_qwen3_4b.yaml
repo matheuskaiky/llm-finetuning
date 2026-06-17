@@ -39,11 +39,20 @@ trainer:
     logging_steps: 20
     bf16: true
     gradient_checkpointing: true
-    optim: adamw_bnb_8bit
-    # 4B full FT fits 2x L4 with FSDP full_shard + 8-bit Adam (adamw_bnb_8bit,
-    # ~15 GB/GPU) WITHOUT CPU offload. Offload was dropped: it puts grads on CPU
-    # and the distributed grad-norm reduction needs a gloo backend (not init'd),
-    # failing with 'No backend type ... cpu'. No offload -> grads on GPU -> NCCL ok.
+    optim: adamw_torch_8bit
+    # KNOWN LIMITATION (see NOTAS 2026-06-17): 4B full-parameter FT does not fit
+    # 2x L4 (22 GB usable each) under this software stack. No optimizer config works:
+    #  1. adamw_torch + FSDP offload: grads on CPU, grad-norm needs gloo -> backend err.
+    #  2. adamw_bnb_8bit (bitsandbytes) + full_shard: DTensor params, no sharding
+    #     strategy -> NotImplementedError on optimizer_update_32bit.
+    #  3. adamw_torch_8bit (torchao) + torch.compile: dynamo traces OptimState8bit
+    #     and hits unimplemented aten.view.dtype.
+    #  4. adamw_torch_8bit (torchao) eager (TORCHDYNAMO_DISABLE=1): DTensor sharding
+    #     propagation for aten.lerp.Scalar fails on bf16 param vs fp32 optim state.
+    #  - plain adamw_torch + full_shard (fp32 Adam, ~16 GB/GPU): OOM at the loss with
+    #    21.45/22 GB already used.
+    # The 0.6B/1.7B base ladder covers Q1; 4B stays an attempted, hardware-bound
+    # extension. QLoRA would fit but is PEFT (Q3), out of scope for full-FT Q1.
     fsdp: "full_shard auto_wrap"
     fsdp_config:
       transformer_layer_cls_to_wrap: ["Qwen3DecoderLayer"]

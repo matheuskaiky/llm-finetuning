@@ -81,13 +81,17 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader. (docente: dataset oficial do Hub; Q&A e splits a seguir.)
-├── models/        # [x] ModelProvider: LocalModelProvider, CloudModelProvider (placeholder).
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, sft_pairs (build_prompt/labels, mascara so na resposta).
+├── models/        # [x] ModelProvider: LocalModelProvider (4-bit NF4 opcional, device_map str|dict), CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
-├── training/      # [~] Trainers (Strategy): ContinualPretrainTrainer (Q1), SupervisedFineTuneTrainer (Q2, loss so na resposta). LoRA/QLoRA (Q3) e distill a seguir.
-├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client, extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), agent (LangGraph self-reflexivo), pipelines (modos Standard/Agentic como RagRunner + registro), judge, doc_select (deteccao/balanceamento de licitacoes).
-└── guardrails/    # [ ] GuardrailLayer: filtros de entrada/saída componíveis.
+├── training/      # [x] Trainers (Strategy): ContinualPretrainTrainer (Q1), SupervisedFineTuneTrainer (Q2, loss so na resposta; reaproveitado para LoRA/QLoRA da Q3 via config peft), DistillationTrainer (Q4, logit-KD). Destilacao response-based (Q4) feita via geracao sintetica + SFT, sem trainer dedicado.
+├── rag/           # [x] GraphRAG (Q5): config, chunking, llm_client (4-bit, device_map dict), extraction, graph_store (networkx), vector_store (FAISS), retrievers (vector+graph), rerank, agent (LangGraph self-reflexivo), pipelines (modos Standard/Agentic como RagRunner + registro), judge, doc_select (deteccao/balanceamento de licitacoes).
+└── guardrails/    # [x] GuardrailLayer + Guardrails componiveis: PiiMaskGuardrail (mascaramento PII), JailbreakGuardrail (bloqueio), UnsafeTopicGuardrail (classificacao). Estagios input/output.
 ```
+
+> Visão completa de quais módulos, configs, scripts e benchmarks cada questão usa,
+> e das decisões de implementação, em
+> [`docs/IMPLEMENTACAO_QUESTOES.md`](docs/IMPLEMENTACAO_QUESTOES.md).
 
 Componentes registram-se nos registries de `core/registry.py`
 (`MODEL_PROVIDERS`, `DATASET_LOADERS`, `TRAINERS`, `METRICS`, `EVALUATORS`) e são
@@ -201,9 +205,12 @@ single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
 
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
-| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU); 4B pronto mas pendente do multi-GPU. Texto puro, vocab 151936. |
+| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU). O 4B em full fine-tuning não cabe nas 2x L4 (limite de hardware: quatro otimizadores FSDP falham; ver NOTAS), fica só sem treino. Texto puro, vocab 151936. |
 | Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
 | Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
+| Cross-family extra (Q1-Q4) | família `gpt2` (124M/355M/774M) | Segunda família, vocab BPE ingles 50257, contexto 1024, sem instruct. LoRA mira `c_attn`/`c_proj`/`c_fc`. Adapta lingua (ppl cai) mas nao a tarefa PT (juiz <= 0.5). |
+| Professores grandes (Q4/Q5) | `google/gemma-3-27b-it`, `google/gemma-4-31b-it`, `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (4-bit/FP8) | Comparados como professor da destilacao (vs Qwen3-8B) e como motor de RAG. 27b roda limpo pinado em 1 L4; 31b 4-bit nao cabe ao lado do juiz (limite de hardware). |
+| Students da destilacao (Q4) e motores (Q5) | `Qwen2.5-0.5B`, `Qwen3-0.6B`, `gemma-3-1b`, `SmolLM2-360M/135M`, `gpt2` | Students SFT'd no dataset sintetico do professor. Reusados como motor de RAG na Q5: qwen2.5-0.5b-distill chega a 3.87 (supera o 8B sem destilacao). |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. Variante balanceada (licitações podadas) só para diagnóstico. |
 | Dataset docente | `vickminari/docentesDC` (HF) | Dataset oficial pre-processado do grupo responsavel: 13.762 registros, campos `text` e `nome_professor`. Em `data/raw/docentesDC/` (jsonl + parquet). Substitui o SIGAA bruto e a extracao propria (removida). Q2/Q3/Q5. |
 

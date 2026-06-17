@@ -1,0 +1,8 @@
+model,mean_judge,mean_resp_ppl,n
+t8b_smollm135,0.12,20.805,100
+t8b_smollm360,0.2,12.257,100
+t8b_qwen2p5,0.61,6.077,100
+t8b_qwen3_0p6,0.52,5.98,100
+t8b_gemma1b,0.5,4.054,100
+t8b_gpt2,0.05,166.159,100
+t8b_gemma270m,0.3,10.518,100

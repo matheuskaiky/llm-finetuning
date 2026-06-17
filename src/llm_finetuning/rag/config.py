@@ -47,15 +47,16 @@ class EmbedderConfig(BaseModel):
 class LlmConfig(BaseModel):
     """Local instruct LLM used for extraction, generation and judging.
 
-    ``device_map`` (e.g. "auto") splits a large model across both GPUs for
-    inference (no NCCL needed); leave null to pin to a single ``device``.
-    ``load_in_8bit``/``load_in_4bit`` quantize at load time via bitsandbytes; a
-    checkpoint that is already FP8 needs neither (just ``device_map: auto``).
+    ``device_map`` ("auto" spreads a large model across both GPUs; a dict like
+    ``{"": 0}`` pins the whole model to one GPU so a separate judge keeps the
+    other) splits a large model for inference (no NCCL needed); leave null to pin
+    to a single ``device``. ``load_in_8bit``/``load_in_4bit`` quantize at load
+    time via bitsandbytes; an FP8 checkpoint needs neither (just ``device_map: auto``).
     """
 
     model_name: str = "models/Qwen3-8B"
     device: str = "cuda"
-    device_map: str | None = None
+    device_map: str | dict | None = None
     load_in_8bit: bool = False
     load_in_4bit: bool = False
     max_new_tokens: int = 512

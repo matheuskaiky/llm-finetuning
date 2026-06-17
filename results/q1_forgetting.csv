@@ -1,0 +1,7 @@
+model,params,eval_set,ppl_antes,ppl_depois,delta_ppl,ce_antes,ce_depois
+Qwen3-0.6B,0.6B,ood_docentes,11.16,11.782,0.623,2.412,2.467
+Qwen3-1.7B,1.7B,ood_docentes,8.593,8.919,0.326,2.151,2.188
+gemma-3-1b,1.0B,ood_docentes,14.492,15.643,1.151,2.674,2.75
+gpt2,124M,ood_docentes,49.154,48.336,-0.818,3.895,3.878
+gpt2-medium,355M,ood_docentes,34.259,33.893,-0.365,3.534,3.523
+gpt2-large,774M,ood_docentes,28.752,27.768,-0.985,3.359,3.324

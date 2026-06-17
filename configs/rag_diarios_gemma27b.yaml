@@ -1,0 +1,40 @@
+# Q5 GraphRAG with gemma-3-27b-it as the engine (4-bit NF4 on one L4, ~14 GB).
+# Same bounded index as the other engines. Eval with a fixed Qwen3-8B judge.
+name: rag_diarios_gemma27b
+seed: 42
+graph_max_chunks: 100
+
+source:
+  src_dir: data/raw/dom-pi-corpus-2025
+  config: curated
+  limit: 150
+  skip: 0
+  min_tokens: 64
+
+chunking:
+  chunk_size: 1200
+  overlap: 200
+
+embedder:
+  model_name: BAAI/bge-m3
+  device: cuda
+  batch_size: 32
+
+llm:
+  model_name: models/gemma-3-27b-it
+  # Pin the whole 4-bit engine to GPU0 so the fixed Qwen3-8B judge keeps GPU1 to
+  # itself (device_map auto would spread the engine across both and OOM the judge).
+  device_map:
+    "": 0
+  load_in_4bit: true
+  max_new_tokens: 512
+  temperature: 0.0
+
+index:
+  vector_dir: data/processed/rag/diarios_faiss
+  graph_path: data/processed/rag/diarios_graph.json
+
+agent:
+  top_k_vector: 5
+  max_graph_hops: 2
+  max_reflections: 2

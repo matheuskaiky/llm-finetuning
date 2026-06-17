@@ -1,0 +1,3 @@
+model,mean_judge,mean_resp_ppl,n
+base_gpt2,0.05,1537.046,100
+distill_gpt2,0.05,134.309,100

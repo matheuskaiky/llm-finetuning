@@ -1,0 +1,32 @@
+# Q1: continued pre-training of gpt2 (full-parameter) on the diarios corpus.
+# GPT-2 family (English BPE, vocab 50257, max context 1024) as a pioneer-model
+# baseline alongside the modern Qwen/gemma ladder. Small enough for full FT on one
+# L4 with plain AdamW. Evaluates antes/depois.
+name: pretrain_diarios_gpt2
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/gpt2
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_gpt2_diarios
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 8
+    gradient_accumulation_steps: 2
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
