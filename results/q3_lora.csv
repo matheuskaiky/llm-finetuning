@@ -11,3 +11,15 @@ Qwen3-1.7B,1.7B,base,full,recall,1.893,5.088,150,full SFT (Q2)
 Qwen3-1.7B,1.7B,q1,full,recall,1.993,5.142,150,full SFT (Q2)
 gemma-3-1b,1.0B,base,full,recall,1.567,7.381,150,full SFT (Q2)
 gemma-3-1b,1.0B,q1,full,recall,1.467,7.551,150,full SFT (Q2)
+gpt2,124M,base,lora,recall,0.133,75.255,150,LoRA r16 merged
+gpt2,124M,q1,lora,recall,0.107,75.154,150,LoRA from Q1 checkpoint
+gpt2-medium,355M,base,lora,recall,0.093,51.477,150,LoRA r16 merged
+gpt2-medium,355M,q1,lora,recall,0.333,51.285,150,LoRA from Q1 checkpoint
+gpt2-large,774M,base,lora,recall,0.2,33.79,150,LoRA r16 merged
+gpt2-large,774M,q1,lora,recall,0.213,33.707,150,LoRA from Q1 checkpoint
+gpt2,124M,base,full,recall,0.033,92.302,150,full SFT (Q2) for comparison
+gpt2,124M,q1,full,recall,0.033,90.871,150,full SFT (Q2)
+gpt2-medium,355M,base,full,recall,0.5,54.171,150,full SFT (Q2)
+gpt2-medium,355M,q1,full,recall,0.5,52.724,150,full SFT (Q2)
+gpt2-large,774M,base,full,recall,0.247,39.465,150,full SFT (Q2)
+gpt2-large,774M,q1,full,recall,0.287,37.772,150,full SFT (Q2)

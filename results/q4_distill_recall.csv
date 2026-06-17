@@ -10,3 +10,5 @@ base_qwen3_0p6,0.6,10.558,100
 distill_qwen3_0p6,0.51,6.116,100
 base_gemma,0.41,11.258,100
 distill_gemma,0.62,4.602,100
+base_gpt2,0.05,1537.046,100
+distill_gpt2,0.05,134.309,100

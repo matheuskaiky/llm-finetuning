@@ -1,0 +1,7 @@
+model,mean_judge,mean_resp_ppl,n
+gpt2-124M-lora-base,0.133,75.255,150
+gpt2-124M-lora-q1,0.107,75.154,150
+gpt2-medium-355M-lora-base,0.093,51.477,150
+gpt2-medium-355M-lora-q1,0.333,51.285,150
+gpt2-large-774M-lora-base,0.2,33.79,150
+gpt2-large-774M-lora-q1,0.213,33.707,150

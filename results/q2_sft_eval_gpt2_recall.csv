@@ -1,0 +1,10 @@
+model,mean_judge,mean_resp_ppl,n
+gpt2-124M-base-noft,0.067,187.223,150
+gpt2-124M-sft-base,0.033,92.302,150
+gpt2-124M-sft-q1,0.033,90.871,150
+gpt2-medium-355M-base-noft,0.033,85.321,150
+gpt2-medium-355M-sft-base,0.5,54.171,150
+gpt2-medium-355M-sft-q1,0.5,52.724,150
+gpt2-large-774M-base-noft,0.0,88.95,150
+gpt2-large-774M-sft-base,0.247,39.465,150
+gpt2-large-774M-sft-q1,0.287,37.772,150
