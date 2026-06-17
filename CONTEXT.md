@@ -48,6 +48,14 @@ real: código desacoplado, configurável e reprodutível.
 > antes/depois meça o efeito do *nosso* treino e não o alinhamento de fábrica de um
 > instruct. Os modelos instruct/multimodais ficam para inferência, RAG e destilação.
 
+> **Expansão multi-família e multi-tamanho.** Além da escada Qwen3, o projeto cobre
+> uma segunda família (`gpt2` 124M/355M/774M) nas Q1-Q4, professores grandes
+> (`gemma-3-27b-it`, `gemma-4-31b-it`, `Qwen3-30B`) comparados entre si como
+> professor da destilação (Q4) e como motor de RAG (Q5), e students destilados
+> (qwen2.5-0.5b, qwen3-0.6b, gemma-1b, smollm2-360m/135m, gpt2) reaproveitados como
+> motores leves de RAG. O detalhamento de qual peça entra em cada questão está em
+> [`docs/IMPLEMENTACAO_QUESTOES.md`](docs/IMPLEMENTACAO_QUESTOES.md).
+
 Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
 `README.md` e a seção 7 do `PROJECT_CONTEXT.md`.
 
