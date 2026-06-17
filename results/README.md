@@ -221,6 +221,39 @@ Leituras:
   custo** (params, memória, tempo), confirmando o valor de LoRA/QLoRA. QLoRA e o 4B
   (via SLURM) ficam como extensões (modelos maiores em 1 GPU).
 
+### Varredura de rank LoRA (Qwen3-0.6B, job 428)
+
+Mesmo eval (juiz fixo Qwen3-8B, 150 itens de recall). Só muda o rank. Dados em
+`results/q3_rank_sweep.csv`.
+
+| Rank | juiz 0-5 | ppl resposta |
+|------|----------|--------------|
+| base | 1.49 | 9.29 |
+| r4 | 1.63 | 6.57 |
+| r8 | 1.66 | 6.39 |
+| r16 | 1.66 | 6.29 |
+| **r32** | **1.78** | 6.54 |
+| r64 | 1.77 | 6.88 |
+
+- O ganho de perplexidade satura cedo: **r8/r16 já capturam quase tudo** (~6.3-6.4).
+- O juiz tem pico em **r=32** (1.78); r64 não melhora. Melhor custo-benefício: r=16-32.
+
+### Curva de dados de SFT (Qwen3-0.6B, job 428)
+
+Quantos pares de SFT bastam. Mesmo eval. Dados em `results/q2_data_curve.csv`.
+
+| Pares | juiz 0-5 | ppl resposta |
+|-------|----------|--------------|
+| base (0) | 1.49 | 9.29 |
+| 250 | 1.65 | 6.95 |
+| 500 | **1.69** | 6.53 |
+| 1000 | 1.49 | 6.44 |
+
+- **Mais dados sempre baixam a perplexidade** (9.29 -> 6.44), de forma monotônica.
+- O juiz, porém, **satura em ~500 pares** e oscila depois (n1000 cai ao nível do base
+  no juiz apesar da menor ppl): retorno decrescente do SFT closed-book, e o juiz mede
+  algo distinto da ppl teacher-forced.
+
 ## Q4 - destilação de conhecimento (teacher -> student)
 
 Teacher = `Qwen3-8B` (gera Q&A sintético ancorado nos diários, estilo RAG); students
