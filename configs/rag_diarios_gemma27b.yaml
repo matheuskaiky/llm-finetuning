@@ -22,7 +22,10 @@ embedder:
 
 llm:
   model_name: models/gemma-3-27b-it
-  device_map: auto
+  # Pin the whole 4-bit engine to GPU0 so the fixed Qwen3-8B judge keeps GPU1 to
+  # itself (device_map auto would spread the engine across both and OOM the judge).
+  device_map:
+    "": 0
   load_in_4bit: true
   max_new_tokens: 512
   temperature: 0.0

@@ -27,7 +27,7 @@ class LocalChatLLM:
         self,
         model_name: str = "models/Qwen3-8B",
         device: str = "cuda",
-        device_map: str | None = None,
+        device_map: str | dict | None = None,
         load_in_8bit: bool = False,
         load_in_4bit: bool = False,
         max_new_tokens: int = 512,
