@@ -26,7 +26,9 @@ llm:
   device_map:
     "": 0
   load_in_4bit: true
-  max_new_tokens: 512
+  # 31B in 4-bit (~16 GB) plus KV barely fits one L4 next to the 8B judge; shorter
+  # generations keep the longer-context modes from OOM-ing.
+  max_new_tokens: 256
   temperature: 0.0
 
 index:

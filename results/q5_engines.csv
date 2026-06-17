@@ -29,3 +29,6 @@ smollm2-135m-distill,135M,distill-student,agentic_graph,0.33
 gpt2-distill,124M,distill-student,baseline,0.0
 gpt2-distill,124M,distill-student,standard,0.0
 gpt2-distill,124M,distill-student,agentic_graph,0.0
+gemma-3-27b-it,27B,instruct-4bit,baseline,1.30
+gemma-3-27b-it,27B,instruct-4bit,standard,3.10
+gemma-3-27b-it,27B,instruct-4bit,agentic_graph,2.97
