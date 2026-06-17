@@ -18,6 +18,10 @@
 set -euo pipefail
 cd "${SLURM_SUBMIT_DIR:-/home/aluno_matheus/Code/llm-finetuning}"
 export OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false
+# See pretrain_qwen3_4b.sbatch: torchao 8-bit optimizer must run eager (compile bug),
+# expandable_segments cuts fragmentation on the 22 GB L4.
+export TORCHDYNAMO_DISABLE=1
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 MASTER_PORT=$(( 20000 + (RANDOM % 20000) ))
 
 EXTRA=()

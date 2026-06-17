@@ -34,11 +34,10 @@ trainer:
     bf16: true
     gradient_checkpointing: true
     optim: adamw_torch_8bit
-    # 4B full FT fits 2x L4 with FSDP full_shard + 8-bit Adam WITHOUT CPU offload.
-    # adamw_bnb_8bit (bitsandbytes) is NOT FSDP/DTensor compatible (no sharding
-    # strategy for optimizer_update_32bit); adamw_torch_8bit (torchao tensor-subclass)
-    # composes with DTensor and works under full_shard. See the pretrain config and
-    # NOTAS for the full history. Requires torchao>=0.11 in the .venv.
+    # 4B full FT on 2x L4: needs FSDP-compatible 8-bit optimizer (plain adamw_torch
+    # OOMs, bitsandbytes has no DTensor sharding). adamw_torch_8bit (torchao) is run
+    # with TORCHDYNAMO_DISABLE=1 (set in the sbatch) to avoid the torch.compile
+    # tracing bug. See pretrain config + NOTAS for the full history.
     fsdp: "full_shard auto_wrap"
     fsdp_config:
       transformer_layer_cls_to_wrap: ["Qwen3DecoderLayer"]
