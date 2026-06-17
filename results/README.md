@@ -336,6 +336,27 @@ Leituras:
 - Ablação do dataset balanceado (licitações podadas) em `*_balanced_*` testa se a
   repetição das licitações achatava a diferença entre os modos.
 
+### Motor 30B (Qwen3-30B-A3B-Instruct-2507-FP8)
+
+O 30B-A3B-FP8 preenche as 2 L4 (device_map=auto), então o juiz aqui e o **proprio
+motor** (auto-julgamento), nao o juiz fixo 8B: estes numeros nao sao diretamente
+comparaveis a tabela acima (a referencia cross-engine continua sendo o juiz fixo 8B).
+Mesmo benchmark de 30 perguntas. Dados em `results/q5_rag_30b.csv` (job 439).
+
+| Motor (auto-juiz) | baseline | standard | agentic_graph |
+|-------------------|----------|----------|---------------|
+| Qwen3-30B-A3B-FP8 | 1.57 | **3.03** | 2.90 |
+
+Leituras:
+- **RAG ajuda mesmo o motor maior**: standard sobe +1.47 sobre o baseline (1.57 ->
+  3.03), o mesmo padrao dos motores menores: a recuperacao e o ganho principal.
+- **Grafo nao separa do standard** (2.90 vs 3.03), reforcando a conclusao geral: nesta
+  tarefa de achar um fato em texto, o grafo/multi-hop agrega pouco. A auto-correcao do
+  agente disparou em 3/30 casos.
+- O baseline do 30B (1.57) ja e maior que o do 8B (1.10 no juiz fixo), coerente com um
+  motor mais capaz closed-book, mas o teto com RAG fica proximo (3.03 vs 3.50 do 8B no
+  corpus balanceado): a recuperacao nivela motores fortes.
+
 ### Ablação: corpus cheio vs balanceado (licitações podadas)
 
 Dataset balanceado = 75 licitação / 75 outros (grafo mais rico: 411 entidades vs
