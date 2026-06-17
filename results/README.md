@@ -19,7 +19,8 @@ Nenhum resultado é descartado. Cada questão tem sua seção abaixo e um CSV pr
 
 Limite de hardware: o 4B em full fine-tuning (Q1/Q2) **não cabe nas 2x L4** de 22 GB
 (quatro otimizadores FSDP testados, todos falham; ver NOTAS e o config do 4B). A escada
-0.6B/1.7B/gemma cobre a Q1; o 4B base e instruct entram só sem treino (medições válidas).
+0.6B/1.7B/gemma cobre a Q1; 4B e 8B ficam fora dos resultados de Q1 por não terem
+treino full-parameter (limite de hardware documentado, não linha de resultado).
 Detalhes e leituras por questão abaixo.
 
 ## Variação dos resultados (amplitude entre modelos/métodos)
@@ -63,8 +64,9 @@ Held-out (texto de diário inédito, disjunto do treino), perplexidade (menor me
 
 Leituras:
 - **Escada de tamanho**: o modelo maior parte de base melhor e chega mais baixo
-  depois (Qwen3 0.6B 6.88 -> 1.7B 5.73). O 4B está pronto mas depende do multi-GPU
-  (ver `docs/SUPORTE_INFRA_MULTIGPU.md`).
+  depois (Qwen3 0.6B 6.88 -> 1.7B 5.73). A escada full-parameter para nos modelos
+  que cabem em 1x L4 (0.6B/1.7B/gemma-1b); o 4B full FT não cabe nas 2x L4 (limite
+  de hardware, ver NOTAS), então não tem resultado de Q1.
 - **Cross-family**: o `gemma-3-1b-pt` (1B) termina melhor que o Qwen3-1.7B (5.49 vs
   5.73) apesar de menor; arquitetura/tokenizer da família importam.
 - **Base vs instruct (evidencia forte)**: o `gemma-3-1b-it` (instruct) começa MUITO
@@ -79,36 +81,33 @@ Leituras:
 
 Comparação direta da escolha da equipe (partir de modelos base) contra usar um
 instruct de prateleira sem treino. Os instruct Qwen na versão não-base
-(`Qwen3-0.6B/1.7B/4B/8B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning;
-os `-base`/`-pt` têm antes e depois. Tabela completa em
+(`Qwen3-0.6B/1.7B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning; os
+`-base`/`-pt` têm antes e depois. Tabela completa em
 `results/q1_base_vs_instruct.csv`. Held-out, perplexidade (menor melhor):
 
 | Tam. (família) | base antes | base depois (FT) | instruct sem FT |
 |----------------|------------|------------------|-----------------|
 | 0.6B (qwen3) | 11.47 | **6.88** | 16.30 |
 | 1.7B (qwen3) | 8.59 | **5.73** | 11.92 |
-| 4B (qwen3) | 7.17 | (job SLURM 399) | 10.02 |
-| 8B (qwen3) | - | - | 8.17 |
 | 1.0B (gemma3) | 9.57 | **5.49** | 28.21 |
 
-(qwen3 0.6B/1.7B/4B: par base/instruct do mesmo tamanho; 8B só instruct. gemma3:
-`-pt` base e `-it` instruct, par da mesma família 1B.)
+(qwen3 0.6B/1.7B: par base/instruct do mesmo tamanho. gemma3: `-pt` base e `-it`
+instruct, par da mesma família 1B.)
 
 Leituras:
 - **O base fine-tunado vence o instruct do mesmo tamanho com folga**: 0.6B 6.88 vs
   16.30; 1.7B 5.73 vs 11.92. O pré-treino contínuo no domínio supera o pós-treino
   de chat para esta tarefa intrínseca.
-- **Tamanho não compensa domínio**: o `Qwen3-1.7B-Base` fine-tunado (5.73) e até o
-  `Qwen3-0.6B-Base` fine-tunado (6.88) batem o `Qwen3-8B` instruct sem treino
-  (8.17), um modelo 5x a 13x maior.
+- **Domínio supera o pós-treino de chat**: o `Qwen3-0.6B-Base` fine-tunado (6.88)
+  já bate o `Qwen3-1.7B` instruct sem treino (11.92), um modelo quase 3x maior; o
+  pré-treino contínuo no domínio rende mais que o alinhamento de chat para esta
+  tarefa intrínseca.
 - **Base < instruct já no ponto de partida**: em todo tamanho, o base antes tem
   perplexidade menor que o instruct sem treino (0.6B 11.47 < 16.30; 1.7B 8.59 <
-  11.92; 4B 7.17 < 10.02). O `Qwen3-4B-Base` cru (7.17) já supera o `Qwen3-8B`
-  instruct (8.17). O alinhamento de chat cobra um imposto em texto cru de diário,
-  monotônico nas duas famílias (gemma-it no extremo, 28.21).
+  11.92). O alinhamento de chat cobra um imposto em texto cru de diário, monotônico
+  nas duas famílias (gemma-it no extremo, 28.21).
 - Confirma quantitativamente, em duas famílias, a decisão de partir de modelos
-  **base** nas Q1-Q3. O `Qwen3-4B-Base` aparece só sem treino (antes) e como instruct
-  noft: o full fine-tuning do 4B não cabe nas 2x L4 (limite de hardware; ver NOTAS).
+  **base** nas Q1-Q3.
 
 ### Mini análise (Q1)
 
@@ -117,8 +116,8 @@ Três efeitos se somam e apontam na mesma direção:
 1. **Adaptação de domínio supera escala.** Para perplexidade em texto de diário, o
    que mais importa não é o tamanho do modelo, é ter visto o domínio. Um base
    pequeno fine-tunado (Qwen3-1.7B-Base 5.73; gemma-3-1b-pt 5.49) bate um instruct
-   várias vezes maior sem treino (Qwen3-8B 8.17). Em um orçamento de 2x L4, treinar
-   um base pequeno rende mais que pegar um instruct grande de prateleira.
+   maior sem treino (Qwen3-1.7B instruct 11.92). Em um orçamento de 2x L4, treinar
+   um base pequeno rende mais que pegar um instruct de prateleira.
 2. **O ponto de partida já favorece o base.** Antes de qualquer treino, o base tem
    perplexidade menor que o instruct do mesmo tamanho em todos os pontos medidos; o
    pós-treino de chat afasta o modelo de texto cru (imposto de alinhamento),
