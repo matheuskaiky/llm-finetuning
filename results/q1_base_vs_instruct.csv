@@ -5,9 +5,6 @@ Qwen3-0.6B,0.6B,qwen3,instruct,noft,heldout,16.300,2.791,0.484,instruct no fine-
 Qwen3-1.7B-Base,1.7B,qwen3,base,antes,heldout,8.587,2.150,0.564,full-param continued pretrain (antes)
 Qwen3-1.7B-Base,1.7B,qwen3,base,depois,heldout,5.732,1.746,0.627,full-param continued pretrain (depois)
 Qwen3-1.7B,1.7B,qwen3,instruct,noft,heldout,11.921,2.478,0.540,instruct no fine-tuning
-Qwen3-4B-Base,4B,qwen3,base,antes,heldout,7.173,1.970,0.589,base model untrained (4B full FT does not fit 2x L4; see NOTAS)
-Qwen3-4B,4B,qwen3,instruct,noft,heldout,10.021,2.305,0.568,instruct no fine-tuning
-Qwen3-8B,8B,qwen3,instruct,noft,heldout,8.174,2.101,0.590,instruct no fine-tuning (no base 8B trained)
 gemma-3-1b-pt,1.0B,gemma3,base,antes,heldout,9.572,2.259,0.553,full-param continued pretrain (antes)
 gemma-3-1b-pt,1.0B,gemma3,base,depois,heldout,5.495,1.704,0.637,full-param continued pretrain (depois)
 gemma-3-1b-it,1.0B,gemma3,instruct,noft,heldout,28.207,3.340,0.473,instruct no fine-tuning
@@ -17,9 +14,6 @@ Qwen3-0.6B,0.6B,qwen3,instruct,noft,qa,18.112,2.897,0.436,instruct no fine-tunin
 Qwen3-1.7B-Base,1.7B,qwen3,base,antes,qa,7.708,2.042,0.547,conceptual Q&A set (antes)
 Qwen3-1.7B-Base,1.7B,qwen3,base,depois,qa,7.068,1.956,0.552,conceptual Q&A set (depois)
 Qwen3-1.7B,1.7B,qwen3,instruct,noft,qa,11.524,2.444,0.515,instruct no fine-tuning
-Qwen3-4B-Base,4B,qwen3,base,antes,qa,6.348,1.848,0.582,base model untrained (4B full FT does not fit 2x L4; see NOTAS)
-Qwen3-4B,4B,qwen3,instruct,noft,qa,10.161,2.319,0.541,instruct no fine-tuning
-Qwen3-8B,8B,qwen3,instruct,noft,qa,7.345,1.994,0.578,instruct no fine-tuning (no base 8B trained)
 gemma-3-1b-pt,1.0B,gemma3,base,antes,qa,10.497,2.351,0.462,conceptual Q&A set (antes)
 gemma-3-1b-pt,1.0B,gemma3,base,depois,qa,9.504,2.252,0.478,conceptual Q&A set (depois)
 gemma-3-1b-it,1.0B,gemma3,instruct,noft,qa,22.313,3.105,0.433,instruct no fine-tuning
