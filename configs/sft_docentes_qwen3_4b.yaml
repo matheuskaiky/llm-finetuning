@@ -33,11 +33,12 @@ trainer:
     logging_steps: 20
     bf16: true
     gradient_checkpointing: true
-    optim: adamw_bnb_8bit
-    # 4B full FT fits 2x L4 with FSDP full_shard + 8-bit Adam (adamw_bnb_8bit,
-    # ~15 GB/GPU) WITHOUT CPU offload. Offload was dropped: it puts grads on CPU
-    # and the distributed grad-norm reduction needs a gloo backend (not init'd),
-    # failing with 'No backend type ... cpu'. No offload -> grads on GPU -> NCCL ok.
+    optim: adamw_torch_8bit
+    # 4B full FT fits 2x L4 with FSDP full_shard + 8-bit Adam WITHOUT CPU offload.
+    # adamw_bnb_8bit (bitsandbytes) is NOT FSDP/DTensor compatible (no sharding
+    # strategy for optimizer_update_32bit); adamw_torch_8bit (torchao tensor-subclass)
+    # composes with DTensor and works under full_shard. See the pretrain config and
+    # NOTAS for the full history. Requires torchao>=0.11 in the .venv.
     fsdp: "full_shard auto_wrap"
     fsdp_config:
       transformer_layer_cls_to_wrap: ["Qwen3DecoderLayer"]
