@@ -10,14 +10,16 @@ Nenhum resultado é descartado. Cada questão tem sua seção abaixo e um CSV pr
 
 | Q | Tema | Status | Resultado principal | CSV |
 |---|------|--------|---------------------|-----|
-| Q1 | Pré-treino contínuo (full-param) | feito (0.6B, 1.7B, gemma; 4B na fila) | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv` |
-| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma; 4B na fila) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
+| Q1 | Pré-treino contínuo (full-param) | feito (0.6B, 1.7B, gemma) | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv`, `q1_forgetting.csv` |
+| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
 | Q3 | LoRA (PEFT) | feito | **LoRA iguala/supera o SFT pleno** treinando ~1.7% dos params | `q3_lora.csv` |
 | Q4 | Destilação teacher->student | feito | transferência: SmolLM2-135M 0.07->0.34, gemma 84% do gap; **logit-KD ~ response-based** | `q4_distill.csv`, `q4_methods.csv` |
-| Q5 | RAG (3 modos x motores) | feito (30B na fila) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos | `benchmark_rag_*.csv`, `q5_qualitativos.md` |
+| Q5 | RAG (3 modos x motores) | feito (inclui motor 30B) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos; retrieval hit-rate | `benchmark_rag_*.csv`, `q5_rag_30b.csv`, `q5_retrieval.csv`, `q5_qualitativos.md` |
 | Q6 | Guardrails | feito | proteção **0->100%** das adversariais/PII, **0 falsos positivos** nas benignas | `q6_guardrails.csv` |
 
-Pendente (preso na fila do gpunode01, 2 GPUs): 4B da Q1 e Q2 e o motor 30B da Q5.
+Limite de hardware: o 4B em full fine-tuning (Q1/Q2) **não cabe nas 2x L4** de 22 GB
+(quatro otimizadores FSDP testados, todos falham; ver NOTAS e o config do 4B). A escada
+0.6B/1.7B/gemma cobre a Q1; o 4B base e instruct entram só sem treino (medições válidas).
 Detalhes e leituras por questão abaixo.
 
 ## Variação dos resultados (amplitude entre modelos/métodos)
@@ -105,7 +107,8 @@ Leituras:
   instruct (8.17). O alinhamento de chat cobra um imposto em texto cru de diário,
   monotônico nas duas famílias (gemma-it no extremo, 28.21).
 - Confirma quantitativamente, em duas famílias, a decisão de partir de modelos
-  **base** nas Q1-Q3. O `Qwen3-4B-Base` depois entra aqui quando o job 399 fechar.
+  **base** nas Q1-Q3. O `Qwen3-4B-Base` aparece só sem treino (antes) e como instruct
+  noft: o full fine-tuning do 4B não cabe nas 2x L4 (limite de hardware; ver NOTAS).
 
 ### Mini análise (Q1)
 
@@ -189,8 +192,8 @@ Leituras:
 - **Q1 + SFT vs SFT puro (juiz):** ajuda no Qwen (sft_q1 > sft_base em 0.6B 1.61 vs
   1.49 e em 1.7B 1.99 vs 1.89), neutro/levemente negativo no gemma. Lean positivo de
   que o pré-treino contínuo (Q1) e o SFT (Q2) se somam.
-- **Escala ajuda** (1.7B > 0.6B em juiz e ppl). O 4B (FSDP+offload, SLURM 2-GPU)
-  fica como o tamanho maior a rodar.
+- **Escala ajuda** (1.7B > 0.6B em juiz e ppl). O 4B full fine-tuning não cabe nas
+  2x L4 (limite de hardware documentado), então 1.7B é o maior tamanho treinado.
 - Caveat de design: um held-out de conteúdo disjunto deixa o juiz chato (modelo não
   pode saber fatos inéditos); por isso usa-se o recall in-domain. As duas leituras
   estão no CSV (`eval_set` = recall vs disjoint).

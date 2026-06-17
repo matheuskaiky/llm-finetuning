@@ -168,11 +168,13 @@ base e medir antes/depois.
 
 **Decisões e por quê:**
 - Modelos **base** (Qwen3-*-Base, gemma-3-1b-pt), pelo motivo da seção 1.4.
-- **Escada de tamanho** (0.6B, 1.7B, 4B): rodar vários tamanhos para ver como o ganho
-  escala. Comparar modelos diferentes faz parte do método.
+- **Escada de tamanho** (0.6B, 1.7B): rodar vários tamanhos para ver como o ganho
+  escala. Comparar modelos diferentes faz parte do método. O 4B foi tentado mas o
+  full fine-tuning não cabe nas 2x L4 (ver seção 4.2): fica como limite de hardware.
 - **Full-parameter:** treinamos TODOS os parâmetros (é o que a questão pede). Isso
   custa muita memória; por isso truques (ver Parte 4): em 0.6B/1.7B cabe numa GPU;
-  o 4B exige dividir o modelo entre 2 GPUs (FSDP) e otimizador 8-bit.
+  o 4B exigiria dividir o modelo entre 2 GPUs (FSDP) e otimizador 8-bit, que nesta
+  pilha de software não fecha.
 
 **Indicadores:** perplexidade (principal), entropia cruzada, acurácia de token, num
 held-out disjunto (anti-contaminação) e num conjunto de Q&A.
@@ -324,18 +326,30 @@ full-parameter, só rearranjam memória):
   (troca compute por memória).
 - **CPU offload:** mandar partes para a RAM da CPU. Causou uma falha real (a redução
   da norma do gradiente exigia um backend de CPU que não existia) - documentada.
-- **8-bit Adam:** guardar os estados do otimizador em 8 bits em vez de 32. É o que
-  usamos no 4B: cabe em ~15 GB/GPU, e continua full-parameter (todos os pesos treinam;
-  só os estados do otimizador são quantizados). Importante para o escopo: isso é um
-  truque de memória, NÃO é PEFT - o 4B da Q1 continua sendo pré-treino pleno.
+- **8-bit Adam:** guardar os estados do otimizador em 8 bits em vez de 32 (truque de
+  memória, NÃO é PEFT: todos os pesos treinam, só os estados do otimizador são
+  quantizados). Era a aposta para o 4B, mas nesta pilha de software ela não fechou.
+
+**Desfecho do 4B (resultado negativo, ver 4.3):** mesmo com esses truques, o 4B em
+full fine-tuning NÃO coube nas 2x L4. Quatro otimizadores foram testados e cada um
+falhou por um motivo diferente: (1) AdamW com CPU offload quebra a norma do gradiente
+por falta de backend de CPU; (2) o 8-bit Adam do bitsandbytes não tem estratégia de
+sharding sob FSDP; (3) o 8-bit do torchao quebra no torch.compile; (4) o mesmo em modo
+eager dá conflito de tipo (bf16 vs fp32) sob DTensor. O AdamW comum (32 bits) estoura a
+memória já no cálculo da perda. Conclusão: 4B full-parameter excede 2x L4 de 22 GB com
+torch 2.12 / transformers 5.11. A escada 0.6B/1.7B cobre a Q1; o 4B fica documentado
+como limite de hardware (QLoRA caberia, mas é PEFT = Q3, fora do escopo full-FT da Q1).
 
 ### 4.3 Resultados negativos honestos
 
-Nem tudo "deu certo", e isso é valioso para um trabalho sério. Exemplo: a hipótese de
-que podar licitações melhoraria o pré-treino (Q1) foi TESTADA e refutada (piorou). Um
-artefato de benchmark que parecia mostrar melhora foi identificado e corrigido. Esse
-rigor (testar, medir, e reportar o resultado mesmo quando contraria a hipótese) vale
-mais que só mostrar números bonitos.
+Nem tudo "deu certo", e isso é valioso para um trabalho sério. Exemplos: (1) a hipótese
+de que podar licitações melhoraria o pré-treino (Q1) foi TESTADA e refutada (piorou);
+um artefato de benchmark que parecia mostrar melhora foi identificado e corrigido. (2)
+o full fine-tuning do 4B não cabe nas 2x L4 (ver 4.2): quatro otimizadores testados,
+todos falham por motivos distintos. Reportar esse limite de hardware, com as quatro
+tracebacks documentadas, é mais honesto que omitir o 4B. Esse rigor (testar, medir, e
+reportar o resultado mesmo quando contraria a hipótese ou expõe um limite) vale mais que
+só mostrar números bonitos.
 
 ### 4.4 Por que a arquitetura é "OCP/SOLID"
 
@@ -375,7 +389,7 @@ fica acima do gemma base (6.87 vs 5.49).
 |---------|------------|------------------------|---------------------|
 | 0.6B | 11.47 | **6.88** | 16.30 |
 | 1.7B | 8.59 | **5.73** | 11.92 |
-| 4B | 7.17 | (na fila) | 10.02 |
+| 4B | 7.17 | nao treinado (nao cabe nas 2x L4) | 10.02 |
 | 8B | - | - | 8.17 |
 
 Leitura: o base treinado vence o instruct do mesmo tamanho com folga (0.6B 6.88 vs

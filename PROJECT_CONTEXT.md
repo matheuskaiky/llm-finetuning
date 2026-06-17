@@ -201,7 +201,7 @@ single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
 
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
-| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU); 4B pronto mas pendente do multi-GPU. Texto puro, vocab 151936. |
+| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU). O 4B em full fine-tuning não cabe nas 2x L4 (limite de hardware: quatro otimizadores FSDP falham; ver NOTAS), fica só sem treino. Texto puro, vocab 151936. |
 | Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
 | Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` (HF) | Diário Oficial dos Municípios do Piauí 2025; ~195M tokens; parquet, texto na coluna `texto`. Q1/Q5. Variante balanceada (licitações podadas) só para diagnóstico. |
