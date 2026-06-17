@@ -32,3 +32,4 @@ gpt2-distill,124M,distill-student,agentic_graph,0.0
 gemma-3-27b-it,27B,instruct-4bit,baseline,1.30
 gemma-3-27b-it,27B,instruct-4bit,standard,3.10
 gemma-3-27b-it,27B,instruct-4bit,agentic_graph,2.97
+gemma-4-31b-it,31B,instruct-4bit,baseline,1.10

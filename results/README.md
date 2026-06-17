@@ -450,6 +450,29 @@ Leituras:
 - Escala dos students nao ordena o resultado (135M < 360M, mas 0.5B > 0.6B > 1B aqui):
   o que separa e a familia/qualidade do aluno em ler PT, nao a contagem de parametros.
 
+### Motores grandes: gemma-3-27b-it e gemma-4-31b-it (4-bit)
+
+Os dois gemma grandes como motor RAG (4-bit NF4, fixados no GPU0; juiz fixo Qwen3-8B
+no cuda:1), mesmo indice e benchmark. Dados em `q5_engine_gemma-3-27b-it.csv` e
+`q5_engine_gemma-4-31b-it.csv`.
+
+| Motor (4-bit) | baseline | standard | agentic_graph |
+|---------------|----------|----------|---------------|
+| gemma-3-27b-it | 1.30 | **3.10** | 2.97 |
+| gemma-4-31b-it | 1.10 | (OOM, ver abaixo) | (OOM) |
+
+Leituras:
+- **Um gemma grande e motor RAG forte**: o `gemma-3-27b-it` em standard (3.10) supera o
+  `Qwen3-8B` (2.70) no mesmo juiz fixo, confirmando que motor mais capaz ajuda, mas o
+  ganho continua vindo da recuperacao (+1.80 sobre o baseline 1.30).
+- **Limite de hardware no 31B**: o `gemma-4-31b-it` (4-bit ~16 GB) nao cabe de forma
+  confiavel em uma L4 junto do juiz 8B quando ha contexto recuperado: o baseline (sem
+  RAG) roda limpo (1.10), mas o standard sofre OOM em ~11-17 das 30 perguntas mesmo com
+  geracoes de 256 tokens, e o agentic_graph (contexto acumulado) nao fecha. Nas
+  perguntas que couberam o standard fica ~3.36 (na faixa do 27b), entao a limitacao e de
+  memoria, nao de qualidade. Para um numero limpo do 31b seria preciso uma avaliacao em
+  dois passos (gerar com o motor nos dois GPUs, depois julgar), nao feita aqui.
+
 ### Métricas de recuperação (hit-rate@k do retriever)
 
 Isola o retriever do gerador: mede se a evidência chega ao prompt. Como o benchmark
