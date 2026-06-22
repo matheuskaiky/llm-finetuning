@@ -23,17 +23,17 @@ def code(text: str) -> None:
 # ---------------------------------------------------------------- title
 md(
     """
-# Resultados consolidados (Q1-Q6) - analise de dados
+# Resultados consolidados (Q1-Q6) - análise de dados
 
-Analise unificada de todos os resultados em `results/`. Cada questao tem sua leitura, e
-ao final ha uma sintese transversal (escala, custo x qualidade, mapa modelo x questao).
+Analise unificada de todos os resultados em `results/`. Cada questão tem sua leitura, e
+ao final ha uma síntese transversal (escala, custo x qualidade, mapa modelo x questão).
 
-Convencoes:
-- Juiz: LLM fixo Qwen3-8B, escala 0-5 (maior melhor), comparavel entre modelos.
-- Perplexidade (PPL) e entropia cruzada (CE): menor melhor. PPL so e comparavel dentro
-  da mesma familia de tokenizer (GPT-2 em ingles nao se compara a Qwen/Gemma).
+Convenções:
+- Juiz: LLM fixo Qwen3-8B, escala 0-5 (maior melhor), comparável entre modelos.
+- Perplexidade (PPL) e entropia cruzada (CE): menor melhor. PPL so e comparável dentro
+  da mesma família de tokenizer (GPT-2 em inglês não se compara a Qwen/Gemma).
 - Limite de hardware: 2x L4 (22 GB). 4B/8B full fine-tuning e o 31b RAG limpo ficam fora
-  por memoria, nao por qualidade.
+  por memória, não por qualidade.
 """
 )
 
@@ -44,34 +44,61 @@ import os, glob, re
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 from matplotlib.ticker import PercentFormatter
+
+try:
+    import seaborn as sns
+    sns.set_theme(style="whitegrid")
+    HAS_SNS = True
+except Exception:
+    HAS_SNS = False
+
+try:
+    from adjustText import adjust_text
+    HAS_ADJUST = True
+except Exception:
+    HAS_ADJUST = False
 
 RESULTS = "results" if os.path.isdir("results") else "../results"
 
-for style in ("seaborn-v0_8-whitegrid", "ggplot"):
-    if style in plt.style.available:
-        plt.style.use(style); break
 plt.rcParams.update({
     "figure.dpi": 110, "savefig.dpi": 110, "figure.autolayout": False,
     "axes.titlesize": 11, "axes.titleweight": "bold", "axes.grid": True,
     "grid.alpha": 0.3, "font.size": 9.5,
 })
 
-# qualitative palette by role
-C = {"base": "#9e9e9e", "antes": "#9e9e9e", "depois": "#1f77b4", "instruct": "#d62728",
-     "sft": "#2ca02c", "lora": "#ff7f0e", "distill": "#9467bd",
+# qualitative palette by role (high contrast between depois/noft is intentional)
+C = {"base": "#9e9e9e", "antes": "#9e9e9e", "depois": "#1f77b4", "noft": "#ff7f0e",
+     "instruct": "#d62728", "sft": "#2ca02c", "lora": "#ff7f0e", "distill": "#9467bd",
      "rag": "#17becf", "good": "#2ca02c", "bad": "#d62728", "neutral": "#7f7f7f"}
+# legendas em português para as condições do Q1
+COND_PT = {"antes": "base (antes)", "depois": "base treinado (depois)", "noft": "instruct (sem treino)"}
 
 def cols(keys, default="#1f77b4"):
     """Color list for a set of column keys, never None (pandas rejects None)."""
     return [C.get(k, default) for k in keys]
+
+def text_on(rgba):
+    """Black or white text for readability over a given cell color (luminance)."""
+    r, g, b = mcolors.to_rgb(rgba)[:3]
+    return "black" if (0.299 * r + 0.587 * g + 0.114 * b) > 0.55 else "white"
+
+def annot_heat(ax, M, im, fmt="{:.2f}"):
+    """Annotate a heatmap with per-cell contrasting bold text."""
+    for i in range(M.shape[0]):
+        for j in range(M.shape[1]):
+            v = M.values[i, j]
+            if not np.isnan(v):
+                ax.text(j, i, fmt.format(v), ha="center", va="center",
+                        fontsize=8, fontweight="bold", color=text_on(im.cmap(im.norm(v))))
 
 def load(name):
     p = os.path.join(RESULTS, name)
     return pd.read_csv(p) if os.path.exists(p) else None
 
 def skip(name):
-    print(f"[pulado] {name} ainda nao existe")
+    print(f"[pulado] {name} ainda não existe")
 
 def params_to_m(s):
     """'0.6B'/'124M'/'1.0B' -> millions (float)."""
@@ -104,11 +131,11 @@ print("results dir:", RESULTS, "| CSVs:", len(glob.glob(os.path.join(RESULTS, "*
 # ---------------------------------------------------------------- 1. leaderboard
 md(
     """
-## 1. Panorama - leaderboard do pos-treino (docentes, recall n=150)
+## 1. Panorama - leaderboard do pós-treino (docentes, recall n=150)
 
-Comparacao justa entre SFT pleno e LoRA no mesmo conjunto de recall e mesmo juiz. Cada
-barra e um (modelo, metodo, ponto de partida). Distillation (Q4) usa outro conjunto
-(n=100) e aparece na secao Q4.
+Comparação justa entre SFT pleno e LoRA no mesmo conjunto de recall e mesmo juiz. Cada
+barra e um (modelo, método, ponto de partida). Distillation (Q4) usa outro conjunto
+(n=100) e aparece na seção Q4.
 """
 )
 code(
@@ -135,7 +162,7 @@ else:
     fig, ax = plt.subplots(figsize=(9, max(4, 0.34 * len(lb))))
     ax.barh(lb["label"], lb["mean_judge"], color=colors)
     ax.set_xlabel("juiz 0-5 (maior melhor)")
-    ax.set_title("Pos-treino docentes (recall) - SFT pleno vs LoRA")
+    ax.set_title("Pós-treino docentes (recall) - SFT pleno vs LoRA")
     from matplotlib.patches import Patch
     ax.legend(handles=[Patch(color=C["sft"], label="SFT pleno"),
                        Patch(color=C["lora"], label="LoRA")], loc="lower right")
@@ -146,7 +173,7 @@ else:
 )
 
 # ---------------------------------------------------------------- Q1
-md("## 2. Q1 - Pre-treino continuo")
+md("## 2. Q1 - Pré-treino contínuo")
 code(
     '''
 # base antes/depois vs instruct sem treino (Qwen/Gemma; held-out, PPL menor melhor)
@@ -156,9 +183,12 @@ else:
     d = df[df.eval_set == "heldout"]
     piv = d.pivot_table(index="params", columns="condition", values="ppl", aggfunc="first")
     piv = piv.reindex([x for x in ["0.6B", "1.0B", "1.7B"] if x in piv.index])
-    ax = piv.plot(kind="bar", color=cols(piv.columns))
+    order = [c for c in ["antes", "depois", "noft"] if c in piv.columns]
+    piv = piv[order]
+    ax = piv.plot(kind="bar", color=cols(order))
     ax.set_ylabel("perplexidade held-out (menor melhor)"); ax.set_xlabel("tamanho")
-    ax.set_title("Q1 - base antes/depois vs instruct (sem treino)")
+    ax.set_title("Q1 - base (antes/depois) vs instruct sem treino")
+    ax.legend([COND_PT.get(c, c) for c in order], title="condição")
     plt.xticks(rotation=0); bar_labels(ax); plt.tight_layout(); plt.show()
 '''
 )
@@ -180,6 +210,29 @@ else:
     plt.tight_layout(); plt.show()
 '''
 )
+md("### Q1 - Qwen/Gemma: held-out vs OOD docentes (antes/depois)")
+code(
+    '''
+# mesmo recorte do GPT-2 acima, para Qwen/Gemma: held-out in-domain e OOD docentes
+bi = load("q1_base_vs_instruct.csv"); fg = load("q1_forgetting.csv")
+if bi is None or fg is None: skip("q1_base_vs_instruct.csv / q1_forgetting.csv")
+else:
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+    h = bi[(bi.eval_set == "heldout") & (bi.family.isin(["qwen3", "gemma3"]))
+           & (bi.condition.isin(["antes", "depois"]))].copy()
+    h["lbl"] = h["family"] + " " + h["params"]
+    ph = h.pivot_table(index="lbl", columns="condition", values="ppl", aggfunc="first")[["antes", "depois"]]
+    ph.plot(kind="bar", ax=ax[0], color=[C["antes"], C["depois"]])
+    ax[0].set_title("Q1 Qwen/Gemma - held-out (in-domain)"); ax[0].set_ylabel("perplexidade")
+    ax[0].legend(["antes", "depois"]); ax[0].tick_params(axis="x", rotation=15)
+    o = fg[(fg.eval_set == "ood_docentes") & (~fg.model.str.startswith("gpt2"))].copy()
+    o["lbl"] = o["model"] + " (" + o["params"] + ")"
+    o.set_index("lbl")[["ppl_antes", "ppl_depois"]].plot(kind="bar", ax=ax[1], color=[C["antes"], C["depois"]])
+    ax[1].set_title("Q1 Qwen/Gemma - OOD docentes (esquecimento)"); ax[1].set_ylabel("perplexidade")
+    ax[1].legend(["antes", "depois"]); ax[1].tick_params(axis="x", rotation=15)
+    plt.tight_layout(); plt.show()
+'''
+)
 code(
     '''
 # escala: PPL depois e token-acc vs tamanho (familias com antes/depois completo)
@@ -190,26 +243,33 @@ else:
     d["m"] = d["params"].map(params_to_m)
     d = d.dropna(subset=["m"]).sort_values("m")
     fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+    markers = {"qwen3": "o", "gemma3": "s", "gpt2": "^"}
     for fam, grp in d.groupby("family"):
-        ax[0].plot(grp["m"], grp["ppl"], "o-", label=fam)
-        ax[1].plot(grp["m"], grp["tokacc"], "o-", label=fam)
-    ax[0].set_ylabel("PPL depois (menor melhor)"); ax[0].set_title("Q1 - escala vs PPL")
-    ax[1].set_ylabel("token-acc depois (maior melhor)"); ax[1].set_title("Q1 - escala vs acuracia")
+        mk = markers.get(fam, "D")
+        ax[0].scatter(grp["m"], grp["ppl"], s=90, marker=mk, label=fam, zorder=3)
+        ax[1].scatter(grp["m"], grp["tokacc"], s=90, marker=mk, label=fam, zorder=3)
+        for _, r in grp.iterrows():
+            ax[0].annotate(r["params"], (r["m"], r["ppl"]), fontsize=7,
+                           xytext=(5, 4), textcoords="offset points")
+            ax[1].annotate(r["params"], (r["m"], r["tokacc"]), fontsize=7,
+                           xytext=(5, 4), textcoords="offset points")
+    ax[0].set_ylabel("PPL depois (menor melhor)"); ax[0].set_title("Q1 - escala vs perplexidade")
+    ax[1].set_ylabel("acurácia de token depois (maior melhor)"); ax[1].set_title("Q1 - escala vs acurácia")
     for a in ax:
-        a.set_xscale("log"); a.set_xlabel("parametros (M, log)"); a.legend()
+        a.set_xscale("log"); a.set_xlabel("parâmetros (M, escala log)"); a.legend(title="família")
     plt.tight_layout(); plt.show()
 '''
 )
 code(
     '''
-# ablacao licitacao (PPL) + esquecimento OOD (delta PPL)
+# ablação licitação (PPL) + esquecimento OOD (delta PPL)
 fig, ax = plt.subplots(1, 2, figsize=(13, 4))
 lic = load("q1_balanceamento_licitacao.csv")
 if lic is not None:
     d = lic[(lic.eval_set == "heldout_orig") & (lic.condition == "depois")].copy()
     piv = d.set_index("train_corpus")["ppl"].sort_values()
     ax[0].bar(piv.index, piv.values, color=C["depois"])
-    ax[0].set_ylabel("PPL held-out"); ax[0].set_title("Q1 - corpus cheio vs podado (licitacao)")
+    ax[0].set_ylabel("PPL held-out"); ax[0].set_title("Q1 - corpus cheio vs podado (licitação)")
     ax[0].tick_params(axis="x", rotation=0)
     for i, v in enumerate(piv.values): ax[0].text(i, v, f"{v:.2f}", ha="center", va="bottom", fontsize=8)
 else:
@@ -251,7 +311,7 @@ else:
 )
 code(
     '''
-# Q3 LoRA vs SFT pleno (juiz recall) + custo (LoRA treina fracao dos params)
+# Q3 LoRA vs SFT pleno (juiz recall) + custo (LoRA treina fração dos params)
 lora = load("q3_lora.csv"); sft = load("q2_sft.csv")
 if lora is None or sft is None: skip("q3_lora.csv / q2_sft.csv")
 else:
@@ -284,7 +344,7 @@ else:
     ax[1].set_ylabel("delta juiz (LoRA - SFT)")
     ax[1].set_title("Q3 - vantagem do LoRA (treina ~1.7% dos params)")
     plt.tight_layout(); plt.show()
-    print("media delta (LoRA - SFT pleno):", round(delta.mean(), 3),
+    print("média delta (LoRA - SFT pleno):", round(delta.mean(), 3),
           "| LoRA >= SFT em", int((delta >= 0).sum()), "de", len(delta))
 '''
 )
@@ -304,7 +364,7 @@ if dc is not None:
     dc = dc.copy(); dc["n"] = dc["model"].str.extract(r"n(\\d+)").astype(float)
     dc = dc.dropna(subset=["n"]).sort_values("n")
     ax[1].plot(dc["n"], dc["mean_judge"], "o-", color=C["sft"])
-    ax[1].set_xlabel("numero de pares de treino"); ax[1].set_ylabel("juiz 0-5")
+    ax[1].set_xlabel("número de pares de treino"); ax[1].set_ylabel("juiz 0-5")
     ax[1].set_title("Q2 - qualidade vs volume de dados")
 else: ax[1].set_title("q2_data_curve.csv ausente")
 plt.tight_layout(); plt.show()
@@ -312,7 +372,7 @@ plt.tight_layout(); plt.show()
 )
 
 # ---------------------------------------------------------------- Q4
-md("## 4. Q4 - Destilacao (teacher -> student)")
+md("## 4. Q4 - Destilação (teacher -> student)")
 code(
     '''
 # base vs distill (juiz) + transfer ratio por aluno
@@ -331,44 +391,40 @@ else:
     tr = tr[tr["transfer_ratio"].between(-0.01, 1.5)]  # esconde caso degenerado (>gap negativo)
     ax[1].bar(tr["student"], tr["transfer_ratio"],
               color=[C["good"] if v > 0 else C["bad"] for v in tr["transfer_ratio"]])
-    ax[1].set_ylabel("transfer ratio (fracao do gap fechado)")
-    ax[1].set_title("Q4 - transferencia por aluno"); ax[1].tick_params(axis="x", rotation=20)
+    ax[1].set_ylabel("transfer ratio (fração do gap fechado)")
+    ax[1].set_title("Q4 - transferência por aluno"); ax[1].tick_params(axis="x", rotation=20)
     plt.tight_layout(); plt.show()
 '''
 )
 code(
     '''
-# teacher x student (heatmap) + ranking medio de professor
+# teacher x student (heatmap) + ranking médio de professor
 tc = load("q4_teacher_compare.csv")
 if tc is None: skip("q4_teacher_compare.csv")
 else:
     piv = tc.pivot_table(index="student", columns="teacher", values="mean_judge", aggfunc="first")
     fig, ax = plt.subplots(1, 2, figsize=(14, 4.5), gridspec_kw={"width_ratios": [1.4, 1]})
-    im = ax[0].imshow(piv.values, cmap="viridis", aspect="auto")
+    im = ax[0].imshow(piv.values, cmap="RdYlGn", aspect="auto")
     ax[0].set_xticks(range(len(piv.columns))); ax[0].set_xticklabels(piv.columns, rotation=20, ha="right")
     ax[0].set_yticks(range(len(piv.index))); ax[0].set_yticklabels(piv.index, fontsize=8)
-    for i in range(piv.shape[0]):
-        for j in range(piv.shape[1]):
-            v = piv.values[i, j]
-            if not np.isnan(v):
-                ax[0].text(j, i, f"{v:.2f}", ha="center", va="center", color="w", fontsize=7)
+    annot_heat(ax[0], piv, im)
     ax[0].set_title("Q4 - juiz por (professor x aluno)"); fig.colorbar(im, ax=ax[0], fraction=0.046)
     means = tc.groupby("teacher")["mean_judge"].mean().sort_values()
     ax[1].barh(means.index, means.values, color="teal")
-    ax[1].set_xlabel("juiz medio (alunos)"); ax[1].set_title("Q4 - ranking de professor")
+    ax[1].set_xlabel("juiz médio (alunos)"); ax[1].set_title("Q4 - ranking de professor")
     for y, v in enumerate(means.values): ax[1].text(v + 0.003, y, f"{v:.3f}", va="center", fontsize=8)
     plt.tight_layout(); plt.show()
 '''
 )
 code(
     '''
-# metodos (response-based vs logit-KD) + transfer ratio vs tamanho do aluno
+# métodos (response-based vs logit-KD) + transfer ratio vs tamanho do aluno
 me = load("q4_methods.csv"); ds = load("q4_distill.csv")
 fig, ax = plt.subplots(1, 2, figsize=(13, 4))
 if me is not None:
     m = me.set_index("method")["mean_judge"]
     ax[0].bar(m.index, m.values, color=[C["base"], C["distill"], C["lora"], C["depois"]][:len(m)])
-    ax[0].set_ylabel("juiz 0-5"); ax[0].set_title("Q4 - metodos (mesmo aluno Qwen3-0.6B)")
+    ax[0].set_ylabel("juiz 0-5"); ax[0].set_title("Q4 - métodos (mesmo aluno Qwen3-0.6B)")
     ax[0].tick_params(axis="x", rotation=15)
     for i, v in enumerate(m.values): ax[0].text(i, v, f"{v:.2f}", ha="center", va="bottom", fontsize=8)
 else: ax[0].set_title("q4_methods.csv ausente")
@@ -380,8 +436,8 @@ if ds is not None:
     for _, r in d.iterrows():
         ax[1].annotate(r["student"], (r["m"], r["transfer_ratio"]), fontsize=7,
                        xytext=(4, 4), textcoords="offset points")
-    ax[1].set_xscale("log"); ax[1].set_xlabel("parametros do aluno (M, log)")
-    ax[1].set_ylabel("transfer ratio"); ax[1].set_title("Q4 - transferencia vs tamanho")
+    ax[1].set_xscale("log"); ax[1].set_xlabel("parâmetros do aluno (M, log)")
+    ax[1].set_ylabel("transfer ratio"); ax[1].set_title("Q4 - transferência vs tamanho")
     if len(d) > 2:
         c = np.corrcoef(np.log10(d["m"]), d["transfer_ratio"])[0, 1]
         ax[1].text(0.05, 0.92, f"corr(log size, transfer) = {c:.2f}", transform=ax[1].transAxes, fontsize=8)
@@ -391,7 +447,7 @@ plt.tight_layout(); plt.show()
 )
 
 # ---------------------------------------------------------------- Q5
-md("## 5. Q5 - RAG (motores, modos, contribuicao)")
+md("## 5. Q5 - RAG (motores, modos, contribuição)")
 code(
     '''
 # leaderboard motor x modo (juiz fixo 8B)
@@ -400,17 +456,31 @@ if e is None: skip("q5_engines.csv")
 else:
     e = e.copy(); e["lbl"] = e["engine"] + " (" + e["params"] + ", " + e["kind"] + ")"
     piv = e.pivot_table(index="lbl", columns="mode", values="judge", aggfunc="first")
-    modes = [m for m in ["baseline", "standard", "agentic", "agentic_graph"] if m in piv.columns]
+    # baseline/standard/agentic_graph sao medidos em quase todos os motores; assim um vão
+    # vazio nessas colunas indica falha real (OOM), não um modo não avaliado.
+    modes = [m for m in ["baseline", "standard", "agentic_graph"] if m in piv.columns]
     piv = piv[modes].sort_values("standard", na_position="first")
     ax = piv.plot(kind="barh", figsize=(9.5, 7.5))
-    ax.set_xlabel("juiz 0-5 (maior melhor)"); ax.set_title("Q5 - motor x modo (juiz fixo Qwen3-8B)")
-    ax.axvline(2.70, ls="--", c="gray", lw=1); ax.text(2.72, 0.1, "8B standard 2.70", color="gray", fontsize=8)
+    ax.set_xlabel("juiz 0-5 (maior melhor)")
+    ax.set_title("Q5 - motor x modo (juiz fixo Qwen3-8B; vão vazio = OOM)")
+    ax.axvline(2.70, ls="--", c="gray", lw=1)
+    ax.text(2.72, 0.1, "8B standard 2.70", color="gray", fontsize=8)
+    # anota OOM (sem barra) e 0 (barra nula) no lugar onde a barra deveria estar
+    for cont, mode in zip(ax.containers, piv.columns):
+        for patch, val in zip(cont.patches, piv[mode].values):
+            y = patch.get_y() + patch.get_height() / 2
+            if pd.isna(val):
+                ax.text(0.04, y, "OOM", va="center", ha="left", fontsize=6.5,
+                        color=C["bad"], fontweight="bold")
+            elif val == 0:
+                ax.text(0.04, y, "0", va="center", ha="left", fontsize=6.5, color=C["neutral"])
+    ax.legend(title="modo", loc="lower right")
     plt.tight_layout(); plt.show()
 '''
 )
 code(
     '''
-# distribuicao por pergunta (modo standard) entre motores - boxplot
+# distribuição por pergunta (modo standard) entre motores - boxplot
 engine_files = {
     "Qwen3-8B (8B)": "benchmark_rag_compare_qwen8b.csv",
     "gemma-3-27b-it (27B)": "q5_engine_gemma-3-27b-it.csv",
@@ -436,16 +506,24 @@ else:
     order = np.argsort([np.median(d) for d in data])
     data = [data[i] for i in order]; labels = [labels[i] for i in order]
     fig, ax = plt.subplots(figsize=(10, 6))
-    bp = ax.boxplot(data, vert=False, patch_artist=True, showmeans=True)
-    for patch in bp["boxes"]: patch.set_facecolor(C["rag"]); patch.set_alpha(0.6)
-    ax.set_yticklabels(labels); ax.set_xlabel("juiz 0-5 por pergunta (modo standard)")
-    ax.set_title("Q5 - distribuicao das notas por motor (nao so a media)")
+    positions = np.arange(1, len(data) + 1)
+    bp = ax.boxplot(data, vert=False, patch_artist=True, showmeans=True, positions=positions,
+                    flierprops=dict(marker="", markersize=0))  # outliers viram pontos no strip
+    for patch in bp["boxes"]: patch.set_facecolor(C["rag"]); patch.set_alpha(0.45)
+    # sobrepoe os pontos reais (densidade) com jitter e baixa opacidade
+    rng = np.random.default_rng(0)
+    for pos, vals in zip(positions, data):
+        jitter = rng.uniform(-0.18, 0.18, size=len(vals))
+        ax.scatter(vals, pos + jitter, s=18, color="#08415c", alpha=0.4, zorder=3, edgecolors="none")
+    ax.set_yticks(positions); ax.set_yticklabels(labels)
+    ax.set_xlabel("juiz 0-5 por pergunta (modo standard)")
+    ax.set_title("Q5 - distribuição das notas por motor (caixa + pontos reais)")
     plt.tight_layout(); plt.show()
 '''
 )
 code(
     '''
-# contribuicao do RAG vs baseline (8B, pareado por pergunta): win/tie/loss + histograma de delta
+# contribuição do RAG vs baseline (8B, pareado por pergunta): win/tie/loss + histograma de delta
 r = load_rag_scores("benchmark_rag_compare_qwen8b.csv", modes=("baseline", "standard", "agentic_graph"))
 if r is None: skip("benchmark_rag_compare_qwen8b.csv")
 else:
@@ -458,9 +536,12 @@ else:
     ax[0].set_ylabel("perguntas"); ax[0].set_title(f"Q5 - standard vs baseline (n={len(rr)})")
     for i, v in enumerate([win, tie, loss]): ax[0].text(i, v, str(v), ha="center", va="bottom")
     ax[1].hist(delta, bins=np.arange(-5, 6) - 0.5, color=C["rag"], edgecolor="white")
-    ax[1].axvline(delta.mean(), ls="--", c="black", lw=1)
-    ax[1].set_xlabel("delta juiz (standard - baseline)"); ax[1].set_ylabel("perguntas")
-    ax[1].set_title(f"Q5 - ganho por pergunta (media {delta.mean():+.2f})")
+    ax[1].axvline(0, color="red", ls="--", lw=1.4, label="sem efeito (0)")
+    ax[1].axvline(delta.mean(), ls="--", c="black", lw=1, label=f"média {delta.mean():+.2f}")
+    ax[1].set_xlabel("vantagem do RAG em pontos do juiz (standard - baseline)")
+    ax[1].set_ylabel("número de perguntas")
+    ax[1].set_title("Q5 - distribuição da vantagem/desvantagem de usar RAG (em pontos)")
+    ax[1].legend(fontsize=8)
     plt.tight_layout(); plt.show()
 '''
 )
@@ -472,7 +553,7 @@ if r is None or "type" not in r.columns: skip("type em benchmark_rag_compare_qwe
 else:
     g = r.groupby("type")[["baseline", "standard", "agentic_graph"]].mean()
     ax = g.plot(kind="bar", figsize=(9, 4), color=[C["base"], C["sft"], C["rag"]])
-    ax.set_ylabel("juiz 0-5 medio"); ax.set_title("Q5 - desempenho por tipo de pergunta (motor 8B)")
+    ax.set_ylabel("juiz 0-5 médio"); ax.set_title("Q5 - desempenho por tipo de pergunta (motor 8B)")
     ax.tick_params(axis="x", rotation=0); bar_labels(ax); plt.tight_layout(); plt.show()
 '''
 )
@@ -495,7 +576,7 @@ if e is not None:
     d = d.dropna(subset=["m"])
     for kind, grp in d.groupby("kind"):
         ax[1].scatter(grp["m"], grp["judge"], s=55, label=kind)
-    ax[1].set_xscale("log"); ax[1].set_xlabel("parametros do motor (M, log)")
+    ax[1].set_xscale("log"); ax[1].set_xlabel("parâmetros do motor (M, log)")
     ax[1].set_ylabel("juiz standard"); ax[1].set_title("Q5 - tamanho do motor vs qualidade")
     ax[1].legend(fontsize=8)
 else: ax[1].set_title("q5_engines.csv ausente")
@@ -504,7 +585,7 @@ plt.tight_layout(); plt.show()
 )
 code(
     '''
-# ablacao de estrategias de indice (licitacoes): media do modo standard por estrategia
+# ablação de estratégias de índice (licitações): média do modo standard por estrategia
 strat = {
     "full": "strategy_full.csv", "full+mmr": "strategy_full_mmr.csv",
     "dedup": "strategy_dedup.csv", "dedup+mmr": "strategy_dedup_mmr.csv",
@@ -521,7 +602,7 @@ if not vals: skip("strategy_*.csv / targeted_*.csv")
 else:
     s = pd.Series(vals).sort_values()
     ax = s.plot(kind="barh", figsize=(9, 4), color=C["rag"])
-    ax.set_xlabel("juiz standard medio"); ax.set_title("Q5 - estrategias de indice/licitacoes")
+    ax.set_xlabel("juiz standard médio"); ax.set_title("Q5 - estratégias de índice/licitações")
     for y, v in enumerate(s.values): ax.text(v + 0.01, y, f"{v:.2f}", va="center", fontsize=8)
     plt.tight_layout(); plt.show()
 '''
@@ -537,7 +618,7 @@ else:
     fig, ax = plt.subplots(1, 2, figsize=(13, 4))
     df.plot(x="type", y=["rate_without", "rate_with"], kind="bar", ax=ax[0],
             color=[C["bad"], C["good"]])
-    ax[0].set_title("Q6 - taxa tratada (benchmark padrao)"); ax[0].set_ylim(0, 1.08)
+    ax[0].set_title("Q6 - taxa tratada (benchmark padrão)"); ax[0].set_ylim(0, 1.08)
     ax[0].yaxis.set_major_formatter(PercentFormatter(1.0)); ax[0].tick_params(axis="x", rotation=15)
     bar_labels(ax[0], fmt="%.0f%%") if False else None
     if adv is not None:
@@ -551,14 +632,14 @@ else:
 # ---------------------------------------------------------------- synthesis
 md(
     """
-## 7. Sintese transversal
+## 7. Síntese transversal
 
-Cruzando as questoes: escala vs melhor desempenho, e um mapa modelo x questao.
+Cruzando as questões: escala vs melhor desempenho, e um mapa modelo x questão.
 """
 )
 code(
     '''
-# mapa de calor: melhor juiz alcancado por familia/modelo em cada questao (escalas comparaveis: Q2/Q3/Q4 docentes-recall; Q5 RAG)
+# mapa de calor: melhor juiz alcancado por família/modelo em cada questão (escalas comparaveis: Q2/Q3/Q4 docentes-recall; Q5 RAG)
 panel = {}
 sft = load("q2_sft.csv"); lora = load("q3_lora.csv"); dist = load("q4_distill.csv"); eng = load("q5_engines.csv")
 def fam_of(name):
@@ -588,36 +669,36 @@ else:
         index="family", columns="task", values="judge", aggfunc="max")
     M = M.reindex(columns=[c for c in ["Q2 SFT", "Q3 LoRA", "Q4 distill", "Q5 RAG"] if c in M.columns])
     fig, ax = plt.subplots(figsize=(8, 4.5))
-    im = ax.imshow(M.values, cmap="YlGn", aspect="auto", vmin=0, vmax=4)
+    im = ax.imshow(M.values, cmap="RdYlGn", aspect="auto", vmin=0, vmax=4)
     ax.set_xticks(range(len(M.columns))); ax.set_xticklabels(M.columns)
     ax.set_yticks(range(len(M.index))); ax.set_yticklabels(M.index)
-    for i in range(M.shape[0]):
-        for j in range(M.shape[1]):
-            v = M.values[i, j]
-            if not np.isnan(v): ax.text(j, i, f"{v:.2f}", ha="center", va="center", fontsize=8)
-    ax.set_title("Melhor juiz por familia x tarefa (maior melhor)")
+    annot_heat(ax, M, im)
+    ax.set_title("Melhor juiz por família x tarefa (maior melhor)")
     fig.colorbar(im, ax=ax, fraction=0.046)
     plt.tight_layout(); plt.show()
 '''
 )
 code(
     '''
-# escala global: parametros vs melhor juiz standard de RAG (motores) com rotulos
+# escala global: parâmetros vs melhor juiz standard de RAG (motores) com rotulos
 e = load("q5_engines.csv")
 if e is None: skip("q5_engines.csv")
 else:
     d = e[e["mode"] == "standard"].copy(); d["m"] = d["params"].map(params_to_m)
     d = d.dropna(subset=["m"]).sort_values("m")
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(11, 5.5))
     markers = {"instruct": "o", "base": "s", "distill-student": "^", "instruct-4bit": "D"}
     for kind, grp in d.groupby("kind"):
-        ax.scatter(grp["m"], grp["judge"], s=70, marker=markers.get(kind, "o"), label=kind)
-    for _, r in d.iterrows():
-        ax.annotate(r["engine"], (r["m"], r["judge"]), fontsize=7, xytext=(4, 4), textcoords="offset points")
+        ax.scatter(grp["m"], grp["judge"], s=80, marker=markers.get(kind, "o"), label=kind, zorder=3)
     ax.axhline(2.70, ls="--", c="gray", lw=1); ax.text(d["m"].min(), 2.74, "8B standard 2.70", color="gray", fontsize=8)
-    ax.set_xscale("log"); ax.set_xlabel("parametros (M, log)"); ax.set_ylabel("juiz standard (RAG)")
-    ax.set_title("Sintese - tamanho do motor vs qualidade do RAG (um aluno destilado de 0.5B lidera)")
-    ax.legend(fontsize=8); plt.tight_layout(); plt.show()
+    ax.set_xscale("log"); ax.set_xlabel("parâmetros (M, escala log)"); ax.set_ylabel("juiz standard (RAG)")
+    ax.set_title("Síntese - tamanho do motor vs qualidade do RAG (aluno destilado de 0.5B lidera)")
+    ax.legend(fontsize=8, title="tipo")
+    texts = [ax.text(r["m"], r["judge"], r["engine"], fontsize=7) for _, r in d.iterrows()]
+    if HAS_ADJUST:
+        adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle="-", color="gray", lw=0.5),
+                    expand=(1.4, 1.8))
+    plt.tight_layout(); plt.show()
 '''
 )
 
