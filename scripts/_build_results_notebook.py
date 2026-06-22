@@ -157,6 +157,8 @@ if not rows:
     skip("q2_sft.csv / q3_lora.csv")
 else:
     lb = pd.concat(rows, ignore_index=True).dropna(subset=["mean_judge"])
+    # colapsa eventuais linhas repetidas de (modelo, metodo) para uma barra so
+    lb = lb.groupby(["label", "method"], as_index=False)["mean_judge"].mean()
     lb = lb.sort_values("mean_judge")
     colors = [C["sft"] if m == "SFT pleno" else C["lora"] for m in lb["method"]]
     fig, ax = plt.subplots(figsize=(9, max(4, 0.34 * len(lb))))
@@ -282,7 +284,7 @@ if fg is not None:
     ax[1].axhline(0, color="black", lw=0.8)
     ax[1].set_ylabel("delta PPL OOD (depois - antes)")
     ax[1].set_title("Q1 - esquecimento (>0 = piora)")
-    plt.setp(ax[1].get_xticklabels(), rotation=20, ha="right")
+    plt.setp(ax[1].get_xticklabels(), rotation=90, ha="center")
 else:
     ax[1].set_title("q1_forgetting.csv ausente")
 plt.tight_layout(); plt.show()
@@ -306,7 +308,7 @@ else:
                                           "gpt2", "gpt2-medium", "gpt2-large"])]
     ax = piv.plot(kind="bar", color=[C["base"], C["sft"], C["depois"]], figsize=(11, 4))
     ax.set_ylabel("juiz 0-5"); ax.set_title("Q2 - SFT: base vs SFT vs SFT iniciado em Q1")
-    ax.tick_params(axis="x", rotation=20); bar_labels(ax); plt.tight_layout(); plt.show()
+    ax.tick_params(axis="x", rotation=90); bar_labels(ax); plt.tight_layout(); plt.show()
 '''
 )
 code(
@@ -335,12 +337,12 @@ else:
     plot = plot.dropna(subset=["sft"]).set_index("lbl")[["sft", "lora"]]
     plot.plot(kind="bar", ax=ax[0], color=[C["sft"], C["lora"]])
     ax[0].set_ylabel("juiz 0-5"); ax[0].set_title("Q3 - SFT pleno vs LoRA (recall)")
-    ax[0].tick_params(axis="x", rotation=25)
+    ax[0].tick_params(axis="x", rotation=90)
     delta = (plot["lora"] - plot["sft"])
     ax[1].bar(range(len(delta)), delta.values,
               color=[C["good"] if v >= 0 else C["bad"] for v in delta.values])
     ax[1].axhline(0, color="black", lw=0.8); ax[1].set_xticks(range(len(delta)))
-    ax[1].set_xticklabels(delta.index, rotation=25, ha="right")
+    ax[1].set_xticklabels(delta.index, rotation=90, ha="center")
     ax[1].set_ylabel("delta juiz (LoRA - SFT)")
     ax[1].set_title("Q3 - vantagem do LoRA (treina ~1.7% dos params)")
     plt.tight_layout(); plt.show()
@@ -385,14 +387,15 @@ else:
     ax[0].bar(idx - w/2, d["base_judge"], w, label="base", color=C["base"])
     ax[0].bar(idx + w/2, d["distill_judge"], w, label="distilado", color=C["distill"])
     ax[0].axhline(d["teacher_judge"].iloc[0], ls="--", c="black", lw=1, label="teacher ref")
-    ax[0].set_xticks(idx); ax[0].set_xticklabels(d["student"] + "\\n(" + d["params"] + ")", fontsize=8)
+    ax[0].set_xticks(idx)
+    ax[0].set_xticklabels(d["student"] + " (" + d["params"] + ")", rotation=90, fontsize=8)
     ax[0].set_ylabel("juiz 0-5"); ax[0].set_title("Q4 - base vs distilado por aluno"); ax[0].legend()
     tr = d.dropna(subset=["transfer_ratio"]).copy()
     tr = tr[tr["transfer_ratio"].between(-0.01, 1.5)]  # esconde caso degenerado (>gap negativo)
     ax[1].bar(tr["student"], tr["transfer_ratio"],
               color=[C["good"] if v > 0 else C["bad"] for v in tr["transfer_ratio"]])
     ax[1].set_ylabel("transfer ratio (fração do gap fechado)")
-    ax[1].set_title("Q4 - transferência por aluno"); ax[1].tick_params(axis="x", rotation=20)
+    ax[1].set_title("Q4 - transferência por aluno"); ax[1].tick_params(axis="x", rotation=90)
     plt.tight_layout(); plt.show()
 '''
 )
