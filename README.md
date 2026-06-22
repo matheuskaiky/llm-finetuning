@@ -19,8 +19,9 @@ six fronts:
 
 Python 3.12 - PyTorch - Hugging Face (`transformers`, `datasets`, `accelerate`,
 `peft`, `trl`, `bitsandbytes`) - RAG (`langchain`/`llama-index` + `faiss`/`chromadb`
-+ `sentence-transformers`) - Guardrails (`nemoguardrails`/`guardrails-ai`) -
-config-driven design (YAML) for environment-agnostic execution (local GPU <-> cloud).
++ `sentence-transformers`) - Guardrails (composable rule-based layer, no external
+guardrails framework) - config-driven design (YAML) for environment-agnostic
+execution (local GPU <-> cloud).
 
 ## Project documentation
 
