@@ -6,6 +6,17 @@ Nenhum resultado é descartado. Cada questão tem sua seção abaixo e um CSV pr
 `results/`; os números intrínsecos de cada corrida ficam em
 `benchmarks/<fase>/results/<antes|depois>/*.json` (git-ignored).
 
+Os gráficos e a análise de dados consolidada ficam em
+`notebooks/graficos_resultados.ipynb` (lê estes CSVs): leitura por questão mais a
+síntese transversal (leaderboard SFT vs LoRA, distribuição das notas por motor no RAG,
+vitória/empate/derrota do RAG por pergunta, desempenho por tipo, mapa família x tarefa,
+escala x qualidade). O notebook é regenerado por `scripts/_build_results_notebook.py`.
+
+Ressalva de método: os gabaritos dos benchmarks atuais foram gerados com IA (o juiz
+também é um LLM, Qwen3-8B 0-5). Falta um conjunto de referência feito a mão, sem IA,
+como gabarito independente (tarefa em aberto). Os números abaixo devem ser lidos com
+essa limitação em mente.
+
 ## Visão geral (Q1-Q6)
 
 | Q | Tema | Status | Resultado principal | CSV |
@@ -557,6 +568,31 @@ Leituras:
   como outro filtro registrado, sem mudar a camada) generalizaria melhor; fica como
   extensão. O mascaramento de PII por regex é robusto para os formatos brasileiros
   padronizados.
+
+## Síntese transversal (cruzando as questões)
+
+Leituras que só aparecem ao cruzar os resultados de várias questões (todas no notebook):
+
+- **Pós-treino, leaderboard justo (docentes recall, n=150).** No mesmo conjunto e juiz,
+  o topo é LoRA: `Qwen3-1.7B` LoRA iniciado em Q1 (2.11) > LoRA base (2.05) > SFT pleno
+  de Q1 (1.99). LoRA iguala ou supera o SFT pleno em 5 de 6 pares treinando ~1.7% dos
+  parâmetros: a fronteira custo x qualidade favorece o PEFT.
+- **RAG, contribuição pareada por pergunta (motor 8B, standard vs baseline, n=30).** Em
+  14 perguntas o RAG melhora, 12 empatam e em 4 piora; ganho médio de +1.60 no juiz. O
+  RAG não é uniformemente positivo, mas o saldo é claramente a favor.
+- **RAG por tipo de pergunta.** O ganho do `standard` vem das **factuais** (baseline 0.5
+  -> standard 3.00); nas **multi-hop** o standard quase não move (2.0 -> 2.25), e é o
+  modo **agentic_graph** que ajuda justamente nelas (2.92 > 2.25 do standard). Refina a
+  conclusão geral: o grafo/multi-hop agrega pouco na média porque a maioria das
+  perguntas é factual, mas no subconjunto multi-hop ele é o melhor modo.
+- **Escala não ordena o RAG.** O melhor motor no juiz fixo é um aluno destilado de 0.5B
+  (`qwen2.5-0.5b-distill` standard 3.87), acima do `gemma-3-27b-it` (3.10) e do
+  `Qwen3-8B` (2.70): com a evidência recuperada no prompt, ler o contexto pesa mais que
+  o tamanho do motor.
+- **Mapa família x tarefa.** Cruzando o melhor juiz por família em Q2/Q3/Q4 (docentes) e
+  Q5 (RAG): qwen3 lidera o pós-treino closed-book; no RAG o que decide é a família saber
+  ler PT e usar o contexto (gpt2 fica em 0 em tudo, piso inglês). A escolha de um base já
+  competente em português domina o resultado em todas as frentes.
 
 ## Convenção de colunas (runs.csv)
 
