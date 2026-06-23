@@ -32,7 +32,7 @@ Convenções:
 - Juiz: LLM fixo Qwen3-8B, escala 0-5 (maior melhor), comparável entre modelos.
 - Perplexidade (PPL) e entropia cruzada (CE): menor melhor. PPL so e comparável dentro
   da mesma família de tokenizer (GPT-2 em inglês não se compara a Qwen/Gemma).
-- Limite de hardware: 2x L4 (22 GB). 4B/8B full fine-tuning e o 31b RAG limpo ficam fora
+- Limite de hardware: 2x L4 (24 GB). 4B/8B full fine-tuning e o 31b RAG limpo ficam fora
   por memória, não por qualidade.
 """
 )
@@ -291,6 +291,56 @@ plt.tight_layout(); plt.show()
 '''
 )
 
+md("### Q1 - as tres metricas (perplexidade, entropia cruzada, acuracia) e o benchmark de P&R")
+code(
+    '''
+# Q1 - as tres metricas exigidas no held-out, antes/depois (Qwen/Gemma, escada de tamanho)
+df = load("q1_base_vs_instruct.csv")
+if df is None: skip("q1_base_vs_instruct.csv")
+else:
+    d = df[(df.eval_set == "heldout") & (df.family.isin(["qwen3", "gemma3"]))
+           & (df.condition.isin(["antes", "depois"]))].copy()
+    d["lbl"] = d["family"] + " " + d["params"]
+    metrics = [("ppl", "perplexidade (menor melhor)"),
+               ("ce", "entropia cruzada (menor melhor)"),
+               ("tokacc", "acurácia de token (maior melhor)")]
+    fig, ax = plt.subplots(1, 3, figsize=(15, 4))
+    for k, (col, ylab) in enumerate(metrics):
+        piv = d.pivot_table(index="lbl", columns="condition", values=col, aggfunc="first")[["antes", "depois"]]
+        piv.plot(kind="bar", ax=ax[k], color=[C["antes"], C["depois"]], legend=False)
+        ax[k].set_ylabel(ylab); ax[k].set_xlabel("")
+        ax[k].set_title("Q1 held-out - " + col.upper())
+        ax[k].tick_params(axis="x", rotation=90)
+    ax[0].legend(["antes", "depois"])
+    plt.tight_layout(); plt.show()
+'''
+)
+code(
+    '''
+# Q1 - benchmark de P&R (perguntas e respostas conceituais): as tres metricas,
+# base antes/depois vs instruct sem treino. Este e o benchmark >=25 perguntas da Q1.
+df = load("q1_base_vs_instruct.csv")
+if df is None: skip("q1_base_vs_instruct.csv")
+else:
+    d = df[df.eval_set == "qa"].copy()
+    order = [c for c in ["antes", "depois", "noft"]]
+    metrics = [("ppl", "perplexidade (menor melhor)"),
+               ("ce", "entropia cruzada (menor melhor)"),
+               ("tokacc", "acurácia de token (maior melhor)")]
+    fig, ax = plt.subplots(1, 3, figsize=(15, 4))
+    for k, (col, ylab) in enumerate(metrics):
+        piv = d.pivot_table(index="params", columns="condition", values=col, aggfunc="first")
+        piv = piv.reindex([x for x in ["0.6B", "1.0B", "1.7B"] if x in piv.index])
+        cur = [c for c in order if c in piv.columns]
+        piv[cur].plot(kind="bar", ax=ax[k], color=cols(cur), legend=False)
+        ax[k].set_ylabel(ylab); ax[k].set_xlabel("tamanho")
+        ax[k].set_title("Q1 P&R - " + col.upper())
+        ax[k].tick_params(axis="x", rotation=0)
+    ax[0].legend([COND_PT.get(c, c) for c in order], title="condição", fontsize=8)
+    plt.tight_layout(); plt.show()
+'''
+)
+
 # ---------------------------------------------------------------- Q2/Q3
 md("## 3. Q2 (SFT) e Q3 (LoRA)")
 code(
@@ -373,6 +423,30 @@ plt.tight_layout(); plt.show()
 '''
 )
 
+code(
+    '''
+# Q2/Q3 - perplexidade da resposta (antes/depois): base vs SFT pleno vs LoRA (recall, menor melhor)
+sft = load("q2_sft.csv"); lora = load("q3_lora.csv")
+if sft is None or lora is None: skip("q2_sft.csv / q3_lora.csv")
+else:
+    def norm_model(x): return x.replace("-Base", "").replace("-pt", "")
+    s = sft[sft.eval_set == "recall"].copy(); s["k"] = s["model"].map(norm_model)
+    l = lora[(lora.eval_set == "recall") & (lora.start == "base")].copy(); l["k"] = l["model"].map(norm_model)
+    base = s[s.condition == "antes"].groupby("k")["mean_resp_ppl"].first()
+    sftp = s[(s.condition == "sft") & (s.start == "base")].groupby("k")["mean_resp_ppl"].first()
+    lo = l.groupby("k")["mean_resp_ppl"].first()
+    piv = pd.DataFrame({"base": base, "SFT pleno": sftp, "LoRA": lo}).dropna(how="all")
+    piv = piv.loc[piv.index.intersection(["Qwen3-0.6B", "Qwen3-1.7B", "gemma-3-1b"])]
+    if len(piv):
+        ax = piv.plot(kind="bar", color=[C["base"], C["sft"], C["lora"]], figsize=(9, 4))
+        ax.set_ylabel("perplexidade da resposta (menor melhor)")
+        ax.set_title("Q2/Q3 - perplexidade da resposta: base vs SFT vs LoRA")
+        ax.tick_params(axis="x", rotation=0); bar_labels(ax); plt.tight_layout(); plt.show()
+    else:
+        skip("modelos comuns para perplexidade da resposta")
+'''
+)
+
 # ---------------------------------------------------------------- Q4
 md("## 4. Q4 - Destilação (teacher -> student)")
 code(
@@ -446,6 +520,27 @@ if ds is not None:
         ax[1].text(0.05, 0.92, f"corr(log size, transfer) = {c:.2f}", transform=ax[1].transAxes, fontsize=8)
 else: ax[1].set_title("q4_distill.csv ausente")
 plt.tight_layout(); plt.show()
+'''
+)
+
+code(
+    '''
+# Q4 - perplexidade da resposta: base vs distilado por aluno (menor melhor, escala log pelo outlier GPT-2)
+df = load("q4_distill.csv")
+if df is None: skip("q4_distill.csv")
+else:
+    d = df.dropna(subset=["base_ppl", "distill_ppl"]).copy()
+    d["lbl"] = d["student"] + " (" + d["params"] + ")"
+    d = d.sort_values("base_ppl")
+    idx = np.arange(len(d)); w = 0.38
+    fig, ax = plt.subplots(figsize=(11, 4))
+    ax.bar(idx - w/2, d["base_ppl"], w, label="base", color=C["base"])
+    ax.bar(idx + w/2, d["distill_ppl"], w, label="distilado", color=C["distill"])
+    ax.set_yscale("log")
+    ax.set_xticks(idx); ax.set_xticklabels(d["lbl"], rotation=90, fontsize=8)
+    ax.set_ylabel("perplexidade da resposta (menor melhor, log)")
+    ax.set_title("Q4 - perplexidade da resposta: base vs distilado")
+    ax.legend(); plt.tight_layout(); plt.show()
 '''
 )
 
