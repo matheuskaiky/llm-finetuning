@@ -84,3 +84,9 @@ Thumbs.db
 .vscode/
 *.swp
 logs/
+
+*.tex
+*.bib
+docs/REVISAO_ARTIGO.md
+# backup do notebook antigo (passado a limpo no graficos_resultados.ipynb)
+notebooks/graficos_resultados_backup.ipynb
