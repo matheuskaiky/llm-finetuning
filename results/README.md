@@ -12,6 +12,11 @@ síntese transversal (leaderboard SFT vs LoRA, distribuição das notas por moto
 vitória/empate/derrota do RAG por pergunta, desempenho por tipo, mapa família x tarefa,
 escala x qualidade). O notebook é regenerado por `scripts/_build_results_notebook.py`.
 
+Cobertura das métricas exigidas: a Q1 tem as três métricas (perplexidade, entropia
+cruzada e acurácia de token) antes/depois tanto no held-out de texto de diário quanto no
+benchmark de P&R (perguntas e respostas conceituais, base vs instruct sem treino); Q2/Q3
+e Q4 também mostram a perplexidade da resposta (antes/depois), além do juiz.
+
 Ressalva de método: os gabaritos dos benchmarks atuais foram gerados com IA (o juiz
 também é um LLM, Qwen3-8B 0-5). Falta um conjunto de referência feito a mão, sem IA,
 como gabarito independente (tarefa em aberto). Os números abaixo devem ser lidos com
