@@ -150,6 +150,17 @@ base maior parte e termina mais baixo). Ressalva: a perplexidade premia o estilo
 formulaico do diário; por isso a leitura principal é a perplexidade, com a acurácia
 de token como apoio.
 
+Trabalho futuro (escala do córpus): os runs da Q1 usam um subconjunto de 2.000 docs
+(1 época) de propósito, para medir a direção/magnitude do efeito dentro do orçamento
+das 2x L4 e manter a escada comparável. Uma extensão natural é pré-treinar com quase
+todo o córpus (~67.687 docs, reservando só o held-out), com mais de uma época ou
+agendamento de lr, para obter perplexidade representativa de um treino completo e
+checar se o ganho antes/depois se sustenta em escala (aproveitando FSDP, com o NCCL
+restabelecido, ou QLoRA nos modelos maiores). Sobre o dimensionamento do held-out:
+não há percentual fixo; basta ser disjunto e grande o suficiente para uma estimativa
+de baixa variância. Hoje são 150 docs de held-out contra 2.000 de treino (~7%); ao
+escalar para ~67k, manter 150-500 docs (menos de 1%) continua suficiente.
+
 ### Ablação: podar licitações do corpus de treino ajuda a Q1?
 
 Hipótese (vinda do estudo de licitações no RAG): as licitações, repetitivas,
