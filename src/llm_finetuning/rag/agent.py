@@ -57,21 +57,21 @@ def decide_route(question: str, force_both: bool = False) -> str:
 
 
 GENERATOR_SYSTEM = (
-    "Voce responde perguntas sobre diarios oficiais de municipios usando SOMENTE o "
-    "contexto fornecido. Se o contexto nao contiver a resposta, diga que nao ha "
-    "informacao suficiente. Seja conciso e factual, em portugues."
+    "Você responde perguntas sobre diários oficiais de municípios usando SOMENTE o "
+    "contexto fornecido. Se o contexto não contiver a resposta, diga que não há "
+    "informação suficiente. Seja conciso e factual, em português."
 )
 
 CRITIC_SYSTEM = (
-    "Voce e um avaliador rigoroso. Dada a pergunta, o contexto e a resposta, "
-    "verifique: (a) a resposta esta 100 por cento embasada no contexto (sem "
-    "alucinacao)? (b) a resposta responde a pergunta? Responda APENAS com JSON: "
+    "Você é um avaliador rigoroso. Dada a pergunta, o contexto e a resposta, "
+    "verifique: (a) a resposta está 100 por cento embasada no contexto (sem "
+    "alucinação)? (b) a resposta responde à pergunta? Responda APENAS com JSON: "
     '{"approved": true|false, "feedback": "o que falta ou corrigir"}.'
 )
 
 
 def build_generator_messages(question: str, context: str, feedback: str = "") -> list[dict[str, str]]:
-    extra = f"\n\nObservacao do avaliador anterior: {feedback}" if feedback else ""
+    extra = f"\n\nObservação do avaliador anterior: {feedback}" if feedback else ""
     user = f"Contexto:\n{context or '(vazio)'}\n\nPergunta: {question}{extra}\n\nResposta:"
     return [
         {"role": "system", "content": GENERATOR_SYSTEM},

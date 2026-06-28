@@ -10,15 +10,15 @@ import re
 from typing import Any
 
 JUDGE_SYSTEM = (
-    "Voce avalia respostas comparando com uma resposta de referencia. Atribua uma "
-    "nota inteira de 0 a 5 para precisao e completude (0 = errada/irrelevante, "
-    "5 = correta e completa). Responda APENAS com o numero."
+    "Você avalia respostas comparando com uma resposta de referência. Atribua uma "
+    "nota inteira de 0 a 5 para precisão e completude (0 = errada/irrelevante, "
+    "5 = correta e completa). Responda APENAS com o número."
 )
 
 
 def build_judge_messages(question: str, expected: str, answer: str) -> list[dict[str, str]]:
     user = (
-        f"Pergunta: {question}\n\nResposta de referencia: {expected}\n\n"
+        f"Pergunta: {question}\n\nResposta de referência: {expected}\n\n"
         f"Resposta avaliada: {answer}\n\nNota (0 a 5):"
     )
     return [

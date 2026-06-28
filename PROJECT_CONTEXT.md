@@ -46,7 +46,8 @@ llm-finetuning/
 ├── notebooks/           # Experimentos exploratórios (Jupyter).
 ├── scripts/             # Entrypoints de CLI (train/eval/rag/...).
 ├── tests/               # Testes (pytest).
-└── docs/                # Documentação adicional (relatórios, figuras, decisões).
+├── results/             # CSV/JSONL de métricas por questão + README (ledger) e o notebook de gráficos. Versionado.
+└── docs/                # Documentação adicional (relatórios, decisões, prompts, perguntas).
 ```
 
 > **Propósito de cada pasta principal**
@@ -65,7 +66,12 @@ llm-finetuning/
 > - **`notebooks/`** - exploração rápida; código estável migra para `src/`.
 > - **`scripts/`** - finos invólucros de CLI que apenas leem uma config e chamam `src/`.
 > - **`tests/`** - testes unitários/integração das abstrações e utilitários.
-> - **`docs/`** - material de apoio das apresentações e decisões de arquitetura.
+> - **`results/`** - saídas de avaliação por questão (CSV/JSONL), o `README.md`
+>   que serve de ledger das execuções e o notebook `graficos_resultados.ipynb`.
+> - **`docs/`** - material de apoio e decisões. Inclui `IMPLEMENTACAO_QUESTOES.md`
+>   (mapa questão -> módulos/configs/scripts), `PROMPTS.md` (catálogo dos prompts
+>   de LLM usados como juiz/gerador/crítico/extrator) e `PERGUNTAS.md` (quantidades
+>   e arquivos de dados de fato usados em cada questão).
 
 ## 3. Arquitetura (SOLID / OCP)
 
