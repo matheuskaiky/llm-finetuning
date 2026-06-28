@@ -16,8 +16,8 @@
 | PEFT | `peft`, `bitsandbytes` | LoRA/QLoRA e quantização (Q3). |
 | SFT | `trl` (`SFTTrainer`) | Fine-tuning supervisionado (Q2). |
 | Destilação | custom (loss KL sobre HF Trainer) | Teacher->student (Q4). |
-| RAG | `langchain`/`llama-index` + `faiss`/`chromadb` + `sentence-transformers` | Recuperação + geração (Q5). |
-| Guardrails | `nemoguardrails`/`guardrails-ai` + camada custom | Camada de segurança (Q6). |
+| RAG | `langchain`/`langgraph` + `faiss` + `sentence-transformers` (`bge-m3`) + `networkx` (grafo) | Recuperação + geração (Q5). |
+| Guardrails | camada custom componível (sem framework externo) | Camada de segurança (Q6). |
 | Avaliação | métricas custom + opcional `lm-eval-harness` | Perplexidade, entropia cruzada, acurácia de token, benchmarks. |
 | Dados | `pypdf`/`pdfplumber` | PDF -> `.txt`. |
 | Config | `hydra-core`/`pydantic-settings` + YAML | Execução dirigida por configuração (base do OCP). |
