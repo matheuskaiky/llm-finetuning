@@ -30,6 +30,20 @@ bloqueado por hardware), segunda familia `gpt2` (124M/355M/774M) e cross-family
 agnostico de arquitetura e vocabulario (gpt2 tem vocab BPE ingles de 50257, contra
 151936 do Qwen).
 
+**Quantidade e origem das perguntas por questao.** "Derivada do dataset" = gerada por
+LLM ancorada em trechos reais do corpus (ou no grafo extraido), amostragem com seed 42.
+
+| Questao | Conjunto | Qtd. | Origem |
+|---------|----------|------|--------|
+| Q1 | benchmark de P&R (`diarios_qa.jsonl`) | 33 | conceituais sobre o dominio, held-out por construcao (auxilio de IA) |
+| Q2 | pares de SFT (treino) | 1.000 | derivadas do docentesDC (LLM ancorado no trecho) |
+| Q2/Q3 | held-out / recall | 150 / 150 | derivadas dos textos-fonte (recall exclui as perguntas de treino) |
+| Q3 | LoRA | reusa Q2 | mesmo conjunto da Q2 (so muda o metodo) |
+| Q4 | pares de destilacao (treino) | 1.200 | derivadas dos diarios (professor ancorado no trecho); 400/professor na ablacao |
+| Q4 | benchmark recall / held-out | 100 / 100 | derivadas dos diarios |
+| Q5 | benchmark RAG (`diarios_rag_30.jsonl`) | 30 | derivadas do indice: ~60% factual de chunk, ~40% multi-hop do grafo (+ variantes balanced/naolic) |
+| Q6 | guardrails (`guardrails_30.jsonl`) + parafraseados | 30 + 15 | prompts de seguranca construidos (nao vem do corpus) |
+
 ---
 
 ## Q1 - Pre-treino continuo

@@ -23,14 +23,14 @@ ENTITY_TYPES = (
 )
 
 EXTRACTION_SYSTEM = (
-    "Voce extrai um grafo de conhecimento de trechos de diarios oficiais de "
-    "municipios. Responda APENAS com um objeto JSON valido, sem texto fora dele, "
-    "sem comentarios e sem cercas de codigo. Esquema:\n"
+    "Você extrai um grafo de conhecimento de trechos de diários oficiais de "
+    "municípios. Responda APENAS com um objeto JSON válido, sem texto fora dele, "
+    "sem comentários e sem cercas de código. Esquema:\n"
     '{"entities": [{"name": "...", "type": "<TIPO>"}], '
     '"relations": [{"source": "...", "relation": "...", "target": "..."}]}\n'
     f"Tipos permitidos: {', '.join(ENTITY_TYPES)}. Use nomes completos e "
-    "canonicos. Extraia relacoes factuais explicitas (ex.: EMPRESA venceu "
-    "LICITACAO; PREFEITURA nomeou PESSOA; CONTRATO no VALOR). Se nao houver nada "
+    "canônicos. Extraia relações factuais explícitas (ex.: EMPRESA venceu "
+    "LICITACAO; PREFEITURA nomeou PESSOA; CONTRATO no VALOR). Se não houver nada "
     "relevante, devolva listas vazias."
 )
 

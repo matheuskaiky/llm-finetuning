@@ -22,6 +22,20 @@ também é um LLM, Qwen3-8B 0-5). Falta um conjunto de referência feito a mão,
 como gabarito independente (tarefa em aberto). Os números abaixo devem ser lidos com
 essa limitação em mente.
 
+Quantidade e origem das perguntas por questão (derivada do dataset = gerada por LLM
+ancorada em trechos reais/grafo, amostragem com seed 42):
+
+| Questão | Conjunto | Qtd. | Origem |
+|---------|----------|------|--------|
+| Q1 | benchmark de P&R (`diarios_qa.jsonl`) | 33 | conceituais sobre o domínio, held-out por construção (auxílio de IA) |
+| Q2 | pares de SFT (treino) | 1.000 | derivadas do docentesDC (LLM ancorado no trecho) |
+| Q2/Q3 | held-out / recall | 150 / 150 | derivadas dos textos-fonte (recall exclui as perguntas de treino) |
+| Q3 | LoRA | reusa Q2 (1.000 + recall 150) | mesmo conjunto da Q2 |
+| Q4 | pares de destilação (treino) | 1.200 | derivadas dos diários (professor ancorado no trecho); 400/professor na ablação |
+| Q4 | benchmark recall / held-out | 100 / 100 | derivadas dos diários |
+| Q5 | benchmark RAG (`diarios_rag_30.jsonl`) | 30 | derivadas do índice: ~60% factual de chunk, ~40% multi-hop do grafo (+ variantes balanced/naolic, 30 cada) |
+| Q6 | guardrails (`guardrails_30.jsonl`) + parafraseados | 30 + 15 | prompts de segurança construídos (não vêm do córpus) |
+
 ## Visão geral (Q1-Q6)
 
 | Q | Tema | Status | Resultado principal | CSV |

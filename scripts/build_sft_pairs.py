@@ -27,14 +27,14 @@ from llm_finetuning.data.sft_pairs import (
 )
 
 SYS = (
-    "Voce cria dados de instrucao (instruction tuning) em portugues a partir do "
-    "material academico de um professor do Departamento de Computacao. Dado o nome "
+    "Você cria dados de instrução (instruction tuning) em português a partir do "
+    "material acadêmico de um professor do Departamento de Computação. Dado o nome "
     "do professor e um trecho do material dele, gere {k} pares pergunta-e-resposta "
-    "DIVERSOS e ESPECIFICOS, com a resposta fundamentada APENAS no trecho. Nao "
-    "invente fatos fora do trecho. Nao escreva 'segundo o texto' nem 'no trecho'; "
-    "as perguntas devem ser autonomas. Responda APENAS com um array JSON: "
+    "DIVERSOS e ESPECÍFICOS, com a resposta fundamentada APENAS no trecho. Não "
+    "invente fatos fora do trecho. Não escreva 'segundo o texto' nem 'no trecho'; "
+    "as perguntas devem ser autônomas. Responda APENAS com um array JSON: "
     '[{{"instruction": "...", "input": "", "output": "..."}}, ...]. Use input vazio '
-    "salvo quando um contexto curto for necessario."
+    "salvo quando um contexto curto for necessário."
 )
 
 

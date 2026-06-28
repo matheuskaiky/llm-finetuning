@@ -152,6 +152,8 @@ PY
 | [`CONTEXT.md`](CONTEXT.md) | Visão de produto, escopo macro, cronograma e formato da entrega. |
 | [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) | Contexto técnico: arquitetura, árvore de diretórios e contratos. |
 | [`docs/IMPLEMENTACAO_QUESTOES.md`](docs/IMPLEMENTACAO_QUESTOES.md) | Quais módulos, configs e scripts cada questão usa, e as decisões. |
+| [`docs/PERGUNTAS.md`](docs/PERGUNTAS.md) | Quantidades e arquivos de dados de fato usados em cada questão. |
+| [`docs/PROMPTS.md`](docs/PROMPTS.md) | Catálogo dos prompts de LLM (juiz, gerador, crítico, extrator). |
 | [`results/README.md`](results/README.md) | Ledger consolidado dos resultados Q1-Q6 e síntese transversal. |
 
 ## Branch policy
