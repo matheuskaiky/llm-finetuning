@@ -236,3 +236,15 @@ O dataset docente vem do Hub (`vickminari/docentesDC`, dataset oficial
 pre-processado). Baixar com `huggingface_hub.snapshot_download(repo_id=
 "vickminari/docentesDC", repo_type="dataset", local_dir="data/raw/docentesDC")`.
 Ver `README.md`.
+
+**Materializacao do corpus de diarios (Q1) em duas escalas.**
+`scripts/diarios_to_text.py` converte o parquet `curated` (70.826 docs, 70.440 apos o
+filtro `min_tokens=64`) em `.txt` para o `TextCorpusLoader`. Mantem-se dois recortes,
+em pastas separadas para nao sobrescrever resultados:
+- `data/processed/diarios_txt` (2.000 docs): recorte de prova usado nos resultados
+  publicados da Q1. Held-out `data/processed/diarios_heldout.jsonl` (docs 2000-2500).
+- `data/processed/diarios_txt_full` (68.440 docs): corpus completo para o pre-treino em
+  escala. Held-out disjunto `data/processed/diarios_heldout_full.jsonl` (ultimos 2.000
+  docs). Configs `pretrain_diarios_qwen3_0p6b_full.yaml` e
+  `eval_diarios_heldout_full_{antes,depois}.yaml`; saidas em `results/depois_full/`. O
+  treino full esta pendente do gabarito de P&R feito a mao.

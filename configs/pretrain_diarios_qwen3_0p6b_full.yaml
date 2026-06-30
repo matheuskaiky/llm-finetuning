@@ -1,0 +1,44 @@
+# Q1: continued pre-training of Qwen3-0.6B-Base on the FULL diarios corpus
+# (~68.4k docs, ~145M tokens), as opposed to the 2k-doc probe run
+# (pretrain_diarios_qwen3_0p6b.yaml). Data prepared by:
+#   python scripts/diarios_to_text.py --config curated --limit 68440 \
+#       --out data/processed/diarios_txt_full
+# Held-out (last 2000 docs, disjoint from training) for unseen-text perplexity:
+#   python scripts/diarios_to_text.py --config curated --skip 68440 --limit 2000 \
+#       --out data/processed/diarios_heldout_full.jsonl
+# Outputs are kept separate from the 2k run (depois_full/) so neither overwrites
+# the other. Training is pending: the QA benchmark is still AI-generated and a
+# hand-made gold set is the prerequisite (see results/README.md, NOTAS.md).
+name: pretrain_diarios_qwen3_0p6b_full
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt_full
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_qwen3_0p6b_diarios_full
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 4
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    logging_steps: 50
+    bf16: true
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois_full/pretrain_qwen3_0p6b.json
