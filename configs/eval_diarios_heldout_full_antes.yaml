@@ -1,0 +1,17 @@
+# Q1 held-out perplexity on the FULL-run held-out set (last 2000 docs, disjoint
+# from data/processed/diarios_txt_full), BEFORE training (base model baseline).
+name: eval_diarios_heldout_full_antes
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-0.6B-Base
+    dtype: bfloat16
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: data/processed/diarios_heldout_full.jsonl
+  max_length: 512
+  stride: 0
+  output_path: benchmarks/pre_treino/results/antes/heldout_full.json

@@ -63,6 +63,10 @@ num benchmark de pelo menos 25 perguntas.
   intrinsecas), `scripts/eval_q1_gpt2.py` (escada gpt2: held-out / qa / OOD).
 - Configs: `pretrain_diarios_qwen3_0p6b.yaml`, `..._1p7b.yaml`, `..._4b.yaml`,
   `pretrain_diarios_gpt2{,_medium,_large}.yaml`, `pretrain_diarios_gemma3_1b{,_it}.yaml`.
+  Escala do corpus: os resultados publicados sao do run de 2.000 docs; o corpus
+  completo (68.440 docs de treino) foi materializado em `data/processed/diarios_txt_full`
+  e tem config propria `pretrain_diarios_qwen3_0p6b_full.yaml` (saidas em
+  `results/depois_full/`), com o treino full ainda pendente do gabarito feito a mao.
 - Benchmark: `benchmarks/pre_treino/diarios_qa.jsonl`.
 - Resultados: `results/q1_base_vs_instruct.csv`, `results/q1_gpt2.csv`,
   `results/q1_forgetting.csv`, `results/q1_balanceamento_licitacao.csv`.

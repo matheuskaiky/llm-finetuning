@@ -40,7 +40,7 @@ ancorada em trechos reais/grafo, amostragem com seed 42):
 
 | Q | Tema | Status | Resultado principal | CSV |
 |---|------|--------|---------------------|-----|
-| Q1 | Pré-treino contínuo (full-param) | feito (0.6B, 1.7B, gemma) | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv`, `q1_forgetting.csv` |
+| Q1 | Pré-treino contínuo (full-param) | feito @2k docs; córpus completo (68.4k) preparado, treino full pendente | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv`, `q1_forgetting.csv` |
 | Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
 | Q3 | LoRA (PEFT) | feito | **LoRA iguala/supera o SFT pleno** treinando ~1.7% dos params | `q3_lora.csv` |
 | Q4 | Destilação teacher->student | feito | transferência: SmolLM2-135M 0.07->0.34, gemma 84% do gap; **logit-KD ~ response-based** | `q4_distill.csv`, `q4_methods.csv` |
@@ -164,16 +164,24 @@ base maior parte e termina mais baixo). Ressalva: a perplexidade premia o estilo
 formulaico do diário; por isso a leitura principal é a perplexidade, com a acurácia
 de token como apoio.
 
-Trabalho futuro (escala do córpus): os runs da Q1 usam um subconjunto de 2.000 docs
-(1 época) de propósito, para medir a direção/magnitude do efeito dentro do orçamento
-das 2x L4 e manter a escada comparável. Uma extensão natural é pré-treinar com quase
-todo o córpus (~67.687 docs, reservando só o held-out), com mais de uma época ou
-agendamento de lr, para obter perplexidade representativa de um treino completo e
-checar se o ganho antes/depois se sustenta em escala (aproveitando FSDP, com o NCCL
-restabelecido, ou QLoRA nos modelos maiores). Sobre o dimensionamento do held-out:
+Escala do córpus (poucos dados vs muitos dados): os resultados da Q1 acima foram
+obtidos com um subconjunto de 2.000 docs (1 época), escolhido de propósito para medir
+a direção/magnitude do efeito dentro do orçamento das 2x L4 e manter a escada
+comparável entre modelos. São válidos como primeira passada, mas não representam um
+treino completo. Por isso o córpus inteiro foi materializado para um treino em escala:
+68.440 docs de treino (de 70.440 que passam o filtro `min_tokens=64`) em
+`data/processed/diarios_txt_full`, reservando os últimos 2.000 docs como held-out
+disjunto em `data/processed/diarios_heldout_full.jsonl`. Configs:
+`configs/pretrain_diarios_qwen3_0p6b_full.yaml` (treino) e
+`configs/eval_diarios_heldout_full_{antes,depois}.yaml` (avaliação). As saídas do run
+completo ficam em pastas separadas (`benchmarks/pre_treino/results/depois_full/`,
+`outputs/pretrain_qwen3_0p6b_diarios_full/`) para não sobrescrever as do run de 2.000
+docs. O treino completo ainda está pendente: depende do gabarito de P&R feito a mão
+(o atual é gerado por IA, ver ressalva acima). Sobre o dimensionamento do held-out:
 não há percentual fixo; basta ser disjunto e grande o suficiente para uma estimativa
-de baixa variância. Hoje são 150 docs de held-out contra 2.000 de treino (~7%); ao
-escalar para ~67k, manter 150-500 docs (menos de 1%) continua suficiente.
+de baixa variância. No run de 2k são 150 docs de held-out contra 2.000 de treino
+(~7%); no run completo, 2.000 docs de held-out contra 68.440 de treino (~2,8%)
+mantêm a estimativa estável.
 
 ### Ablação: podar licitações do corpus de treino ajuda a Q1?
 

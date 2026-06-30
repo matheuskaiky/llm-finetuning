@@ -56,6 +56,14 @@ esses documentos no treino, a queda reflete generalização, não memorização.
 Configs: `configs/eval_diarios_heldout_antes.yaml` (modelo base) e
 `configs/eval_diarios_heldout_depois.yaml` (checkpoint treinado).
 
+Há dois conjuntos de held-out, conforme a escala do treino. O run de 2.000 docs usa
+`data/processed/diarios_heldout.jsonl` (docs 2000-2500, 500 docs). O run do córpus
+completo (treino em `data/processed/diarios_txt_full`, 68.440 docs) usa
+`data/processed/diarios_heldout_full.jsonl` (últimos 2.000 docs, disjunto do treino
+completo), com configs `configs/eval_diarios_heldout_full_{antes,depois}.yaml` e
+saída em `results/depois_full/`. Os dois held-outs são git-ignored e regeneráveis
+com `scripts/diarios_to_text.py` (ver cabeçalho do script).
+
 ## Requisitos de qualidade das questões (slides, seção 4)
 
 Relevância, avaliabilidade, realismo, delimitação e análise de erro. As perguntas
