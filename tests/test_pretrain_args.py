@@ -36,6 +36,30 @@ def test_fsdp_and_checkpointing_are_passed_through():
     assert kwargs["fsdp_config"] == fsdp_config
 
 
+def test_defaults_do_not_checkpoint():
+    kwargs = ContinualPretrainTrainer()._training_arguments_kwargs()
+    assert kwargs["save_strategy"] == "no"
+    assert "save_steps" not in kwargs
+    assert "save_total_limit" not in kwargs
+
+
+def test_step_checkpointing_is_passed_through():
+    trainer = ContinualPretrainTrainer(
+        save_strategy="steps", save_steps=500, save_total_limit=2,
+    )
+    kwargs = trainer._training_arguments_kwargs()
+    assert kwargs["save_strategy"] == "steps"
+    assert kwargs["save_steps"] == 500
+    assert kwargs["save_total_limit"] == 2
+
+
+def test_epoch_checkpointing_has_no_save_steps():
+    kwargs = ContinualPretrainTrainer(save_strategy="epoch")._training_arguments_kwargs()
+    assert kwargs["save_strategy"] == "epoch"
+    assert "save_steps" not in kwargs  # steps cadence irrelevant for epoch saves
+    assert kwargs["save_total_limit"] == 2
+
+
 def test_core_hyperparameters_round_trip():
     trainer = ContinualPretrainTrainer(
         learning_rate=2e-5,

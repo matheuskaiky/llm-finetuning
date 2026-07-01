@@ -58,6 +58,9 @@ class ContinualPretrainTrainer(Trainer):
         fsdp: str = "",
         fsdp_config: dict[str, Any] | None = None,
         max_grad_norm: float = 1.0,
+        save_strategy: str = "no",
+        save_steps: int = 500,
+        save_total_limit: int = 2,
     ) -> None:
         self.output_dir = output_dir
         self.max_grad_norm = max_grad_norm
@@ -75,6 +78,9 @@ class ContinualPretrainTrainer(Trainer):
         self.optim = optim
         self.fsdp = fsdp
         self.fsdp_config = fsdp_config
+        self.save_strategy = save_strategy
+        self.save_steps = save_steps
+        self.save_total_limit = save_total_limit
 
     def _training_arguments_kwargs(self) -> dict[str, Any]:
         """Build the TrainingArguments kwargs (pure: no transformers import).
@@ -93,7 +99,7 @@ class ContinualPretrainTrainer(Trainer):
             "weight_decay": self.weight_decay,
             "warmup_ratio": self.warmup_ratio,
             "logging_steps": self.logging_steps,
-            "save_strategy": "no",
+            "save_strategy": self.save_strategy,
             "report_to": [],
             "fp16": self.fp16,
             "bf16": self.bf16,
@@ -106,6 +112,12 @@ class ContinualPretrainTrainer(Trainer):
             kwargs["gradient_checkpointing_kwargs"] = {"use_reentrant": False}
         if self.fsdp and self.fsdp_config:
             kwargs["fsdp_config"] = self.fsdp_config
+        # Periodic checkpointing protects long full-corpus runs from a time-limit
+        # kill; "steps" also needs a save_steps cadence and a total limit.
+        if self.save_strategy == "steps":
+            kwargs["save_steps"] = self.save_steps
+        if self.save_strategy != "no":
+            kwargs["save_total_limit"] = self.save_total_limit
         return kwargs
 
     def _concatenate_token_ids(self, texts: list[str], tokenizer: Any) -> list[int]:
@@ -158,8 +170,14 @@ class ContinualPretrainTrainer(Trainer):
         hf_trainer.save_model(self.output_dir)
         tokenizer.save_pretrained(self.output_dir)
 
+        # outcome.metrics carries HF's wall-clock timing; surface it so each run
+        # records how long training took (and throughput) in its log.
+        om = outcome.metrics or {}
         metrics = {
             "train_loss": float(outcome.training_loss),
             "num_blocks": len(block_dataset),
+            "train_runtime_s": float(om.get("train_runtime", float("nan"))),
+            "train_samples_per_second": float(om.get("train_samples_per_second", float("nan"))),
+            "epochs": float(self.num_train_epochs),
         }
         return TrainResult(model=net, metrics=metrics, output_dir=self.output_dir)

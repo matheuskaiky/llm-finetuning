@@ -36,7 +36,7 @@ def main() -> None:
     args = p.parse_args()
 
     cfg = load_rag_config(args.config)
-    items = [json.loads(l) for l in args.benchmark.read_text(encoding="utf-8").splitlines() if l.strip()]
+    items = [json.loads(ln) for ln in args.benchmark.read_text(encoding="utf-8").splitlines() if ln.strip()]
     items = items[: args.limit]
 
     llm = LocalChatLLM.from_config(cfg.llm)

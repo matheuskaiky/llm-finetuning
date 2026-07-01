@@ -1,0 +1,41 @@
+# Q1: continued pre-training of Qwen3-1.7B-Base on the FULL diarios corpus
+# (~68.4k docs, ~145M tokens), single L4 (batch 2 + accum 8, gradient checkpointing,
+# plain AdamW). 3 epochs, checkpoint per epoch (for the epochs curve and time-limit
+# safety). Full-corpus counterpart of pretrain_diarios_qwen3_1p7b.yaml (2k probe).
+name: pretrain_diarios_qwen3_1p7b_full
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen3-1.7B-Base
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt_full
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_qwen3_1p7b_diarios_full
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 50
+    bf16: true
+    gradient_checkpointing: true
+    optim: adamw_torch
+    save_strategy: epoch
+    save_total_limit: 3
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois_full/pretrain_qwen3_1p7b.json

@@ -90,7 +90,6 @@ class LogitKDTrainer(SupervisedFineTuneTrainer):
 
         class _KDTrainer(HfTrainer):
             def compute_loss(self, model, inputs, return_outputs=False, **kw):
-                labels = inputs["input_ids"] if "labels" not in inputs else inputs["labels"]
                 out = model(input_ids=inputs["input_ids"],
                             attention_mask=inputs.get("attention_mask"),
                             labels=inputs["labels"])

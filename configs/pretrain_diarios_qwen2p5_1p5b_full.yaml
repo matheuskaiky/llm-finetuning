@@ -1,0 +1,46 @@
+# Q1: continued pre-training of Qwen2.5-1.5B (base) on the FULL diarios corpus
+# (~68.4k docs, ~145M tokens). Single L4: 1.5B full-parameter fits with per-device
+# batch 2 + accum 8, gradient checkpointing and plain AdamW (same recipe family as
+# the 1.7B run). 3 epochs with a checkpoint saved per epoch (save_total_limit 3),
+# so the held-out perplexity can be compared at 1/2/3 epochs and a time-limit kill
+# still leaves usable checkpoints.
+# Data prepared by:
+#   python scripts/diarios_to_text.py --config curated --limit 68440 \
+#       --out data/processed/diarios_txt_full
+name: pretrain_diarios_qwen2p5_1p5b_full
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen2.5-1.5B
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt_full
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_qwen2p5_1p5b_diarios_full
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 50
+    bf16: true
+    gradient_checkpointing: true
+    optim: adamw_torch
+    save_strategy: epoch
+    save_total_limit: 3
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois_full/pretrain_qwen2p5_1p5b.json
