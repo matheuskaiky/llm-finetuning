@@ -16,10 +16,10 @@ done
 echo "--- epocas concluidas / tempos (EPOCH_DONE, elapsed, train_runtime) ---"
 grep -h -E "EPOCH_DONE|elapsed_s=|train_runtime_s|TRAIN .* DONE" logs/q1_*.{out,err} 2>/dev/null | tail -20
 
-echo "--- erros reais (ignora 'indexing errors' do tokenizer) ---"
-grep -l -iE "out of memory|CUDA error|Traceback|CANCELLED|ChildFailedError|RuntimeError" logs/q1_*.err 2>/dev/null \
+echo "--- erros reais em logs ATIVOS (ultimas ~4h; ignora tokenizer e jobs antigos) ---"
+find logs -name "q1_*.err" -mmin -250 2>/dev/null \
   | while read -r f; do
-      grep -iE "out of memory|CUDA error|RuntimeError|ChildFailedError|CANCELLED" "$f" 2>/dev/null \
+      grep -iE "out of memory|CUDA error|RuntimeError|ChildFailedError" "$f" 2>/dev/null \
         | grep -viE "indexing errors" | tail -2 | sed "s|^|  $(basename "$f"): |"
     done | tail -20
 
