@@ -50,6 +50,10 @@ def main() -> None:
     parser.add_argument("--judge-model", default="models/Qwen3-8B")
     parser.add_argument("--device", default="cuda", help="device for the tested models")
     parser.add_argument("--judge-device", default="cuda")
+    parser.add_argument("--judge-load-in-4bit", action="store_true",
+                        help="4-bit NF4 load for a big judge (e.g. gemma-4-31b-it)")
+    parser.add_argument("--judge-device-map", default=None,
+                        help="device_map for a big judge (e.g. 'auto' to split a 31b over both L4)")
     parser.add_argument("--out", type=Path, default=Path("results/q2_sft_eval.csv"))
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--limit", type=int, default=0, help="limit held-out items (0=all)")
@@ -85,7 +89,8 @@ def main() -> None:
     # Pass 2: fixed judge scores every generated answer against the reference.
     print(f"=== judging with {args.judge_model} ===", flush=True)
     judge = LocalChatLLM(model_name=args.judge_model, device=args.judge_device,
-                         temperature=0.0)
+                         temperature=0.0, load_in_4bit=args.judge_load_in_4bit,
+                         device_map=args.judge_device_map)
     per_item: list[dict] = []
     for label, _ in specs:
         for run, seed in enumerate(seeds, start=1):
