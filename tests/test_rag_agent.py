@@ -55,7 +55,7 @@ class _StubLLM:
         if "avaliar" in messages[-1]["content"]:
             self.critic_calls += 1
             approved = "false" if self.critic_calls == 1 else "true"
-            return '{"approved": %s, "feedback": "cite o valor"}' % approved
+            return f'{{"approved": {approved}, "feedback": "cite o valor"}}'
         return "Empresa X venceu a licitacao."
 
 

@@ -71,6 +71,14 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+# The codebase uses a compact style (guard clauses and paired statements on one
+# line) and lets `ruff-format` own line wrapping. Disable the purely stylistic
+# rules that conflict with it; correctness rules (F, B, UP, the rest of E) stay on.
+ignore = ["E501", "E701", "E702"]
+
+[tool.ruff.lint.per-file-ignores]
+# Exploratory analysis notebook: short plot handles like `l` are conventional.
+"notebooks/*.ipynb" = ["E741"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

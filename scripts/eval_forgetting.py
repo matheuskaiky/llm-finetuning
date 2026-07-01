@@ -38,7 +38,7 @@ INDOMAIN = Path("data/processed/diarios_heldout.jsonl")
 
 def build_ood_probe(out_path: Path, n: int, seed: int) -> Path:
     """Sample n documents from the docentesDC jsonl into an OOD probe file."""
-    lines = [l for l in OOD_SRC.read_text(encoding="utf-8").splitlines() if l.strip()]
+    lines = [ln for ln in OOD_SRC.read_text(encoding="utf-8").splitlines() if ln.strip()]
     rng = random.Random(seed)
     sample = rng.sample(lines, min(n, len(lines)))
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -58,6 +58,7 @@ def eval_ppl(model_path: str, benchmark: Path, max_length: int) -> dict[str, flo
     res = ev.evaluate(bundle, benchmark)
     del bundle
     import gc
+
     import torch
     gc.collect()
     if torch.cuda.is_available():
