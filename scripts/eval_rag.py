@@ -20,10 +20,16 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 from pathlib import Path
 
+from llm_finetuning.core import set_global_seed
+from llm_finetuning.evaluation.results import (
+    DEFAULT_EVAL_RUNS,
+    run_seeds,
+    summarize_runs,
+    write_item_results,
+)
 from llm_finetuning.rag import load_rag_config
 from llm_finetuning.rag.graph_store import KnowledgeGraph
 from llm_finetuning.rag.judge import llm_judge
@@ -66,6 +72,9 @@ def main() -> None:
     parser.add_argument("--graph-path", default=None, help="override index.graph_path")
     parser.add_argument("--mmr", action="store_true", help="enable MMR reranking on the vector retriever")
     parser.add_argument("--mmr-lambda", type=float, default=None, help="MMR lambda (relevance vs diversity)")
+    parser.add_argument("--runs", type=int, default=DEFAULT_EVAL_RUNS,
+                        help="mandatory number of evaluation repetitions (default 5)")
+    parser.add_argument("--seed", type=int, default=42, help="base seed (run r uses seed+r-1)")
     args = parser.parse_args()
 
     modes = [m.strip() for m in args.modes.split(",") if m.strip()]
@@ -114,50 +123,64 @@ def main() -> None:
     # registered in rag.pipelines; this loop does not change.
     runners = {m: build_runner(m, llm, vec, gra, cfg.agent.max_reflections) for m in modes}
 
-    rows = []
-    scores: dict[str, list[int]] = {"baseline": [], **{m: [] for m in modes}}
-    corrected: dict[str, int] = {m: 0 for m in modes}
-    for i, item in enumerate(questions):
-        q, expected = item["question"], item["expected_answer"]
-        row: dict[str, object] = {"idx": i, "type": item.get("type", ""), "question": q}
-        try:
-            base = baseline_answer(llm, q)
-            s_base = llm_judge(judge, q, expected, base)
-        except Exception as exc:  # robust: one bad question must not kill the run
-            base, s_base = f"<error: {exc}>", 0
-        scores["baseline"].append(s_base)
-        row["answer_baseline"], row["score_baseline"] = base, s_base
-        for mode, runner in runners.items():
+    # One row per (run, question, scenario), scenario in {baseline, <modes>}. Keeps
+    # each id's per-scenario answer/score for all runs in a single CSV.
+    per_item: list[dict] = []
+    seeds = run_seeds(args.seed, args.runs)
+    for run, seed in enumerate(seeds, start=1):
+        set_global_seed(seed)
+        for i, item in enumerate(questions):
+            q, expected = item["question"], item["expected_answer"]
+            qid = item.get("id", i + 1)
+            qtype = item.get("type", "")
             try:
-                res = runner.answer(q)
-                s = llm_judge(judge, q, expected, res.answer)
-            except Exception as exc:
-                res, s = type("R", (), {"answer": f"<error: {exc}>", "corrected": False})(), 0
-            scores[mode].append(s)
-            if res.corrected:
-                corrected[mode] += 1
-            row[f"answer_{mode}"], row[f"score_{mode}"], row[f"corrected_{mode}"] = (
-                res.answer, s, res.corrected,
+                base = baseline_answer(llm, q)
+                s_base = llm_judge(judge, q, expected, base)
+            except Exception as exc:  # robust: one bad question must not kill the run
+                base, s_base = f"<error: {exc}>", 0
+            per_item.append({"run": run, "id": qid, "type": qtype, "scenario": "baseline",
+                             "question": q, "answer": base, "score": s_base, "corrected": 0})
+            for mode, runner in runners.items():
+                try:
+                    res = runner.answer(q)
+                    s = llm_judge(judge, q, expected, res.answer)
+                    corr = int(res.corrected)
+                except Exception as exc:
+                    res_answer, s, corr = f"<error: {exc}>", 0, 0
+                else:
+                    res_answer = res.answer
+                per_item.append({"run": run, "id": qid, "type": qtype, "scenario": mode,
+                                 "question": q, "answer": res_answer, "score": s,
+                                 "corrected": corr})
+            done = " ".join(
+                f"{r['scenario']}={r['score']}"
+                for r in per_item[-(len(modes) + 1):]
             )
-        rows.append(row)
-        print(f"[{i + 1}/{len(questions)}] " + " ".join(f"{k}={scores[k][-1]}" for k in scores), flush=True)
+            print(f"[run {run}/{args.runs}][{i + 1}/{len(questions)}] {done}", flush=True)
 
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    with args.out.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(rows)
+    write_item_results(
+        args.out, per_item,
+        fieldnames=["run", "id", "type", "scenario", "question", "answer", "score",
+                    "corrected"],
+    )
+    summary = summarize_runs(per_item, ["scenario"], ["score", "corrected"])
+    summary_path = args.out.with_name(args.out.stem + "_summary.csv")
+    write_item_results(summary_path, summary)
 
-    n = len(questions)
     judge_name = args.judge_model or cfg.llm.model_name
-    print(f"\n## Analise Q5 - motor {cfg.llm.model_name} | juiz {judge_name} ({n} perguntas)\n")
-    mean_base = sum(scores["baseline"]) / n
+    by = {row["scenario"]: row for row in summary}
+    mean_base = by.get("baseline", {}).get("score_mean", 0.0)
+    print(f"\n## Analise Q5 - motor {cfg.llm.model_name} | juiz {judge_name} "
+          f"({len(questions)} perguntas x {args.runs} runs)\n")
     print(f"- baseline (sem RAG):     {mean_base:.2f} / 5")
     for mode in modes:
-        mm = sum(scores[mode]) / n
-        extra = f"; auto-correcao {corrected[mode]}/{n}" if mode.startswith("agentic") else ""
-        print(f"- {mode:16s} {mm:.2f} / 5  (ganho {mm - mean_base:+.2f}){extra}")
-    print(f"\nCSV: {args.out}")
+        row = by.get(mode, {})
+        mm = row.get("score_mean", 0.0)
+        extra = (f"; auto-correcao media {row.get('corrected_mean', 0.0):.2f}"
+                 if mode.startswith("agentic") else "")
+        print(f"- {mode:16s} {mm:.2f}+-{row.get('score_std', 0.0):.2f} / 5  "
+              f"(ganho {mm - mean_base:+.2f}){extra}")
+    print(f"\nCSV per-item: {args.out} ({len(per_item)} linhas) | resumo: {summary_path}")
 
 
 if __name__ == "__main__":

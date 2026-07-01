@@ -17,11 +17,17 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 from pathlib import Path
 
+from llm_finetuning.core import set_global_seed
 from llm_finetuning.data.sft_pairs import build_prompt
+from llm_finetuning.evaluation.results import (
+    DEFAULT_EVAL_RUNS,
+    run_seeds,
+    summarize_runs,
+    write_item_results,
+)
 from llm_finetuning.rag.judge import llm_judge
 from llm_finetuning.rag.llm_client import LocalChatLLM
 
@@ -45,69 +51,67 @@ def main() -> None:
     parser.add_argument("--device", default="cuda", help="device for the tested models")
     parser.add_argument("--judge-device", default="cuda")
     parser.add_argument("--out", type=Path, default=Path("results/q2_sft_eval.csv"))
-    parser.add_argument("--details", type=Path, default=None,
-                        help="optional JSONL path for per-item answers/scores")
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--limit", type=int, default=0, help="limit held-out items (0=all)")
+    parser.add_argument("--runs", type=int, default=DEFAULT_EVAL_RUNS,
+                        help="mandatory number of evaluation repetitions (default 5)")
+    parser.add_argument("--seed", type=int, default=42, help="base seed (run r uses seed+r-1)")
     args = parser.parse_args()
 
     items = _load_heldout(args.heldout)
     if args.limit:
         items = items[: args.limit]
-    print(f"held-out items: {len(items)}", flush=True)
+    print(f"held-out items: {len(items)} | runs: {args.runs}", flush=True)
 
     specs = [m.split("=", 1) for m in args.models]
+    seeds = run_seeds(args.seed, args.runs)
 
-    # Pass 1: per model, generate answers and response perplexity, then unload.
-    answers: dict[str, list[dict]] = {}
+    # Pass 1: per model, load once, generate answer + response perplexity for every
+    # (run, item). Keyed by (label, run, item index).
+    gen: dict[tuple[str, int, int], dict] = {}
     for label, path in specs:
         print(f"=== generating: {label} ({path}) ===", flush=True)
         llm = LocalChatLLM(model_name=path, device=args.device, temperature=0.0,
                            max_new_tokens=args.max_new_tokens)
-        rows = []
-        for it in items:
-            prompt = build_prompt(it["instruction"], it.get("input", ""))
-            ans = llm.complete(prompt, args.max_new_tokens)
-            ppl = llm.response_perplexity(prompt, it["output"])
-            rows.append({"answer": ans, "resp_ppl": ppl})
-        answers[label] = rows
+        for run, seed in enumerate(seeds, start=1):
+            set_global_seed(seed)
+            for idx, it in enumerate(items):
+                prompt = build_prompt(it["instruction"], it.get("input", ""))
+                ans = llm.complete(prompt, args.max_new_tokens)
+                ppl = llm.response_perplexity(prompt, it["output"])
+                gen[(label, run, idx)] = {"answer": ans, "resp_ppl": ppl}
         llm.unload()
 
-    # Pass 2: fixed judge scores every model's answers against the reference.
+    # Pass 2: fixed judge scores every generated answer against the reference.
     print(f"=== judging with {args.judge_model} ===", flush=True)
     judge = LocalChatLLM(model_name=args.judge_model, device=args.judge_device,
                          temperature=0.0)
-    summary = []
-    details = []
+    per_item: list[dict] = []
     for label, _ in specs:
-        scores, ppls = [], []
-        for it, row in zip(items, answers[label], strict=False):
-            s = llm_judge(judge, it["instruction"], it["output"], row["answer"])
-            scores.append(s)
-            if row["resp_ppl"] == row["resp_ppl"]:  # not NaN
-                ppls.append(row["resp_ppl"])
-            details.append({"model": label, "instruction": it["instruction"],
-                            "expected": it["output"], "answer": row["answer"],
-                            "score": s, "resp_ppl": row["resp_ppl"]})
-        mean_score = sum(scores) / len(scores) if scores else 0.0
-        mean_ppl = sum(ppls) / len(ppls) if ppls else float("nan")
-        summary.append({"model": label, "mean_judge": round(mean_score, 3),
-                        "mean_resp_ppl": round(mean_ppl, 3), "n": len(scores)})
-        print(f"  {label}: judge={mean_score:.3f}/5  resp_ppl={mean_ppl:.3f}", flush=True)
+        for run, seed in enumerate(seeds, start=1):
+            set_global_seed(seed)
+            for idx, it in enumerate(items):
+                g = gen[(label, run, idx)]
+                s = llm_judge(judge, it["instruction"], it["output"], g["answer"])
+                per_item.append({
+                    "run": run, "id": it.get("id", idx + 1), "model": label,
+                    "instruction": it["instruction"], "expected": it["output"],
+                    "answer": g["answer"], "judge": s, "resp_ppl": g["resp_ppl"],
+                })
     judge.unload()
 
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    with args.out.open("w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["model", "mean_judge", "mean_resp_ppl", "n"])
-        w.writeheader()
-        w.writerows(summary)
-    print(f"wrote {args.out}")
-    if args.details:
-        args.details.parent.mkdir(parents=True, exist_ok=True)
-        with args.details.open("w", encoding="utf-8") as fh:
-            for d in details:
-                fh.write(json.dumps(d, ensure_ascii=False) + "\n")
-        print(f"wrote {args.details}")
+    write_item_results(
+        args.out, per_item,
+        fieldnames=["run", "id", "model", "instruction", "expected", "answer",
+                    "judge", "resp_ppl"],
+    )
+    summary = summarize_runs(per_item, ["model"], ["judge", "resp_ppl"])
+    summary_path = args.out.with_name(args.out.stem + "_summary.csv")
+    write_item_results(summary_path, summary)
+    for row in summary:
+        print(f"  {row['model']}: judge={row['judge_mean']:.3f}+-{row['judge_std']:.3f}  "
+              f"resp_ppl={row['resp_ppl_mean']:.3f}", flush=True)
+    print(f"wrote {args.out} (per-item, {len(per_item)} linhas) e {summary_path}")
 
 
 if __name__ == "__main__":

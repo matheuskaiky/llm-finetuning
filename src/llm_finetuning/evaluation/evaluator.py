@@ -16,27 +16,56 @@ from ..core.config import EvaluationConfig
 from ..core.interfaces import Evaluator, Metric, ModelBundle
 from ..core.registry import EVALUATORS, METRICS
 
+CLOZE_BLANK = "____"
+
+
+def load_benchmark_items(path: str | Path) -> list[dict]:
+    """Read a ``.jsonl`` benchmark as a list of raw objects (all fields kept).
+
+    Every object keeps whatever columns the benchmark carries (``id``, metadata,
+    ``context``/``target`` for cloze, ``instruction``/``output`` for Q&A). Use this
+    for per-item evaluation; use :func:`load_benchmark_texts` for the intrinsic
+    corpus pass.
+    """
+    path = Path(path)
+    items: list[dict] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line:
+            items.append(json.loads(line))
+    return items
+
+
+def item_to_text(obj: dict) -> str:
+    """Flatten one benchmark object into a single text for intrinsic metrics.
+
+    Supports three shapes: an explicit ``text`` field, a cloze item
+    (``context``/``target``, the ``____`` blank filled with the target), and a Q&A
+    item (``instruction``/``input``/``output``).
+    """
+    if "text" in obj:
+        return obj["text"]
+    if "context" in obj and "target" in obj:
+        context, target = obj["context"], obj["target"]
+        if CLOZE_BLANK in context:
+            return context.replace(CLOZE_BLANK, target)
+        return f"{context} {target}".strip()
+    parts = [obj.get(k, "") for k in ("instruction", "input", "output")]
+    return "\n".join(p for p in parts if p)
+
 
 def load_benchmark_texts(path: str | Path) -> list[str]:
     """Read benchmark documents from a ``.txt`` (whole file) or ``.jsonl`` file.
 
-    For ``.jsonl`` each line is a JSON object; the ``text`` field is used, or the
-    concatenation of ``instruction``/``input``/``output`` when present.
+    For ``.jsonl`` each line is a JSON object flattened by :func:`item_to_text`
+    (``text``; or a cloze ``context``/``target``; or ``instruction``/``input``/
+    ``output``).
     """
     path = Path(path)
     if path.suffix == ".jsonl":
-        texts: list[str] = []
-        for line in path.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            obj = json.loads(line)
-            if "text" in obj:
-                texts.append(obj["text"])
-            else:
-                parts = [obj.get(k, "") for k in ("instruction", "input", "output")]
-                texts.append("\n".join(p for p in parts if p))
-        return texts
+        return [item_to_text(json.loads(line))
+                for line in path.read_text(encoding="utf-8").splitlines()
+                if line.strip()]
     # Plain text: treat the whole file as one document.
     return [path.read_text(encoding="utf-8")]
 
