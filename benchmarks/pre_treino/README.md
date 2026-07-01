@@ -64,6 +64,26 @@ completo), com configs `configs/eval_diarios_heldout_full_{antes,depois}.yaml` e
 saída em `results/depois_full/`. Os dois held-outs são git-ignored e regeneráveis
 com `scripts/diarios_to_text.py` (ver cabeçalho do script).
 
+## Gabarito feito a mão (`benchmarks/a-mao/`)
+
+Há um gabarito de P&R escrito a mão, sem IA (`benchmarks/a-mao/Q1 benchmark P&R.csv`,
+separador `;`, colunas `id;instruction;output;arquivo`), como referência independente
+do benchmark gerado com auxílio de IA. Cada linha aponta o documento-fonte na coluna
+`arquivo` (nome do `.txt` em `data/processed/diarios_txt_full`).
+
+Dois pontos a saber ao usar/auditar este gabarito:
+
+- **Diários repetidos são legítimos.** Várias perguntas podem citar o mesmo `.txt`
+  porque cada documento do córpus agrega atos de municípios diferentes na mesma
+  página/edição. Logo, mais de uma pergunta por arquivo é esperado, não duplicata
+  (ex.: um único arquivo cobre uma dispensa em Paulistana e um contrato em Dom
+  Inocêncio). Consequência para a anticontaminação: o held-out é por documento, ciente
+  de que um documento mistura municípios.
+- **Normalizar a resposta na avaliação.** O texto vem de OCR ruidoso (ex.: `30.000`
+  aparece como `30,00o`), então comparação exata de string subconta acertos. Avaliar
+  removendo `R$`, separadores de milhar/decimal e tolerando trocas de OCR
+  (`o` por `0`).
+
 ## Requisitos de qualidade das questões (slides, seção 4)
 
 Relevância, avaliabilidade, realismo, delimitação e análise de erro. As perguntas

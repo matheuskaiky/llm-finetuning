@@ -68,6 +68,14 @@ qualquer e a pergunta continuar idêntica, ela é rasa.
   encha o conjunto com 80% de licitação só porque é o que mais aparece.
 - **Independência de formato.** Não dê pistas da resposta na pergunta nem padronize
   de um jeito que o modelo decora ("a resposta sempre é a primeira data").
+- **Formato compatível com a capacidade do modelo.** O formato da avaliação tem de
+  casar com o que o modelo sabe fazer. Modelos base/foundation são treinados só para
+  prever o próximo token, não para seguir instruções nem responder perguntas; cobrar
+  P&R aberta deles é errático, porque mistura "sabe o fato" com "entende o formato de
+  pergunta", e penaliza o base por algo que ele nunca aprendeu. Para esses modelos,
+  prefira formatos nativos de modelagem de linguagem (Cloze/completar lacunas,
+  perplexidade, likelihood de continuações). Reserve a P&R aberta para os modelos
+  instruct, ou use os dois formatos lado a lado (ver Q1).
 
 ## 3. Anti-padrões (e a correção)
 
@@ -88,22 +96,111 @@ formato da resposta (sem reticências, sem corte no meio de um número).
 
 ## 4. Guia por benchmark
 
-### Q1 - P&R sobre os diários (`benchmarks/pre_treino/diarios_qa.jsonl`)
+### Q1 - dois formatos: P&R e Cloze sobre os diários
 
 Objetivo: medir o efeito do **pré-treino contínuo** no domínio (antes vs depois).
 
-- A pergunta deve depender da *forma e do conteúdo* dos atos do corpus, não da
+A Q1 usa **dois benchmarks complementares**, aplicados aos modelos **base e
+instruct**:
+
+- **P&R** (`benchmarks/pre_treino/diarios_qa.jsonl` e o gabarito a mão
+  `benchmarks/a-mao/Q1 benchmark P&R.csv`): pergunta aberta com resposta curta.
+- **Cloze / completar lacunas** (novo): uma frase ancorada num ato real do diário com
+  um trecho saliente mascarado; o modelo deve recuperar o trecho.
+
+Por que dois. A P&R aberta é errática em modelos **base**: eles só preveem o próximo
+token, não foram treinados para seguir instrução nem responder pergunta, então a nota
+mistura "sabe o fato" com "entende o formato". O Cloze é um formato nativo de
+modelagem de linguagem (prever o token mascarado), justo tanto para o base quanto para
+o instruct. Rodar os dois formatos nos dois tipos de modelo permite separar o efeito
+do domínio (que o Cloze isola) do efeito de formato/instrução (visível na diferença
+P&R base vs instruct).
+
+Regras comuns aos dois formatos:
+
+- A pergunta/lacuna deve depender da *forma e do conteúdo* dos atos do corpus, não da
   definição genérica do instituto jurídico. Esse é o ponto que separa Q1 de um
   quiz de direito administrativo.
-- Resposta curta e factual. Como a métrica principal é intrínseca (perplexidade,
-  entropia, acurácia de token sobre texto de domínio), o conjunto de P&R serve de
-  sonda complementar: priorize perguntas cuja resposta certa o modelo só produz se
-  internalizou o estilo dos diários.
+- Resposta curta e factual. A métrica principal é intrínseca (perplexidade, entropia,
+  acurácia de token sobre texto de domínio); os conjuntos de P&R e Cloze são sondas
+  complementares.
 - Cubra as classes de ato reais: decreto, portaria, edital de licitação, nomeação,
   orçamento/crédito suplementar, regime de pessoal. Evite concentrar em uma só.
-- Held-out por construção: as P&R são escritas à mão, fora do corpus de treino.
-- Acompanhe sempre o held-out de **texto de diário inédito** (150 docs disjuntos):
-  é ele que mede generalização sem depender do juiz.
+- Held-out por construção: as perguntas/lacunas são escritas à mão, fora do corpus de
+  treino. Acompanhe sempre o held-out de **texto de diário inédito** (150 docs
+  disjuntos): é ele que mede generalização sem depender do juiz.
+
+#### Específico do Cloze (Opção A)
+
+O segredo de um bom Cloze para pré-treino contínuo é eliminar o tom de
+"interrogatório" (pergunta e resposta direta) e focar na **continuidade natural do
+texto**. No pré-treino avaliamos a capacidade do modelo de prever os próximos tokens
+pela probabilidade de escrita, então a instância deve parecer uma frase do próprio
+diário cortada no meio, não uma pergunta.
+
+Princípios de redação da lacuna:
+
+- Mascare um trecho **saliente e unicamente recuperável** (um nome, valor, número de
+  ato, data, cargo), não palavra funcional ("de", "para") nem algo adivinhável pelo
+  contexto sem conhecer o documento.
+- O `context` é o texto truncado **exatamente antes** do dado a prever, terminando de
+  forma que a continuação natural seja o `target`. Dê contexto suficiente em volta
+  para desambiguar, mas não a ponto de entregar a resposta.
+- A lacuna deve ter **uma única** resposta certa dado o contexto. Mantenha o `target`
+  curto para o acerto ser nítido.
+- Use os mesmos documentos-fonte da P&R quando possível, para os dois formatos
+  medirem o mesmo conhecimento por ângulos diferentes.
+
+Estrutura de colunas do dataset (para rodar automatizado, com script próprio ou
+integrando ao LM Eval Harness):
+
+| Coluna | Descrição | Exemplo |
+| --- | --- | --- |
+| `id` | Identificador único da instância. | `1` |
+| `context` | Texto truncado exatamente antes do dado a prever (a deixa para o modelo). | `"No contrato de prestação de serviços temporários do Município de Simões de maio de 2025, a servidora Maria Alice de Carvalho Serio foi contratada para exercer a função exata de"` |
+| `target` | Final exato da frase (gabarito de predição). | `"Auxiliar de Atividade Educacional 1"` |
+| `municipio` | Metadado para filtrar/analisar desempenho por região. | `"Simões"` |
+| `tipo_documento` | Metadado para ver onde o modelo erra mais (contrato, portaria, diário, licitatório). | `"Contrato Temporário"` |
+| `arquivo_origem` | Nome do `.txt` de onde o dado saiu (auditoria de contaminação e checagem de fato). | `9a2a8026e2b9531d4f2e24d182e8971c.txt` |
+
+Que dados priorizar no `target`. O objetivo é testar a inteligência contextual e de
+domínio aplicada à burocracia municipal, ou seja, exigir que o modelo tenha de fato
+internalizado os documentos do Piauí no treino, não chutado termos comuns. Priorize:
+
+- **Entidades nominais raras (nomes próprios e cargos específicos).** Modelos
+  genéricos sabem o que é um "Prefeito", mas só o modelo treinado com os diários
+  locais sabe que "Thais Meneses Freitas foi nomeada para exercer o cargo de [Chefe de
+  Departamento de Assistência Farmacêutica]".
+- **Valores financeiros exatos (dotações, contratos e dispensas).** Valores monetários
+  mudam de um município para outro; acertar que a dispensa de Paulistana para
+  dedetização foi de exatamente "R$ 61.600,00" é um bom teste de retenção factual.
+- **Siglas, setores e leis combinados.** Força o modelo a ligar o contexto jurídico ao
+  valor, ex.: "em conformidade com os 15% da LC 141/2012, o valor listado como Despesa
+  Mínima a ser Aplicada em ASPS é de [R$ 108.675,60]".
+
+Como medir o sucesso. Duas abordagens de métrica, complementares:
+
+1. **Exact Match (correspondência exata).** O texto gerado pelo modelo após o
+   `context` tem de ser idêntico ao `target`. Boa para valores, datas e CNPJs (com a
+   normalização de OCR descrita abaixo).
+2. **Perplexidade (PPL) / log-likelihood.** Em vez de deixar o modelo gerar livre,
+   passa-se a frase completa (`context` + `target`) e mede-se quão "surpreso" o modelo
+   fica. Quanto menor a perplexidade (ou maior o log-likelihood do `target`), melhor o
+   modelo aprendeu aquele fato no pré-treino contínuo. É a métrica que funciona igual
+   para base e instruct, por não depender de geração nem de seguir instrução.
+
+Cuidados de fonte (valem para P&R e Cloze):
+
+- **Um documento de diário cobre vários municípios.** No córpus, cada `.txt` agrega
+  atos de prefeituras diferentes na mesma página/edição. Por isso, no gabarito feito
+  a mão, é normal e correto haver mais de uma pergunta/lacuna apontando o mesmo
+  arquivo-fonte; não é duplicata. Registre o arquivo de origem (coluna `arquivo`) para
+  auditoria, e trate a anticontaminação por documento.
+- **Conte com o ruído de OCR ao avaliar.** O texto-fonte tem erros de OCR (ex.:
+  `30.000` vira `30,00o`), então pontuar por correspondência exata de string
+  subconta acertos. Normalize a resposta (remova `R$`, separadores de milhar/decimal,
+  tolere `o` por `0`) ou use casamento tolerante. No Cloze, prefira mascarar trechos
+  menos sujeitos a ruído de OCR, ou normalize o alvo do mesmo jeito.
 
 ### Q4 - recall da destilação (`data/processed/distill/diarios_distill_recall.jsonl`)
 
