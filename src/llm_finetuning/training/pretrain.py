@@ -170,8 +170,14 @@ class ContinualPretrainTrainer(Trainer):
         hf_trainer.save_model(self.output_dir)
         tokenizer.save_pretrained(self.output_dir)
 
+        # outcome.metrics carries HF's wall-clock timing; surface it so each run
+        # records how long training took (and throughput) in its log.
+        om = outcome.metrics or {}
         metrics = {
             "train_loss": float(outcome.training_loss),
             "num_blocks": len(block_dataset),
+            "train_runtime_s": float(om.get("train_runtime", float("nan"))),
+            "train_samples_per_second": float(om.get("train_samples_per_second", float("nan"))),
+            "epochs": float(self.num_train_epochs),
         }
         return TrainResult(model=net, metrics=metrics, output_dir=self.output_dir)

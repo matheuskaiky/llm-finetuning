@@ -28,8 +28,13 @@ export OMP_NUM_THREADS=8 TOKENIZERS_PARALLELISM=false
 
 CONFIG="${1:?config}"; CKPT="${2:?ckpt}"; BASE="${3:?base}"; INST="${4:?instruct}"; TAG="${5:?tag}"
 
-echo "== TRAIN ${TAG} =="
+echo "== TRAIN ${TAG} START $(date -Is) job=${SLURM_JOB_ID:-?} =="
+T0=$(date +%s)
 .venv/bin/python scripts/train.py --config "${CONFIG}"
+T1=$(date +%s)
+echo "== TRAIN ${TAG} DONE $(date -Is) elapsed_s=$((T1 - T0)) =="
 
-echo "== EVAL per-epoch (5 runs, per-id) =="
+echo "== EVAL per-epoch (5 runs, per-id) $(date -Is) =="
 bash scripts/slurm/eval_q1_epochs.sh "${CKPT}" "${BASE}" "${INST}" "${TAG}"
+echo "== EVAL DONE $(date -Is) =="
+sacct -j "${SLURM_JOB_ID:-0}" --format=JobID,JobName%18,Submit,Start,End,Elapsed,State 2>/dev/null | head -4 || true
