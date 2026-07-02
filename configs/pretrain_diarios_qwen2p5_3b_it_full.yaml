@@ -1,0 +1,54 @@
+# INSTRUCT variant: continued pre-training on top of the instruct model
+# (same corpus/recipe/epoch rules as the base run), evaluated in P&R.
+# Q1: continued pre-training of Qwen2.5-3B (base) on the FULL diarios corpus
+# (~68.4k docs, ~145M tokens). 3B full-parameter does not fit one 22 GB L4, so this
+# requests both L4 with FSDP full-shard + CPU offload (params/grads/optimizer to
+# host RAM) + activation checkpointing + torchao 8-bit AdamW, the same recipe that
+# was memory-bound at 4B. 3B is smaller, so this run also probes whether the cluster
+# can fit it; if it OOMs it is a hardware limit, documented like the 4B.
+# 3 epochs, checkpoint per epoch.
+#
+# Launch (2 GPUs, one node):
+#   torchrun --nproc_per_node=2 scripts/train.py \
+#     --config configs/pretrain_diarios_qwen2p5_3b_it_full.yaml
+name: pretrain_diarios_qwen2p5_3b_it_full
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen2.5-3B-Instruct
+    dtype: bfloat16
+
+dataset:
+  type: text_corpus
+  params:
+    input_dir: data/processed/diarios_txt_full
+    pattern: "*.txt"
+
+trainer:
+  type: continual_pretrain
+  params:
+    output_dir: outputs/pretrain_qwen2p5_3b_it_diarios_full
+    block_size: 1024
+    num_train_epochs: 1
+    learning_rate: 0.00002
+    per_device_train_batch_size: 1
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
+    optim: adamw_torch
+    fsdp: "full_shard auto_wrap"
+    fsdp_config:
+      transformer_layer_cls_to_wrap: ["Qwen2DecoderLayer"]
+      state_dict_type: FULL_STATE_DICT
+    save_strategy: epoch
+    save_total_limit: 3
+
+evaluation:
+  metrics: [perplexity, cross_entropy, token_accuracy]
+  benchmark: benchmarks/pre_treino/diarios_qa.jsonl
+  max_length: 1024
+  output_path: benchmarks/pre_treino/results/depois_full/pretrain_qwen2p5_3b_it.json
