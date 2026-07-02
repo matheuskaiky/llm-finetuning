@@ -29,3 +29,10 @@ for pair in cloze:diarios_cloze pr:diarios_qa; do
     --models "${MODELS[@]}" --device cuda --runs 5 \
     --out "results/q1_amao_${name}_${TAG}.csv"
 done
+
+# Held-out text perplexity on 2000 unseen diario docs (deterministic: 1 pass,
+# bootstrap CI over documents). Same models (base/ep1..epN/instruct).
+.venv/bin/python scripts/eval_q1_heldout.py \
+  --heldout data/processed/diarios_heldout_full.jsonl \
+  --models "${MODELS[@]}" --device cuda \
+  --out "results/q1_heldout_${TAG}.csv"

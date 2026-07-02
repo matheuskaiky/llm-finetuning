@@ -179,6 +179,34 @@ class LocalChatLLM:
             loss = self._model(input_ids, labels=labels).loss
         return float(math.exp(loss.item()))
 
+    def text_nll(self, text: str, max_length: int = 1024) -> tuple[float, int]:
+        """Total next-token NLL (nats) and predicted-token count for ``text``.
+
+        Truncates to ``max_length`` tokens (the training block size). Returns
+        ``(sum_nll, n_pred_tokens)`` so a corpus perplexity can be computed as
+        ``exp(sum_nll / sum_tokens)`` across documents. NLL, not mean, so documents
+        of different lengths weight correctly.
+        """
+        import torch
+
+        self._ensure_loaded()
+        tok = self._tokenizer
+        ids = tok(text, add_special_tokens=True, truncation=True,
+                  max_length=max_length)["input_ids"]
+        if len(ids) < 2:
+            return (0.0, 0)
+        input_ids = torch.tensor([ids], device=self._model.device)
+        with torch.no_grad():
+            logits = self._model(input_ids).logits
+        shift_logits = logits[:, :-1, :].float()
+        shift_labels = input_ids[:, 1:]
+        n = shift_labels.numel()
+        nll = torch.nn.functional.cross_entropy(
+            shift_logits.reshape(-1, shift_logits.size(-1)),
+            shift_labels.reshape(-1), reduction="sum",
+        )
+        return (float(nll.item()), int(n))
+
     def unload(self) -> None:
         """Free the model/tokenizer and release GPU memory."""
         import gc
