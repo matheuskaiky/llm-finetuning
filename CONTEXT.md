@@ -35,6 +35,16 @@ real: código desacoplado, configurável e reprodutível.
 > O que construímos por conta própria são os datasets/benchmarks específicos de
 > cada questão (ex.: os >= 1.000 pares de SFT, os benchmarks de Q1/Q4/Q5/Q6).
 
+> **Segunda geração dos pares de SFT (Q2).** A primeira geração (Qwen3-8B, 2
+> pares/trecho) permitia perguntas rasas de definição ("o que é X?"). Uma segunda
+> geração foi criada por extensão (dataset antigo preservado em
+> `data/processed/sft/old/`, não apagado): 1 pergunta **profunda** por documento
+> (prompt revisado e aprovado explicitamente antes de rodar), motor
+> `gemma-4-31b-it` (o maior instruct local), e um dataset auxiliar com a fonte
+> (professor + trecho) de cada par para auditoria. Detalhe técnico em
+> `PROJECT_CONTEXT.md` e a motivação/decisão completa em `NOTAS.md`
+> (2026-07-03).
+
 ### Escolhas desta equipe
 
 | Item | Escolha | Observação |

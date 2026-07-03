@@ -87,7 +87,7 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, sft_pairs (build_prompt/labels, mascara so na resposta).
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, sft_pairs (build_prompt/labels, mascara so na resposta), anchored_qa_pairs (Q2 v2: prompt de pergunta profunda, projecao SFT vs. registro com fonte, geracao com validacao/circuit-breaker).
 ├── models/        # [x] ModelProvider: LocalModelProvider (4-bit NF4 opcional, device_map str|dict), CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
 ├── training/      # [x] Trainers (Strategy): ContinualPretrainTrainer (Q1), SupervisedFineTuneTrainer (Q2, loss so na resposta; reaproveitado para LoRA/QLoRA da Q3 via config peft), DistillationTrainer (Q4, logit-KD). Destilacao response-based (Q4) feita via geracao sintetica + SFT, sem trainer dedicado.
@@ -168,6 +168,23 @@ O dataset docente passou a ser o oficial pre-processado em Hugging Face
 em `data/raw/docentesDC/` (jsonl + parquet). A extracao propria do SIGAA
 (`DocenteExtractor`, triagem + dedup) foi removida do codigo: o dataset chega pronto
 e a geracao de pares Q&A da Q2 parte direto desse formato.
+
+### Geracao dos pares Q2 (v2: ancorados por documento, pergunta profunda)
+A primeira geracao (`scripts/build_sft_pairs.py`, motor Qwen3-8B, 2 pares/trecho) nao
+proibia perguntas rasas de definicao ("o que e X?"). Uma segunda geracao foi criada
+por extensao (sem tocar no script/prompt antigo, so OCP): `scripts/build_sft_pairs_
+anchored.py` + `data/anchored_qa_pairs.py`, mesma limpeza/split de fonte de
+`sft_pairs.py` (reusada, nao duplicada), mas 1 par PROFUNDO por documento (prompt
+`DEEP_QA_SYSTEM_PROMPT`, aprovado explicitamente pelo usuario antes de codificar),
+motor `gemma-4-31b-it` (4-bit, o maior instruct local), e dois arquivos por split:
+`docentes_sft_{train,heldout}.jsonl` (SFT-ready, mesmo schema/paths de antes - os
+configs de treino nao mudam) e `docentes_sft_{train,heldout}_sources.jsonl` (mesmos
+pares + `professor`/`doc_index`/`source_excerpt` para auditoria). O dataset antigo e
+arquivado (nao apagado) em `data/processed/sft/old/` por `archive_existing_outputs`
+na primeira execucao. Geracao com validacao de qualidade (`is_deep_enough`) e
+circuit-breaker contra falha sistemica do motor (`generate_pairs_for_records`,
+aborta so em 5 falhas consecutivas de `llm.chat`, nao em uma resposta ruim isolada).
+Detalhe completo da motivacao e decisao em `NOTAS.md` (2026-07-03).
 
 ### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
 Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com
