@@ -55,7 +55,7 @@ Trocar de motor/familia e so apontar para outro config (ex.:
 
 O motor padrao e o `Qwen3-8B` instruct em bf16 numa unica L4 (rapido). A variante
 `configs/rag_diarios_qwen3_30b.yaml` usa o `Qwen3-30B-A3B-Instruct-2507-FP8` nas
-duas L4, reservada para quando o multi-GPU (NCCL) for corrigido, pois hoje so roda
-em model-parallel ingenuo (~28 s/geracao). O benchmark e gerado automaticamente:
+duas L4 (`device_map=auto`), ja rodada com sucesso (job 439, 14 min, exit 0);
+roda em model-parallel ingenuo (~28 s/geracao). O benchmark e gerado automaticamente:
 algumas respostas de referencia podem ser ruidosas; uma curadoria manual e um passo
 de melhoria futuro.

@@ -77,8 +77,13 @@ num benchmark de pelo menos 25 perguntas.
 - **LR baixo.** Pre-treino continuo usa LR pequeno para nao destruir o
   conhecimento previo (esquecimento catastrofico).
 - **Escada de tamanho limitada por hardware.** 0.6B e 1.7B cabem full fine-tune em
-  uma L4; 4B nao cabe (FSDP multi-GPU nao inicializa por NVML quebrada). O 4B fica
-  documentado como limite, nao como resultado.
+  uma L4. O multi-GPU (NCCL/FSDP) foi destravado em 2026-06-15 (NVML corrigida pela
+  infra), o que permitiu estender a escada full-parameter ate o 3B (FSDP full_shard
+  + CPU offload nas 2 L4, `adamw_torch` puro). O 4B continua nao coube: nao e mais
+  bloqueio de driver/NCCL, e sim otimizador/memoria sob FSDP (adamw_bnb_8bit e
+  adamw_torch_8bit nao tem sharding de DTensor implementado; adamw_torch puro da
+  OOM no calculo da perda antes do optimizer.step). Fica documentado como limite de
+  hardware/software, nao como resultado.
 - **Remocao do 4B/8B dos resultados.** Sem antes/depois valido, foram retirados do
   CSV para nao poluir a comparacao.
 - **Diagnostico de esquecimento.** `scripts/eval_forgetting.py` mede a

@@ -202,17 +202,19 @@ env separado, sem sujar o base.
 **Hardware de referência.** Máquina de desenvolvimento com 2x NVIDIA L4 (24 GB
 cada, ~48 GB no total), que suportam bf16 e FP8. Sem NVLink: modelos maiores que
 24 GB precisam ser shardados entre as duas GPUs (tensor-parallel na inferência;
-ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML falham por mismatch de
-driver; o CUDA compute de uma placa funciona normalmente, mas o treino multi-GPU
-via NCCL não inicializa (a NCCL chama `nvmlInit` e aborta), então hoje só roda
-single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
+ZeRO/FSDP ou 4-bit no treino). Observação histórica: entre 2026-06-11 e
+2026-06-15 o `nvidia-smi`/NVML falhava por mismatch de driver e o NCCL não
+inicializava (só rodava single-GPU); a infra corrigiu o driver em 2026-06-15 e o
+multi-GPU (NCCL/FSDP) está operacional desde então, validado com
+`torchrun --nproc_per_node=2` e usado em produção (treino full-parameter do 3B em
+FSDP, motor RAG 30B via `device_map=auto`). Ver `NOTAS.md`.
 
 **Modelo e dataset escolhidos.**
 
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
-| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU). O 4B em full fine-tuning não cabe nas 2x L4 (limite de hardware: quatro otimizadores FSDP falham; ver NOTAS), fica só sem treino. Texto puro, vocab 151936. |
-| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
+| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) + `Qwen2.5-*-Base` (0.5B/1.5B/3B) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B feitos single-GPU; com o multi-GPU (NCCL/FSDP) destravado em 2026-06-15, a escada foi ampliada até o 3B (FSDP full_shard + CPU offload, `adamw_torch` puro). O 4B em full fine-tuning não cabe nas 2x L4 (não é mais limite de driver/NCCL: é otimizador/memória sob FSDP - adamw 8-bit sem sharding de DTensor, adamw fp32 puro dá OOM antes do optimizer.step; ver NOTAS). Texto puro, vocab 151936. |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map=auto`, já rodado com sucesso - job 439). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
 | Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
 | Cross-family extra (Q1-Q4) | família `gpt2` (124M/355M/774M) | Segunda família, vocab BPE ingles 50257, contexto 1024, sem instruct. LoRA mira `c_attn`/`c_proj`/`c_fc`. Adapta lingua (ppl cai) mas nao a tarefa PT (juiz <= 0.5). |
 | Professores grandes (Q4/Q5) | `google/gemma-3-27b-it`, `google/gemma-4-31b-it`, `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (4-bit/FP8) | Comparados como professor da destilacao (vs Qwen3-8B) e como motor de RAG. 27b roda limpo pinado em 1 L4; 31b 4-bit nao cabe ao lado do juiz (limite de hardware). |
