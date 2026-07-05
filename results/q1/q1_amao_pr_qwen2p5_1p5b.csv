@@ -1,0 +1,986 @@
+run,id,model,kind,tipo_documento,arquivo,target,answer,exact_match,target_ppl
+1,1,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,"A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa,",0,22.4055
+1,2,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme o Aviso de Contratação",0,5.0416
+1,3,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","R$ 1.000,00
+O valor da despesa mínima a ser aplicada",0,7.2619
+1,4,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, através da Portaria nº 185/202",0,6.7177
+1,5,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,161.5904
+1,6,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a ""Empresa de Serviços Púb",1,9.5309
+1,7,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"A cidadã Maria do Carmo de Souza, de 50 anos, foi nomeada para exercer",0,117.3947
+1,8,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, pois o contrato foi assinado pela Prefe",0,14.8375
+1,9,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,29.1309
+1,10,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00
+A Ata de Homologação do Pregão Ele",0,9.4161
+1,11,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+A Prefeitura de Simões, por meio da Secretaria de Administra",1,103.0872
+1,12,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""Sociedade Individual de Advogados",1,7.297
+1,13,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"00.000.000/0001-00
+O número completo do",0,5.0884
+1,14,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,O Chefe de Departamento de Recursos Humanos Municipal de Saúde foi nomeado pelo Município de Brasile,1,50.3188
+1,15,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,7.9174
+1,16,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 12 (doze) meses, contados a partir da",0,6.2661
+1,17,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,19.7844
+1,18,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A atribuição específica/cargo a contratada exercerá será a de Assistente de Controle de Qualidade,",1,1977.3952
+1,19,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,00000000000000000000000,0,11.787
+1,20,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo listados para o ""Item 3"" (Algema mola traseira",0,1543.8769
+1,21,base,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","R$ 1.000,00
+O valor exato da Dotação Atualizada estabe",0,5.7469
+1,22,base,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada foi a empresa ""A. S. Contabilidade e Assessoria Contábil Ltda"".",1,47.4186
+1,23,base,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A cidadã que foi nomeada para exercer a função de Secretária das Relações Institucionais e Soc,0,38.6339
+1,24,base,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"10000 BTU
+Resposta: 12000 BTU
+Resposta:",0,5.2899
+1,25,base,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada representada por Marcos Alessandro Araujo Pereira é a ""Empresa de Serviços de",0,10.8797
+1,26,base,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.6147
+1,27,base,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Lídia Maria de Oliveira",1,32.1484
+1,28,base,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,"R$ 1.000.000,00
+O valor exato listado como ins",1,1457.7854
+1,29,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,"A Prefeitura de Curimatá, por meio da Secretaria Municipal de Administração, contratou a Eng",0,187.8107
+1,30,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,39.8353
+1,31,base,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.4087
+1,32,base,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,5.7624
+1,33,base,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada no Artigo 1º da Portaria Conjunta nº 386,0,39.3254
+1,34,base,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A professora Maria de Lourdes de Oliveira, que é formada em Pedagogia e tem experiência na área",0,113.6964
+1,35,base,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,5.5373
+1,36,base,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A servidora Maria Bethania Luz Rio Lima é efetivada na função de Assistente Social, com o",1,47.4322
+1,37,base,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,11.2759
+1,38,base,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras, qual é",0,11.0112
+1,39,base,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,60.5488
+1,40,base,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+O valor exato listado como Pre",0,4.5402
+1,41,base,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome contratada para se apresentar no show artístico do evento Urufolia 20,0,199.3119
+1,42,base,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,10.1509
+1,43,base,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000.000,00
+A resposta acima é um resumo",0,10.3763
+1,44,base,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""SOLARIS SOLUÇÕES ECONÔMICAS LTDA",0,39.6163
+1,45,base,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000.000,00
+A) R$ 1.0",0,4.5775
+1,46,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá, que atua na Secretaria de Saúde do Município",0,39.6229
+1,47,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","R$ 1,00
+A) R$ 1,00
+B) R$ 1",0,10.3638
+1,48,base,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"A Prefeitura de Batalha, através da Secretaria de Administração, homologou o certame",0,30.0979
+1,49,base,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","1.200.000,00
+A) 1.200.0",0,11.6607
+1,50,base,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,44.3103
+2,1,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,"A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa,",0,22.4055
+2,2,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme o Aviso de Contratação",0,5.0416
+2,3,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","R$ 1.000,00
+O valor da despesa mínima a ser aplicada",0,7.2619
+2,4,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, através da Portaria nº 185/202",0,6.7177
+2,5,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,161.5904
+2,6,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a ""Empresa de Serviços Púb",1,9.5309
+2,7,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"A cidadã Maria do Carmo de Souza, de 50 anos, foi nomeada para exercer",0,117.3947
+2,8,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, pois o contrato foi assinado pela Prefe",0,14.8375
+2,9,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,29.1309
+2,10,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00
+A Ata de Homologação do Pregão Ele",0,9.4161
+2,11,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+A Prefeitura de Simões, por meio da Secretaria de Administra",1,103.0872
+2,12,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""Sociedade Individual de Advogados",1,7.297
+2,13,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"00.000.000/0001-00
+O número completo do",0,5.0884
+2,14,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,O Chefe de Departamento de Recursos Humanos Municipal de Saúde foi nomeado pelo Município de Brasile,1,50.3188
+2,15,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,7.9174
+2,16,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 12 (doze) meses, contados a partir da",0,6.2661
+2,17,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,19.7844
+2,18,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A atribuição específica/cargo a contratada exercerá será a de Assistente de Controle de Qualidade,",1,1977.3952
+2,19,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,00000000000000000000000,0,11.787
+2,20,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo listados para o ""Item 3"" (Algema mola traseira",0,1543.8769
+2,21,base,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","R$ 1.000,00
+O valor exato da Dotação Atualizada estabe",0,5.7469
+2,22,base,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada foi a empresa ""A. S. Contabilidade e Assessoria Contábil Ltda"".",1,47.4186
+2,23,base,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A cidadã que foi nomeada para exercer a função de Secretária das Relações Institucionais e Soc,0,38.6339
+2,24,base,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"10000 BTU
+Resposta: 12000 BTU
+Resposta:",0,5.2899
+2,25,base,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada representada por Marcos Alessandro Araujo Pereira é a ""Empresa de Serviços de",0,10.8797
+2,26,base,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.6147
+2,27,base,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Lídia Maria de Oliveira",1,32.1484
+2,28,base,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,"R$ 1.000.000,00
+O valor exato listado como ins",1,1457.7854
+2,29,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,"A Prefeitura de Curimatá, por meio da Secretaria Municipal de Administração, contratou a Eng",0,187.8107
+2,30,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,39.8353
+2,31,base,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.4087
+2,32,base,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,5.7624
+2,33,base,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada no Artigo 1º da Portaria Conjunta nº 386,0,39.3254
+2,34,base,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A professora Maria de Lourdes de Oliveira, que é formada em Pedagogia e tem experiência na área",0,113.6964
+2,35,base,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,5.5373
+2,36,base,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A servidora Maria Bethania Luz Rio Lima é efetivada na função de Assistente Social, com o",1,47.4322
+2,37,base,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,11.2759
+2,38,base,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras, qual é",0,11.0112
+2,39,base,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,60.5488
+2,40,base,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+O valor exato listado como Pre",0,4.5402
+2,41,base,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome contratada para se apresentar no show artístico do evento Urufolia 20,0,199.3119
+2,42,base,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,10.1509
+2,43,base,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000.000,00
+A resposta acima é um resumo",0,10.3763
+2,44,base,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""SOLARIS SOLUÇÕES ECONÔMICAS LTDA",0,39.6163
+2,45,base,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000.000,00
+A) R$ 1.0",0,4.5775
+2,46,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá, que atua na Secretaria de Saúde do Município",0,39.6229
+2,47,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","R$ 1,00
+A) R$ 1,00
+B) R$ 1",0,10.3638
+2,48,base,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"A Prefeitura de Batalha, através da Secretaria de Administração, homologou o certame",0,30.0979
+2,49,base,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","1.200.000,00
+A) 1.200.0",0,11.6607
+2,50,base,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,44.3103
+3,1,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,"A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa,",0,22.4055
+3,2,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme o Aviso de Contratação",0,5.0416
+3,3,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","R$ 1.000,00
+O valor da despesa mínima a ser aplicada",0,7.2619
+3,4,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, através da Portaria nº 185/202",0,6.7177
+3,5,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,161.5904
+3,6,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a ""Empresa de Serviços Púb",1,9.5309
+3,7,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"A cidadã Maria do Carmo de Souza, de 50 anos, foi nomeada para exercer",0,117.3947
+3,8,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, pois o contrato foi assinado pela Prefe",0,14.8375
+3,9,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,29.1309
+3,10,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00
+A Ata de Homologação do Pregão Ele",0,9.4161
+3,11,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+A Prefeitura de Simões, por meio da Secretaria de Administra",1,103.0872
+3,12,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""Sociedade Individual de Advogados",1,7.297
+3,13,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"00.000.000/0001-00
+O número completo do",0,5.0884
+3,14,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,O Chefe de Departamento de Recursos Humanos Municipal de Saúde foi nomeado pelo Município de Brasile,1,50.3188
+3,15,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,7.9174
+3,16,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 12 (doze) meses, contados a partir da",0,6.2661
+3,17,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,19.7844
+3,18,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A atribuição específica/cargo a contratada exercerá será a de Assistente de Controle de Qualidade,",1,1977.3952
+3,19,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,00000000000000000000000,0,11.787
+3,20,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo listados para o ""Item 3"" (Algema mola traseira",0,1543.8769
+3,21,base,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","R$ 1.000,00
+O valor exato da Dotação Atualizada estabe",0,5.7469
+3,22,base,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada foi a empresa ""A. S. Contabilidade e Assessoria Contábil Ltda"".",1,47.4186
+3,23,base,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A cidadã que foi nomeada para exercer a função de Secretária das Relações Institucionais e Soc,0,38.6339
+3,24,base,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"10000 BTU
+Resposta: 12000 BTU
+Resposta:",0,5.2899
+3,25,base,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada representada por Marcos Alessandro Araujo Pereira é a ""Empresa de Serviços de",0,10.8797
+3,26,base,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.6147
+3,27,base,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Lídia Maria de Oliveira",1,32.1484
+3,28,base,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,"R$ 1.000.000,00
+O valor exato listado como ins",1,1457.7854
+3,29,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,"A Prefeitura de Curimatá, por meio da Secretaria Municipal de Administração, contratou a Eng",0,187.8107
+3,30,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,39.8353
+3,31,base,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.4087
+3,32,base,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,5.7624
+3,33,base,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada no Artigo 1º da Portaria Conjunta nº 386,0,39.3254
+3,34,base,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A professora Maria de Lourdes de Oliveira, que é formada em Pedagogia e tem experiência na área",0,113.6964
+3,35,base,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,5.5373
+3,36,base,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A servidora Maria Bethania Luz Rio Lima é efetivada na função de Assistente Social, com o",1,47.4322
+3,37,base,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,11.2759
+3,38,base,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras, qual é",0,11.0112
+3,39,base,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,60.5488
+3,40,base,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+O valor exato listado como Pre",0,4.5402
+3,41,base,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome contratada para se apresentar no show artístico do evento Urufolia 20,0,199.3119
+3,42,base,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,10.1509
+3,43,base,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000.000,00
+A resposta acima é um resumo",0,10.3763
+3,44,base,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""SOLARIS SOLUÇÕES ECONÔMICAS LTDA",0,39.6163
+3,45,base,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000.000,00
+A) R$ 1.0",0,4.5775
+3,46,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá, que atua na Secretaria de Saúde do Município",0,39.6229
+3,47,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","R$ 1,00
+A) R$ 1,00
+B) R$ 1",0,10.3638
+3,48,base,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"A Prefeitura de Batalha, através da Secretaria de Administração, homologou o certame",0,30.0979
+3,49,base,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","1.200.000,00
+A) 1.200.0",0,11.6607
+3,50,base,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,44.3103
+4,1,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,"A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa,",0,22.4055
+4,2,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme o Aviso de Contratação",0,5.0416
+4,3,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","R$ 1.000,00
+O valor da despesa mínima a ser aplicada",0,7.2619
+4,4,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, através da Portaria nº 185/202",0,6.7177
+4,5,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,161.5904
+4,6,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a ""Empresa de Serviços Púb",1,9.5309
+4,7,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"A cidadã Maria do Carmo de Souza, de 50 anos, foi nomeada para exercer",0,117.3947
+4,8,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, pois o contrato foi assinado pela Prefe",0,14.8375
+4,9,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,29.1309
+4,10,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00
+A Ata de Homologação do Pregão Ele",0,9.4161
+4,11,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+A Prefeitura de Simões, por meio da Secretaria de Administra",1,103.0872
+4,12,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""Sociedade Individual de Advogados",1,7.297
+4,13,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"00.000.000/0001-00
+O número completo do",0,5.0884
+4,14,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,O Chefe de Departamento de Recursos Humanos Municipal de Saúde foi nomeado pelo Município de Brasile,1,50.3188
+4,15,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,7.9174
+4,16,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 12 (doze) meses, contados a partir da",0,6.2661
+4,17,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,19.7844
+4,18,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A atribuição específica/cargo a contratada exercerá será a de Assistente de Controle de Qualidade,",1,1977.3952
+4,19,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,00000000000000000000000,0,11.787
+4,20,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo listados para o ""Item 3"" (Algema mola traseira",0,1543.8769
+4,21,base,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","R$ 1.000,00
+O valor exato da Dotação Atualizada estabe",0,5.7469
+4,22,base,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada foi a empresa ""A. S. Contabilidade e Assessoria Contábil Ltda"".",1,47.4186
+4,23,base,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A cidadã que foi nomeada para exercer a função de Secretária das Relações Institucionais e Soc,0,38.6339
+4,24,base,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"10000 BTU
+Resposta: 12000 BTU
+Resposta:",0,5.2899
+4,25,base,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada representada por Marcos Alessandro Araujo Pereira é a ""Empresa de Serviços de",0,10.8797
+4,26,base,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.6147
+4,27,base,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Lídia Maria de Oliveira",1,32.1484
+4,28,base,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,"R$ 1.000.000,00
+O valor exato listado como ins",1,1457.7854
+4,29,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,"A Prefeitura de Curimatá, por meio da Secretaria Municipal de Administração, contratou a Eng",0,187.8107
+4,30,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,39.8353
+4,31,base,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.4087
+4,32,base,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,5.7624
+4,33,base,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada no Artigo 1º da Portaria Conjunta nº 386,0,39.3254
+4,34,base,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A professora Maria de Lourdes de Oliveira, que é formada em Pedagogia e tem experiência na área",0,113.6964
+4,35,base,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,5.5373
+4,36,base,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A servidora Maria Bethania Luz Rio Lima é efetivada na função de Assistente Social, com o",1,47.4322
+4,37,base,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,11.2759
+4,38,base,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras, qual é",0,11.0112
+4,39,base,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,60.5488
+4,40,base,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+O valor exato listado como Pre",0,4.5402
+4,41,base,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome contratada para se apresentar no show artístico do evento Urufolia 20,0,199.3119
+4,42,base,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,10.1509
+4,43,base,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000.000,00
+A resposta acima é um resumo",0,10.3763
+4,44,base,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""SOLARIS SOLUÇÕES ECONÔMICAS LTDA",0,39.6163
+4,45,base,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000.000,00
+A) R$ 1.0",0,4.5775
+4,46,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá, que atua na Secretaria de Saúde do Município",0,39.6229
+4,47,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","R$ 1,00
+A) R$ 1,00
+B) R$ 1",0,10.3638
+4,48,base,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"A Prefeitura de Batalha, através da Secretaria de Administração, homologou o certame",0,30.0979
+4,49,base,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","1.200.000,00
+A) 1.200.0",0,11.6607
+4,50,base,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,44.3103
+5,1,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,"A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa,",0,22.4055
+5,2,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme o Aviso de Contratação",0,5.0416
+5,3,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","R$ 1.000,00
+O valor da despesa mínima a ser aplicada",0,7.2619
+5,4,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, através da Portaria nº 185/202",0,6.7177
+5,5,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,161.5904
+5,6,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a ""Empresa de Serviços Púb",1,9.5309
+5,7,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"A cidadã Maria do Carmo de Souza, de 50 anos, foi nomeada para exercer",0,117.3947
+5,8,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, pois o contrato foi assinado pela Prefe",0,14.8375
+5,9,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,29.1309
+5,10,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00
+A Ata de Homologação do Pregão Ele",0,9.4161
+5,11,base,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+A Prefeitura de Simões, por meio da Secretaria de Administra",1,103.0872
+5,12,base,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""Sociedade Individual de Advogados",1,7.297
+5,13,base,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"00.000.000/0001-00
+O número completo do",0,5.0884
+5,14,base,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,O Chefe de Departamento de Recursos Humanos Municipal de Saúde foi nomeado pelo Município de Brasile,1,50.3188
+5,15,base,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,7.9174
+5,16,base,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 12 (doze) meses, contados a partir da",0,6.2661
+5,17,base,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,19.7844
+5,18,base,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A atribuição específica/cargo a contratada exercerá será a de Assistente de Controle de Qualidade,",1,1977.3952
+5,19,base,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,00000000000000000000000,0,11.787
+5,20,base,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo listados para o ""Item 3"" (Algema mola traseira",0,1543.8769
+5,21,base,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","R$ 1.000,00
+O valor exato da Dotação Atualizada estabe",0,5.7469
+5,22,base,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada foi a empresa ""A. S. Contabilidade e Assessoria Contábil Ltda"".",1,47.4186
+5,23,base,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A cidadã que foi nomeada para exercer a função de Secretária das Relações Institucionais e Soc,0,38.6339
+5,24,base,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"10000 BTU
+Resposta: 12000 BTU
+Resposta:",0,5.2899
+5,25,base,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada representada por Marcos Alessandro Araujo Pereira é a ""Empresa de Serviços de",0,10.8797
+5,26,base,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.6147
+5,27,base,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Lídia Maria de Oliveira",1,32.1484
+5,28,base,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,"R$ 1.000.000,00
+O valor exato listado como ins",1,1457.7854
+5,29,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,"A Prefeitura de Curimatá, por meio da Secretaria Municipal de Administração, contratou a Eng",0,187.8107
+5,30,base,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,39.8353
+5,31,base,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.4087
+5,32,base,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,5.7624
+5,33,base,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada no Artigo 1º da Portaria Conjunta nº 386,0,39.3254
+5,34,base,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A professora Maria de Lourdes de Oliveira, que é formada em Pedagogia e tem experiência na área",0,113.6964
+5,35,base,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,5.5373
+5,36,base,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A servidora Maria Bethania Luz Rio Lima é efetivada na função de Assistente Social, com o",1,47.4322
+5,37,base,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,11.2759
+5,38,base,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras, qual é",0,11.0112
+5,39,base,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,60.5488
+5,40,base,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+O valor exato listado como Pre",0,4.5402
+5,41,base,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome contratada para se apresentar no show artístico do evento Urufolia 20,0,199.3119
+5,42,base,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,10.1509
+5,43,base,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000.000,00
+A resposta acima é um resumo",0,10.3763
+5,44,base,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""SOLARIS SOLUÇÕES ECONÔMICAS LTDA",0,39.6163
+5,45,base,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000.000,00
+A) R$ 1.0",0,4.5775
+5,46,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá, que atua na Secretaria de Saúde do Município",0,39.6229
+5,47,base,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","R$ 1,00
+A) R$ 1,00
+B) R$ 1",0,10.3638
+5,48,base,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"A Prefeitura de Batalha, através da Secretaria de Administração, homologou o certame",0,30.0979
+5,49,base,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","1.200.000,00
+A) 1.200.0",0,11.6607
+5,50,base,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,44.3103
+1,1,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para a função de Auxiliar de Servi,0,9.7208
+1,2,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00",O valor total estimado para a prestação de serviços de dedetização é de R$ 10.0,0,5.248
+1,3,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,7.7198
+1,4,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, no uso de suas atribuições legais, torna público",0,6.0202
+1,5,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,188.9515
+1,6,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a empresa ""CONSTRUTORA E",1,7.7325
+1,7,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,O candidato que foi nomeado para exercer o cargo em comissão de Secretário Municipal da Cidade é,0,84.3004
+1,8,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, Estado do Piauí, será o competente",0,10.673
+1,9,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,6.4692
+1,10,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00 (um mil reais).
+Avaliação: A proposta",0,9.4527
+1,11,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+
+A Prefeitura Municipal de Simões, por meio da Secretaria Municipal de",1,68.3006
+1,12,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""MARTINS & MARTINS - Adv",0,4.8015
+1,13,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"06.553.869/0001-85
+
+- 10",0,2.6404
+1,14,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,A profissional nomeada para o cargo de Chefe de Departamento de Recursos Humanos Municipal de Saúde é a,0,47.9824
+1,15,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,8.339
+1,16,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,O prazo de vigência estabelecido para o contrato com base na Lei Federal nº 14.1,0,4.7115
+1,17,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,16.2436
+1,18,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratada exercerá a atribuição específica/cargo de Auxiliar de Serviços Gerais, conforme especific",1,294.2249
+1,19,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,A portaria municipal que dispõe sobre a nomeação específica de Servidor Público de sobrenome Alves é,0,6.3574
+1,20,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,A descrição dos itens adjudicados no Pregão Eletrônico nº 018/20,0,1797.5145
+1,21,ep1,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","1.000,00
+
+1.000,00
+
+1.000",0,4.3262
+1,22,ep1,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada para a prestação de serviços de contabilidade pública da Secretaria Municipal de Educação foi a empresa """,1,84.151
+1,23,ep1,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A Secretária das Relações Institucionais e Sociais junto à Secretaria Municipal de Administração é a Secret,0,26.5145
+1,24,ep1,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"1.000 BTUs
+
+A Prefeitura Municipal de Cristino Castro, Estado do Piauí",0,4.2186
+1,25,ep1,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada é a empresa ""MARCO ALESSANDRO ARAUJO PEREIRA"", com o",0,8.6372
+1,26,ep1,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.1407
+1,27,ep1,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Maria do Socorro de Sous",0,25.4554
+1,28,ep1,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,758.6643
+1,29,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Engenheira Civil contratada para desempenhar as funções de Engenheira Civil junto à,0,241.8526
+1,30,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,28.1897
+1,31,ep1,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.828
+1,32,ep1,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,6.095
+1,33,ep1,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,"A Prefeitura de Piripiri, através da Secretaria Municipal de Educação, nomeou a cidadã no",0,21.0778
+1,34,ep1,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,A profissional que foi nomeada para exercer a função de Presidente da Comissão Setorial de Estág,0,120.0652
+1,35,ep1,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,4.8053
+1,36,ep1,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,A servidora Maria Bethania Luz Rio Lima é efetiva na função de Auxiliar de Serviços G,1,43.4167
+1,37,ep1,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","1.000.000,00
+
+- 11.1. O valor do",0,9.6338
+1,38,ep1,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","A função do contratado José Rogério da Luz Barbosa Ribeiro é de Professor de Educação Infantil, e",0,7.8497
+1,39,ep1,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,38.9753
+1,40,ep1,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+10.10.00",0,3.7975
+1,41,ep1,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome que foi contratada para se apresentar no show artístico do evento Urufolia,0,418.9834
+1,42,ep1,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,7.4314
+1,43,ep1,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000,00
+
+A Prefeitura de Francisco Ayres, por meio da",0,9.9404
+1,44,ep1,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora adjudicada com o valor de R$ 830.084,2",0,42.418
+1,45,ep1,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000,00
+A seguir, apresenta-se o balanço orç",0,3.5811
+1,46,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,O nível específico de quinquênio reconhecido para a servidora Eliene Pires de Sá é,0,52.7286
+1,47,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","O valor unitário fixado para o ""Item 48"" (Fralda Descartável Tamanho X",0,11.8733
+1,48,ep1,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"O certame foi homologado pela autoridade municipal, conforme o extrato de contrato publicado pela Prefeitura",0,19.769
+1,49,ep1,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 1.000,00
+
+A Prefeitura Municipal de Joaquim Pires,",0,9.721
+1,50,ep1,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,24.5858
+2,1,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para a função de Auxiliar de Servi,0,9.7208
+2,2,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00",O valor total estimado para a prestação de serviços de dedetização é de R$ 10.0,0,5.248
+2,3,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,7.7198
+2,4,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, no uso de suas atribuições legais, torna público",0,6.0202
+2,5,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,188.9515
+2,6,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a empresa ""CONSTRUTORA E",1,7.7325
+2,7,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,O candidato que foi nomeado para exercer o cargo em comissão de Secretário Municipal da Cidade é,0,84.3004
+2,8,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, Estado do Piauí, será o competente",0,10.673
+2,9,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,6.4692
+2,10,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00 (um mil reais).
+Avaliação: A proposta",0,9.4527
+2,11,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+
+A Prefeitura Municipal de Simões, por meio da Secretaria Municipal de",1,68.3006
+2,12,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""MARTINS & MARTINS - Adv",0,4.8015
+2,13,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"06.553.869/0001-85
+
+- 10",0,2.6404
+2,14,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,A profissional nomeada para o cargo de Chefe de Departamento de Recursos Humanos Municipal de Saúde é a,0,47.9824
+2,15,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,8.339
+2,16,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,O prazo de vigência estabelecido para o contrato com base na Lei Federal nº 14.1,0,4.7115
+2,17,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,16.2436
+2,18,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratada exercerá a atribuição específica/cargo de Auxiliar de Serviços Gerais, conforme especific",1,294.2249
+2,19,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,A portaria municipal que dispõe sobre a nomeação específica de Servidor Público de sobrenome Alves é,0,6.3574
+2,20,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,A descrição dos itens adjudicados no Pregão Eletrônico nº 018/20,0,1797.5145
+2,21,ep1,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","1.000,00
+
+1.000,00
+
+1.000",0,4.3262
+2,22,ep1,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada para a prestação de serviços de contabilidade pública da Secretaria Municipal de Educação foi a empresa """,1,84.151
+2,23,ep1,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A Secretária das Relações Institucionais e Sociais junto à Secretaria Municipal de Administração é a Secret,0,26.5145
+2,24,ep1,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"1.000 BTUs
+
+A Prefeitura Municipal de Cristino Castro, Estado do Piauí",0,4.2186
+2,25,ep1,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada é a empresa ""MARCO ALESSANDRO ARAUJO PEREIRA"", com o",0,8.6372
+2,26,ep1,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.1407
+2,27,ep1,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Maria do Socorro de Sous",0,25.4554
+2,28,ep1,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,758.6643
+2,29,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Engenheira Civil contratada para desempenhar as funções de Engenheira Civil junto à,0,241.8526
+2,30,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,28.1897
+2,31,ep1,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.828
+2,32,ep1,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,6.095
+2,33,ep1,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,"A Prefeitura de Piripiri, através da Secretaria Municipal de Educação, nomeou a cidadã no",0,21.0778
+2,34,ep1,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,A profissional que foi nomeada para exercer a função de Presidente da Comissão Setorial de Estág,0,120.0652
+2,35,ep1,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,4.8053
+2,36,ep1,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,A servidora Maria Bethania Luz Rio Lima é efetiva na função de Auxiliar de Serviços G,1,43.4167
+2,37,ep1,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","1.000.000,00
+
+- 11.1. O valor do",0,9.6338
+2,38,ep1,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","A função do contratado José Rogério da Luz Barbosa Ribeiro é de Professor de Educação Infantil, e",0,7.8497
+2,39,ep1,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,38.9753
+2,40,ep1,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+10.10.00",0,3.7975
+2,41,ep1,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome que foi contratada para se apresentar no show artístico do evento Urufolia,0,418.9834
+2,42,ep1,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,7.4314
+2,43,ep1,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000,00
+
+A Prefeitura de Francisco Ayres, por meio da",0,9.9404
+2,44,ep1,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora adjudicada com o valor de R$ 830.084,2",0,42.418
+2,45,ep1,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000,00
+A seguir, apresenta-se o balanço orç",0,3.5811
+2,46,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,O nível específico de quinquênio reconhecido para a servidora Eliene Pires de Sá é,0,52.7286
+2,47,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","O valor unitário fixado para o ""Item 48"" (Fralda Descartável Tamanho X",0,11.8733
+2,48,ep1,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"O certame foi homologado pela autoridade municipal, conforme o extrato de contrato publicado pela Prefeitura",0,19.769
+2,49,ep1,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 1.000,00
+
+A Prefeitura Municipal de Joaquim Pires,",0,9.721
+2,50,ep1,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,24.5858
+3,1,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para a função de Auxiliar de Servi,0,9.7208
+3,2,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00",O valor total estimado para a prestação de serviços de dedetização é de R$ 10.0,0,5.248
+3,3,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,7.7198
+3,4,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, no uso de suas atribuições legais, torna público",0,6.0202
+3,5,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,188.9515
+3,6,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a empresa ""CONSTRUTORA E",1,7.7325
+3,7,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,O candidato que foi nomeado para exercer o cargo em comissão de Secretário Municipal da Cidade é,0,84.3004
+3,8,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, Estado do Piauí, será o competente",0,10.673
+3,9,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,6.4692
+3,10,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00 (um mil reais).
+Avaliação: A proposta",0,9.4527
+3,11,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+
+A Prefeitura Municipal de Simões, por meio da Secretaria Municipal de",1,68.3006
+3,12,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""MARTINS & MARTINS - Adv",0,4.8015
+3,13,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"06.553.869/0001-85
+
+- 10",0,2.6404
+3,14,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,A profissional nomeada para o cargo de Chefe de Departamento de Recursos Humanos Municipal de Saúde é a,0,47.9824
+3,15,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,8.339
+3,16,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,O prazo de vigência estabelecido para o contrato com base na Lei Federal nº 14.1,0,4.7115
+3,17,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,16.2436
+3,18,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratada exercerá a atribuição específica/cargo de Auxiliar de Serviços Gerais, conforme especific",1,294.2249
+3,19,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,A portaria municipal que dispõe sobre a nomeação específica de Servidor Público de sobrenome Alves é,0,6.3574
+3,20,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,A descrição dos itens adjudicados no Pregão Eletrônico nº 018/20,0,1797.5145
+3,21,ep1,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","1.000,00
+
+1.000,00
+
+1.000",0,4.3262
+3,22,ep1,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada para a prestação de serviços de contabilidade pública da Secretaria Municipal de Educação foi a empresa """,1,84.151
+3,23,ep1,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A Secretária das Relações Institucionais e Sociais junto à Secretaria Municipal de Administração é a Secret,0,26.5145
+3,24,ep1,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"1.000 BTUs
+
+A Prefeitura Municipal de Cristino Castro, Estado do Piauí",0,4.2186
+3,25,ep1,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada é a empresa ""MARCO ALESSANDRO ARAUJO PEREIRA"", com o",0,8.6372
+3,26,ep1,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.1407
+3,27,ep1,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Maria do Socorro de Sous",0,25.4554
+3,28,ep1,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,758.6643
+3,29,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Engenheira Civil contratada para desempenhar as funções de Engenheira Civil junto à,0,241.8526
+3,30,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,28.1897
+3,31,ep1,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.828
+3,32,ep1,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,6.095
+3,33,ep1,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,"A Prefeitura de Piripiri, através da Secretaria Municipal de Educação, nomeou a cidadã no",0,21.0778
+3,34,ep1,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,A profissional que foi nomeada para exercer a função de Presidente da Comissão Setorial de Estág,0,120.0652
+3,35,ep1,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,4.8053
+3,36,ep1,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,A servidora Maria Bethania Luz Rio Lima é efetiva na função de Auxiliar de Serviços G,1,43.4167
+3,37,ep1,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","1.000.000,00
+
+- 11.1. O valor do",0,9.6338
+3,38,ep1,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","A função do contratado José Rogério da Luz Barbosa Ribeiro é de Professor de Educação Infantil, e",0,7.8497
+3,39,ep1,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,38.9753
+3,40,ep1,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+10.10.00",0,3.7975
+3,41,ep1,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome que foi contratada para se apresentar no show artístico do evento Urufolia,0,418.9834
+3,42,ep1,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,7.4314
+3,43,ep1,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000,00
+
+A Prefeitura de Francisco Ayres, por meio da",0,9.9404
+3,44,ep1,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora adjudicada com o valor de R$ 830.084,2",0,42.418
+3,45,ep1,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000,00
+A seguir, apresenta-se o balanço orç",0,3.5811
+3,46,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,O nível específico de quinquênio reconhecido para a servidora Eliene Pires de Sá é,0,52.7286
+3,47,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","O valor unitário fixado para o ""Item 48"" (Fralda Descartável Tamanho X",0,11.8733
+3,48,ep1,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"O certame foi homologado pela autoridade municipal, conforme o extrato de contrato publicado pela Prefeitura",0,19.769
+3,49,ep1,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 1.000,00
+
+A Prefeitura Municipal de Joaquim Pires,",0,9.721
+3,50,ep1,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,24.5858
+4,1,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para a função de Auxiliar de Servi,0,9.7208
+4,2,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00",O valor total estimado para a prestação de serviços de dedetização é de R$ 10.0,0,5.248
+4,3,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,7.7198
+4,4,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, no uso de suas atribuições legais, torna público",0,6.0202
+4,5,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,188.9515
+4,6,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a empresa ""CONSTRUTORA E",1,7.7325
+4,7,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,O candidato que foi nomeado para exercer o cargo em comissão de Secretário Municipal da Cidade é,0,84.3004
+4,8,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, Estado do Piauí, será o competente",0,10.673
+4,9,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,6.4692
+4,10,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00 (um mil reais).
+Avaliação: A proposta",0,9.4527
+4,11,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+
+A Prefeitura Municipal de Simões, por meio da Secretaria Municipal de",1,68.3006
+4,12,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""MARTINS & MARTINS - Adv",0,4.8015
+4,13,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"06.553.869/0001-85
+
+- 10",0,2.6404
+4,14,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,A profissional nomeada para o cargo de Chefe de Departamento de Recursos Humanos Municipal de Saúde é a,0,47.9824
+4,15,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,8.339
+4,16,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,O prazo de vigência estabelecido para o contrato com base na Lei Federal nº 14.1,0,4.7115
+4,17,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,16.2436
+4,18,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratada exercerá a atribuição específica/cargo de Auxiliar de Serviços Gerais, conforme especific",1,294.2249
+4,19,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,A portaria municipal que dispõe sobre a nomeação específica de Servidor Público de sobrenome Alves é,0,6.3574
+4,20,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,A descrição dos itens adjudicados no Pregão Eletrônico nº 018/20,0,1797.5145
+4,21,ep1,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","1.000,00
+
+1.000,00
+
+1.000",0,4.3262
+4,22,ep1,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada para a prestação de serviços de contabilidade pública da Secretaria Municipal de Educação foi a empresa """,1,84.151
+4,23,ep1,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A Secretária das Relações Institucionais e Sociais junto à Secretaria Municipal de Administração é a Secret,0,26.5145
+4,24,ep1,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"1.000 BTUs
+
+A Prefeitura Municipal de Cristino Castro, Estado do Piauí",0,4.2186
+4,25,ep1,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada é a empresa ""MARCO ALESSANDRO ARAUJO PEREIRA"", com o",0,8.6372
+4,26,ep1,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.1407
+4,27,ep1,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Maria do Socorro de Sous",0,25.4554
+4,28,ep1,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,758.6643
+4,29,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Engenheira Civil contratada para desempenhar as funções de Engenheira Civil junto à,0,241.8526
+4,30,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,28.1897
+4,31,ep1,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.828
+4,32,ep1,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,6.095
+4,33,ep1,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,"A Prefeitura de Piripiri, através da Secretaria Municipal de Educação, nomeou a cidadã no",0,21.0778
+4,34,ep1,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,A profissional que foi nomeada para exercer a função de Presidente da Comissão Setorial de Estág,0,120.0652
+4,35,ep1,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,4.8053
+4,36,ep1,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,A servidora Maria Bethania Luz Rio Lima é efetiva na função de Auxiliar de Serviços G,1,43.4167
+4,37,ep1,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","1.000.000,00
+
+- 11.1. O valor do",0,9.6338
+4,38,ep1,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","A função do contratado José Rogério da Luz Barbosa Ribeiro é de Professor de Educação Infantil, e",0,7.8497
+4,39,ep1,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,38.9753
+4,40,ep1,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+10.10.00",0,3.7975
+4,41,ep1,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome que foi contratada para se apresentar no show artístico do evento Urufolia,0,418.9834
+4,42,ep1,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,7.4314
+4,43,ep1,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000,00
+
+A Prefeitura de Francisco Ayres, por meio da",0,9.9404
+4,44,ep1,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora adjudicada com o valor de R$ 830.084,2",0,42.418
+4,45,ep1,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000,00
+A seguir, apresenta-se o balanço orç",0,3.5811
+4,46,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,O nível específico de quinquênio reconhecido para a servidora Eliene Pires de Sá é,0,52.7286
+4,47,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","O valor unitário fixado para o ""Item 48"" (Fralda Descartável Tamanho X",0,11.8733
+4,48,ep1,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"O certame foi homologado pela autoridade municipal, conforme o extrato de contrato publicado pela Prefeitura",0,19.769
+4,49,ep1,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 1.000,00
+
+A Prefeitura Municipal de Joaquim Pires,",0,9.721
+4,50,ep1,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,24.5858
+5,1,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para a função de Auxiliar de Servi,0,9.7208
+5,2,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00",O valor total estimado para a prestação de serviços de dedetização é de R$ 10.0,0,5.248
+5,3,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,7.7198
+5,4,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A Secretaria Municipal de Saúde de Brasileira, no uso de suas atribuições legais, torna público",0,6.0202
+5,5,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,00000000000000000000000,0,188.9515
+5,6,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,"A empresa declarada apta a contratar com a Administração Pública é a empresa ""CONSTRUTORA E",1,7.7325
+5,7,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,O candidato que foi nomeado para exercer o cargo em comissão de Secretário Municipal da Cidade é,0,84.3004
+5,8,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,"O Foro da Comarca de Joaquim Pires, Estado do Piauí, será o competente",0,10.673
+5,9,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,00000000000000000000000,0,6.4692
+5,10,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 1.000,00 (um mil reais).
+Avaliação: A proposta",0,9.4527
+5,11,ep1,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"40 horas semanais
+
+A Prefeitura Municipal de Simões, por meio da Secretaria Municipal de",1,68.3006
+5,12,ep1,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,"A sociedade individual de advocacia contratada por inexigibilidade é a ""MARTINS & MARTINS - Adv",0,4.8015
+5,13,ep1,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,"06.553.869/0001-85
+
+- 10",0,2.6404
+5,14,ep1,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,A profissional nomeada para o cargo de Chefe de Departamento de Recursos Humanos Municipal de Saúde é a,0,47.9824
+5,15,ep1,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,8.339
+5,16,ep1,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,O prazo de vigência estabelecido para o contrato com base na Lei Federal nº 14.1,0,4.7115
+5,17,ep1,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,16.2436
+5,18,ep1,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratada exercerá a atribuição específica/cargo de Auxiliar de Serviços Gerais, conforme especific",1,294.2249
+5,19,ep1,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,A portaria municipal que dispõe sobre a nomeação específica de Servidor Público de sobrenome Alves é,0,6.3574
+5,20,ep1,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,A descrição dos itens adjudicados no Pregão Eletrônico nº 018/20,0,1797.5145
+5,21,ep1,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","1.000,00
+
+1.000,00
+
+1.000",0,4.3262
+5,22,ep1,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,"A empresa contratada para a prestação de serviços de contabilidade pública da Secretaria Municipal de Educação foi a empresa """,1,84.151
+5,23,ep1,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A Secretária das Relações Institucionais e Sociais junto à Secretaria Municipal de Administração é a Secret,0,26.5145
+5,24,ep1,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,"1.000 BTUs
+
+A Prefeitura Municipal de Cristino Castro, Estado do Piauí",0,4.2186
+5,25,ep1,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada é a empresa ""MARCO ALESSANDRO ARAUJO PEREIRA"", com o",0,8.6372
+5,26,ep1,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,6.1407
+5,27,ep1,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,"O primeiro nome listado como classificado sob a atividade específica de Linguagem é ""Maria do Socorro de Sous",0,25.4554
+5,28,ep1,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,758.6643
+5,29,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Engenheira Civil contratada para desempenhar as funções de Engenheira Civil junto à,0,241.8526
+5,30,ep1,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,28.1897
+5,31,ep1,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado com a empresa Castro e Dias Engenharia Ltda - ME é de,0,7.828
+5,32,ep1,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00","O valor total exato homologado para o contratado é de R$ 1.000,0",0,6.095
+5,33,ep1,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,"A Prefeitura de Piripiri, através da Secretaria Municipal de Educação, nomeou a cidadã no",0,21.0778
+5,34,ep1,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,A profissional que foi nomeada para exercer a função de Presidente da Comissão Setorial de Estág,0,120.0652
+5,35,ep1,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pela Comercial,0,4.8053
+5,36,ep1,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,A servidora Maria Bethania Luz Rio Lima é efetiva na função de Auxiliar de Serviços G,1,43.4167
+5,37,ep1,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","1.000.000,00
+
+- 11.1. O valor do",0,9.6338
+5,38,ep1,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H","A função do contratado José Rogério da Luz Barbosa Ribeiro é de Professor de Educação Infantil, e",0,7.8497
+5,39,ep1,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá a execução das obras de reforma pela contratada 19 Eng,1,38.9753
+5,40,ep1,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","R$ 1.000.000,00
+10.10.00",0,3.7975
+5,41,ep1,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,A banda nacional de renome que foi contratada para se apresentar no show artístico do evento Urufolia,0,418.9834
+5,42,ep1,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,00000000000000000000000,0,7.4314
+5,43,ep1,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00","R$ 1.000,00
+
+A Prefeitura de Francisco Ayres, por meio da",0,9.9404
+5,44,ep1,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora adjudicada com o valor de R$ 830.084,2",0,42.418
+5,45,ep1,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 1.000,00
+A seguir, apresenta-se o balanço orç",0,3.5811
+5,46,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,O nível específico de quinquênio reconhecido para a servidora Eliene Pires de Sá é,0,52.7286
+5,47,ep1,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57","O valor unitário fixado para o ""Item 48"" (Fralda Descartável Tamanho X",0,11.8733
+5,48,ep1,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,"O certame foi homologado pela autoridade municipal, conforme o extrato de contrato publicado pela Prefeitura",0,19.769
+5,49,ep1,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 1.000,00
+
+A Prefeitura Municipal de Joaquim Pires,",0,9.721
+5,50,ep1,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral é o Sr. José,1,24.5858
+1,1,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa no,0,31.9456
+1,2,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme previsto no Aviso de Contr",0,7.2811
+1,3,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,8.2054
+1,4,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A secretária municipal de saúde da cidade de Brasiléia, que é a atual titular do cargo, é a médica",0,7.9396
+1,5,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,O número da matrícula da servidora Maria Ribeiro da Costa é 34.78,0,188.7087
+1,6,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,A empresa declarada apta a contratar com a Administração Pública no processo de dispensa de licitação,1,11.0324
+1,7,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"O secretário municipal da cidade de Guadalupe, que está sendo nomeado para exercer o cargo em com",0,185.9338
+1,8,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,O contrato mencionado foi celebrado por meio de um ato administrativo e não de acordo com a Lei nº,0,18.4314
+1,9,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,"10.253
+A resposta está correta, mas há um erro na formatação da data",0,33.1783
+1,10,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 3.790,00
+Aqui está a resposta correta:
+
+R$ 3",0,10.5759
+1,11,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"A jornada de trabalho semanal exata (em horas) estabelecida para a função de ""Auxiliar",0,113.0451
+1,12,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,A sociedade individual de advocacia contratada pela Câmara Municipal de Dom Inocêncio sem extrato de contrato foi,0,8.4045
+1,13,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,O número completo do CNPJ da Prefeitura Municipal de Redenção do Gurgueia é 01.,0,4.9903
+1,14,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,"O Prof. Dr. José Carlos da Silva, que é Professor Titular do Curso de Medicina pela Universidade Federal",1,50.7665
+1,15,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,10.5027
+1,16,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 6 (seis) anos, contados a partir da data",0,5.9415
+1,17,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,23.5729
+1,18,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratação de um(a) assistente administrativo(a), com vínculo temporário, para atuar",1,2771.3007
+1,19,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,"A resposta correta para este exercício é:
+
+Portaria Municipal nº 14/2024
+
+Explic",0,13.0611
+1,20,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo do item 3 são as seguintes:
+- Marca Registrada: ALG",0,2896.4551
+1,21,instruct,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","O valor atualizado da Dotação Atualizada para a Subfunção Defesa Civil, conforme consta no Rel",0,6.2372
+1,22,instruct,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,A empresa que foi contratada pela Prefeitura de Valença do Piauí para prestar serviços de contabilidade,1,50.594
+1,23,instruct,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A secretária que foi nomeada para exercer a função de Secretária das Relações Institucionais e Sociais,0,44.918
+1,24,instruct,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,A capacidade térmica mínima (em BTUs) do sistema de Ar Condicionado do Compartimento,0,5.6165
+1,25,instruct,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada pela Prefeitura de João Costa, representada pelo nome de Marcos Alessandro Araújo Pere",0,12.3944
+1,26,instruct,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,8.0026
+1,27,instruct,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,O primeiro nome listado como classificado sob a atividade específica de Linguagem no resultado final da seleção de medi,1,42.4112
+1,28,instruct,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,2935.4451
+1,29,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Prefeitura de Curimatá não realizou a emissão do Extrato de Contrato Administrativo (E,0,301.3257
+1,30,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,50.307
+1,31,instruct,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado entre o Município de Dom Inocêncio e a empresa Castro,0,9.2098
+1,32,instruct,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00",O valor total exato homologado para o contratado é R$ 1.347.69,0,7.1804
+1,33,instruct,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada na Portaria Conjunta nº 386/2025 do,0,49.1509
+1,34,instruct,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A secretária municipal de educação de Piracuruca, Maria do Socorro dos Santos, nomeou o professor José",0,134.5395
+1,35,instruct,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pelo fornecedor,0,6.7196
+1,36,instruct,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A resposta correta para essa pergunta seria ""Auxiliar Administrativo"". Essa informação está disponível na Portaria nº",1,64.8696
+1,37,instruct,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,13.1431
+1,38,instruct,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H",O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras estabele,0,12.3752
+1,39,instruct,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá as obras de reforma na cidade de Várzea Branca será,1,71.5069
+1,40,instruct,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","O valor de R$ 1.052,76 referente à Receita Corrente (I)",0,4.5832
+1,41,instruct,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,"A resposta correta é a Banda Nacional de Renome ""Alegria Brasil"". Esta informação está disponível na página",0,216.9116
+1,42,instruct,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,O número exato do processo SEI associado à análise da situação funcional do empregado Antônio Pere,0,11.7543
+1,43,instruct,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00",O valor exato registrado como Receitas Realizadas Até o Bimestre para a rubrica específica de Ali,0,11.9953
+1,44,instruct,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""Sociedade Anônima Siderúrgica e Metalúrgica",0,48.6289
+1,45,instruct,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 3.746.890,00
+A resposta correta é:
+R$",0,4.7393
+1,46,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá está no nível especializado de quinquênio.
+Aqui",0,42.8162
+1,47,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57",O valor unitário fixado para o Item 48 (Fralda Descartável Tamanho XG),0,13.8645
+1,48,instruct,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,Não há registro de um extrato de contrato referente ao procedimento PE nº 01.1212,0,38.361
+1,49,instruct,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 3.567.890,00
+A resposta está correta.
+O valor",0,12.9992
+1,50,instruct,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral será o(a) Pref,1,51.0578
+2,1,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa no,0,31.9456
+2,2,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme previsto no Aviso de Contr",0,7.2811
+2,3,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,8.2054
+2,4,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A secretária municipal de saúde da cidade de Brasiléia, que é a atual titular do cargo, é a médica",0,7.9396
+2,5,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,O número da matrícula da servidora Maria Ribeiro da Costa é 34.78,0,188.7087
+2,6,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,A empresa declarada apta a contratar com a Administração Pública no processo de dispensa de licitação,1,11.0324
+2,7,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"O secretário municipal da cidade de Guadalupe, que está sendo nomeado para exercer o cargo em com",0,185.9338
+2,8,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,O contrato mencionado foi celebrado por meio de um ato administrativo e não de acordo com a Lei nº,0,18.4314
+2,9,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,"10.253
+A resposta está correta, mas há um erro na formatação da data",0,33.1783
+2,10,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 3.790,00
+Aqui está a resposta correta:
+
+R$ 3",0,10.5759
+2,11,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"A jornada de trabalho semanal exata (em horas) estabelecida para a função de ""Auxiliar",0,113.0451
+2,12,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,A sociedade individual de advocacia contratada pela Câmara Municipal de Dom Inocêncio sem extrato de contrato foi,0,8.4045
+2,13,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,O número completo do CNPJ da Prefeitura Municipal de Redenção do Gurgueia é 01.,0,4.9903
+2,14,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,"O Prof. Dr. José Carlos da Silva, que é Professor Titular do Curso de Medicina pela Universidade Federal",1,50.7665
+2,15,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,10.5027
+2,16,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 6 (seis) anos, contados a partir da data",0,5.9415
+2,17,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,23.5729
+2,18,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratação de um(a) assistente administrativo(a), com vínculo temporário, para atuar",1,2771.3007
+2,19,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,"A resposta correta para este exercício é:
+
+Portaria Municipal nº 14/2024
+
+Explic",0,13.0611
+2,20,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo do item 3 são as seguintes:
+- Marca Registrada: ALG",0,2896.4551
+2,21,instruct,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","O valor atualizado da Dotação Atualizada para a Subfunção Defesa Civil, conforme consta no Rel",0,6.2372
+2,22,instruct,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,A empresa que foi contratada pela Prefeitura de Valença do Piauí para prestar serviços de contabilidade,1,50.594
+2,23,instruct,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A secretária que foi nomeada para exercer a função de Secretária das Relações Institucionais e Sociais,0,44.918
+2,24,instruct,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,A capacidade térmica mínima (em BTUs) do sistema de Ar Condicionado do Compartimento,0,5.6165
+2,25,instruct,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada pela Prefeitura de João Costa, representada pelo nome de Marcos Alessandro Araújo Pere",0,12.3944
+2,26,instruct,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,8.0026
+2,27,instruct,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,O primeiro nome listado como classificado sob a atividade específica de Linguagem no resultado final da seleção de medi,1,42.4112
+2,28,instruct,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,2935.4451
+2,29,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Prefeitura de Curimatá não realizou a emissão do Extrato de Contrato Administrativo (E,0,301.3257
+2,30,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,50.307
+2,31,instruct,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado entre o Município de Dom Inocêncio e a empresa Castro,0,9.2098
+2,32,instruct,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00",O valor total exato homologado para o contratado é R$ 1.347.69,0,7.1804
+2,33,instruct,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada na Portaria Conjunta nº 386/2025 do,0,49.1509
+2,34,instruct,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A secretária municipal de educação de Piracuruca, Maria do Socorro dos Santos, nomeou o professor José",0,134.5395
+2,35,instruct,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pelo fornecedor,0,6.7196
+2,36,instruct,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A resposta correta para essa pergunta seria ""Auxiliar Administrativo"". Essa informação está disponível na Portaria nº",1,64.8696
+2,37,instruct,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,13.1431
+2,38,instruct,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H",O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras estabele,0,12.3752
+2,39,instruct,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá as obras de reforma na cidade de Várzea Branca será,1,71.5069
+2,40,instruct,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","O valor de R$ 1.052,76 referente à Receita Corrente (I)",0,4.5832
+2,41,instruct,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,"A resposta correta é a Banda Nacional de Renome ""Alegria Brasil"". Esta informação está disponível na página",0,216.9116
+2,42,instruct,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,O número exato do processo SEI associado à análise da situação funcional do empregado Antônio Pere,0,11.7543
+2,43,instruct,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00",O valor exato registrado como Receitas Realizadas Até o Bimestre para a rubrica específica de Ali,0,11.9953
+2,44,instruct,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""Sociedade Anônima Siderúrgica e Metalúrgica",0,48.6289
+2,45,instruct,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 3.746.890,00
+A resposta correta é:
+R$",0,4.7393
+2,46,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá está no nível especializado de quinquênio.
+Aqui",0,42.8162
+2,47,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57",O valor unitário fixado para o Item 48 (Fralda Descartável Tamanho XG),0,13.8645
+2,48,instruct,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,Não há registro de um extrato de contrato referente ao procedimento PE nº 01.1212,0,38.361
+2,49,instruct,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 3.567.890,00
+A resposta está correta.
+O valor",0,12.9992
+2,50,instruct,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral será o(a) Pref,1,51.0578
+3,1,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa no,0,31.9456
+3,2,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme previsto no Aviso de Contr",0,7.2811
+3,3,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,8.2054
+3,4,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A secretária municipal de saúde da cidade de Brasiléia, que é a atual titular do cargo, é a médica",0,7.9396
+3,5,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,O número da matrícula da servidora Maria Ribeiro da Costa é 34.78,0,188.7087
+3,6,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,A empresa declarada apta a contratar com a Administração Pública no processo de dispensa de licitação,1,11.0324
+3,7,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"O secretário municipal da cidade de Guadalupe, que está sendo nomeado para exercer o cargo em com",0,185.9338
+3,8,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,O contrato mencionado foi celebrado por meio de um ato administrativo e não de acordo com a Lei nº,0,18.4314
+3,9,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,"10.253
+A resposta está correta, mas há um erro na formatação da data",0,33.1783
+3,10,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 3.790,00
+Aqui está a resposta correta:
+
+R$ 3",0,10.5759
+3,11,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"A jornada de trabalho semanal exata (em horas) estabelecida para a função de ""Auxiliar",0,113.0451
+3,12,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,A sociedade individual de advocacia contratada pela Câmara Municipal de Dom Inocêncio sem extrato de contrato foi,0,8.4045
+3,13,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,O número completo do CNPJ da Prefeitura Municipal de Redenção do Gurgueia é 01.,0,4.9903
+3,14,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,"O Prof. Dr. José Carlos da Silva, que é Professor Titular do Curso de Medicina pela Universidade Federal",1,50.7665
+3,15,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,10.5027
+3,16,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 6 (seis) anos, contados a partir da data",0,5.9415
+3,17,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,23.5729
+3,18,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratação de um(a) assistente administrativo(a), com vínculo temporário, para atuar",1,2771.3007
+3,19,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,"A resposta correta para este exercício é:
+
+Portaria Municipal nº 14/2024
+
+Explic",0,13.0611
+3,20,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo do item 3 são as seguintes:
+- Marca Registrada: ALG",0,2896.4551
+3,21,instruct,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","O valor atualizado da Dotação Atualizada para a Subfunção Defesa Civil, conforme consta no Rel",0,6.2372
+3,22,instruct,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,A empresa que foi contratada pela Prefeitura de Valença do Piauí para prestar serviços de contabilidade,1,50.594
+3,23,instruct,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A secretária que foi nomeada para exercer a função de Secretária das Relações Institucionais e Sociais,0,44.918
+3,24,instruct,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,A capacidade térmica mínima (em BTUs) do sistema de Ar Condicionado do Compartimento,0,5.6165
+3,25,instruct,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada pela Prefeitura de João Costa, representada pelo nome de Marcos Alessandro Araújo Pere",0,12.3944
+3,26,instruct,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,8.0026
+3,27,instruct,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,O primeiro nome listado como classificado sob a atividade específica de Linguagem no resultado final da seleção de medi,1,42.4112
+3,28,instruct,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,2935.4451
+3,29,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Prefeitura de Curimatá não realizou a emissão do Extrato de Contrato Administrativo (E,0,301.3257
+3,30,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,50.307
+3,31,instruct,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado entre o Município de Dom Inocêncio e a empresa Castro,0,9.2098
+3,32,instruct,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00",O valor total exato homologado para o contratado é R$ 1.347.69,0,7.1804
+3,33,instruct,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada na Portaria Conjunta nº 386/2025 do,0,49.1509
+3,34,instruct,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A secretária municipal de educação de Piracuruca, Maria do Socorro dos Santos, nomeou o professor José",0,134.5395
+3,35,instruct,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pelo fornecedor,0,6.7196
+3,36,instruct,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A resposta correta para essa pergunta seria ""Auxiliar Administrativo"". Essa informação está disponível na Portaria nº",1,64.8696
+3,37,instruct,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,13.1431
+3,38,instruct,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H",O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras estabele,0,12.3752
+3,39,instruct,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá as obras de reforma na cidade de Várzea Branca será,1,71.5069
+3,40,instruct,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","O valor de R$ 1.052,76 referente à Receita Corrente (I)",0,4.5832
+3,41,instruct,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,"A resposta correta é a Banda Nacional de Renome ""Alegria Brasil"". Esta informação está disponível na página",0,216.9116
+3,42,instruct,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,O número exato do processo SEI associado à análise da situação funcional do empregado Antônio Pere,0,11.7543
+3,43,instruct,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00",O valor exato registrado como Receitas Realizadas Até o Bimestre para a rubrica específica de Ali,0,11.9953
+3,44,instruct,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""Sociedade Anônima Siderúrgica e Metalúrgica",0,48.6289
+3,45,instruct,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 3.746.890,00
+A resposta correta é:
+R$",0,4.7393
+3,46,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá está no nível especializado de quinquênio.
+Aqui",0,42.8162
+3,47,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57",O valor unitário fixado para o Item 48 (Fralda Descartável Tamanho XG),0,13.8645
+3,48,instruct,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,Não há registro de um extrato de contrato referente ao procedimento PE nº 01.1212,0,38.361
+3,49,instruct,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 3.567.890,00
+A resposta está correta.
+O valor",0,12.9992
+3,50,instruct,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral será o(a) Pref,1,51.0578
+4,1,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa no,0,31.9456
+4,2,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme previsto no Aviso de Contr",0,7.2811
+4,3,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,8.2054
+4,4,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A secretária municipal de saúde da cidade de Brasiléia, que é a atual titular do cargo, é a médica",0,7.9396
+4,5,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,O número da matrícula da servidora Maria Ribeiro da Costa é 34.78,0,188.7087
+4,6,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,A empresa declarada apta a contratar com a Administração Pública no processo de dispensa de licitação,1,11.0324
+4,7,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"O secretário municipal da cidade de Guadalupe, que está sendo nomeado para exercer o cargo em com",0,185.9338
+4,8,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,O contrato mencionado foi celebrado por meio de um ato administrativo e não de acordo com a Lei nº,0,18.4314
+4,9,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,"10.253
+A resposta está correta, mas há um erro na formatação da data",0,33.1783
+4,10,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 3.790,00
+Aqui está a resposta correta:
+
+R$ 3",0,10.5759
+4,11,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"A jornada de trabalho semanal exata (em horas) estabelecida para a função de ""Auxiliar",0,113.0451
+4,12,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,A sociedade individual de advocacia contratada pela Câmara Municipal de Dom Inocêncio sem extrato de contrato foi,0,8.4045
+4,13,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,O número completo do CNPJ da Prefeitura Municipal de Redenção do Gurgueia é 01.,0,4.9903
+4,14,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,"O Prof. Dr. José Carlos da Silva, que é Professor Titular do Curso de Medicina pela Universidade Federal",1,50.7665
+4,15,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,10.5027
+4,16,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 6 (seis) anos, contados a partir da data",0,5.9415
+4,17,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,23.5729
+4,18,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratação de um(a) assistente administrativo(a), com vínculo temporário, para atuar",1,2771.3007
+4,19,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,"A resposta correta para este exercício é:
+
+Portaria Municipal nº 14/2024
+
+Explic",0,13.0611
+4,20,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo do item 3 são as seguintes:
+- Marca Registrada: ALG",0,2896.4551
+4,21,instruct,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","O valor atualizado da Dotação Atualizada para a Subfunção Defesa Civil, conforme consta no Rel",0,6.2372
+4,22,instruct,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,A empresa que foi contratada pela Prefeitura de Valença do Piauí para prestar serviços de contabilidade,1,50.594
+4,23,instruct,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A secretária que foi nomeada para exercer a função de Secretária das Relações Institucionais e Sociais,0,44.918
+4,24,instruct,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,A capacidade térmica mínima (em BTUs) do sistema de Ar Condicionado do Compartimento,0,5.6165
+4,25,instruct,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada pela Prefeitura de João Costa, representada pelo nome de Marcos Alessandro Araújo Pere",0,12.3944
+4,26,instruct,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,8.0026
+4,27,instruct,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,O primeiro nome listado como classificado sob a atividade específica de Linguagem no resultado final da seleção de medi,1,42.4112
+4,28,instruct,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,2935.4451
+4,29,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Prefeitura de Curimatá não realizou a emissão do Extrato de Contrato Administrativo (E,0,301.3257
+4,30,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,50.307
+4,31,instruct,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado entre o Município de Dom Inocêncio e a empresa Castro,0,9.2098
+4,32,instruct,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00",O valor total exato homologado para o contratado é R$ 1.347.69,0,7.1804
+4,33,instruct,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada na Portaria Conjunta nº 386/2025 do,0,49.1509
+4,34,instruct,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A secretária municipal de educação de Piracuruca, Maria do Socorro dos Santos, nomeou o professor José",0,134.5395
+4,35,instruct,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pelo fornecedor,0,6.7196
+4,36,instruct,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A resposta correta para essa pergunta seria ""Auxiliar Administrativo"". Essa informação está disponível na Portaria nº",1,64.8696
+4,37,instruct,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,13.1431
+4,38,instruct,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H",O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras estabele,0,12.3752
+4,39,instruct,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá as obras de reforma na cidade de Várzea Branca será,1,71.5069
+4,40,instruct,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","O valor de R$ 1.052,76 referente à Receita Corrente (I)",0,4.5832
+4,41,instruct,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,"A resposta correta é a Banda Nacional de Renome ""Alegria Brasil"". Esta informação está disponível na página",0,216.9116
+4,42,instruct,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,O número exato do processo SEI associado à análise da situação funcional do empregado Antônio Pere,0,11.7543
+4,43,instruct,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00",O valor exato registrado como Receitas Realizadas Até o Bimestre para a rubrica específica de Ali,0,11.9953
+4,44,instruct,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""Sociedade Anônima Siderúrgica e Metalúrgica",0,48.6289
+4,45,instruct,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 3.746.890,00
+A resposta correta é:
+R$",0,4.7393
+4,46,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá está no nível especializado de quinquênio.
+Aqui",0,42.8162
+4,47,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57",O valor unitário fixado para o Item 48 (Fralda Descartável Tamanho XG),0,13.8645
+4,48,instruct,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,Não há registro de um extrato de contrato referente ao procedimento PE nº 01.1212,0,38.361
+4,49,instruct,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 3.567.890,00
+A resposta está correta.
+O valor",0,12.9992
+4,50,instruct,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral será o(a) Pref,1,51.0578
+5,1,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,Auxiliar de Atividade Educacional 1,A servidora Maria Alice de Carvalho Serio foi contratada para atuar como assistente administrativa no,0,31.9456
+5,2,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,"R$ 61.600,00","O valor total estimado para a prestação de serviços de dedetização, conforme previsto no Aviso de Contr",0,7.2811
+5,3,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,"R$ 108.675,60","O valor listado como ""Despesa Mínima a ser Aplicada em ASPS"" em conformidade",0,8.2054
+5,4,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Chefe de Departamento de Assistência Farmacêutica,"A secretária municipal de saúde da cidade de Brasiléia, que é a atual titular do cargo, é a médica",0,7.9396
+5,5,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,35,O número da matrícula da servidora Maria Ribeiro da Costa é 34.78,0,188.7087
+5,6,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,GT ENGENHARIA E PROJETOS LTDA.,A empresa declarada apta a contratar com a Administração Pública no processo de dispensa de licitação,1,11.0324
+5,7,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,Edivan Pereira de Miranda,"O secretário municipal da cidade de Guadalupe, que está sendo nomeado para exercer o cargo em com",0,185.9338
+5,8,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,Comarca de Esperantina,O contrato mencionado foi celebrado por meio de um ato administrativo e não de acordo com a Lei nº,0,18.4314
+5,9,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 98/2025,"10.253
+A resposta está correta, mas há um erro na formatação da data",0,33.1783
+5,10,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,"2.341,00","R$ 3.790,00
+Aqui está a resposta correta:
+
+R$ 3",0,10.5759
+5,11,instruct,pr,,9a2a8026e2b9531d4f2e24d182e8971c.txt,40,"A jornada de trabalho semanal exata (em horas) estabelecida para a função de ""Auxiliar",0,113.0451
+5,12,instruct,pr,,72fabea47a883cedcb80e8ad7736f78f.txt,TARCISIO SOUSA E SILVA SOCIEDADE INDIVIDUAL DE ADVOCACIA,A sociedade individual de advocacia contratada pela Câmara Municipal de Dom Inocêncio sem extrato de contrato foi,0,8.4045
+5,13,instruct,pr,,84e1be7c07ac38859be563c063917dc2.txt,06.554.380/0001-92,O número completo do CNPJ da Prefeitura Municipal de Redenção do Gurgueia é 01.,0,4.9903
+5,14,instruct,pr,,803ca9056a85630b1d63e294b1a84005.txt,Francisco Savio Canuto Carvalho,"O Prof. Dr. José Carlos da Silva, que é Professor Titular do Curso de Medicina pela Universidade Federal",1,50.7665
+5,15,instruct,pr,,805de53b2723e5fb733545e1ea2b0540.txt,"R$ 517.927,50",O valor total orçado para o Pregão Eletrônico nº 009/202,0,10.5027
+5,16,instruct,pr,,7f1acefb6915072ce9b7e488ef1e9655.txt,90 (noventa) dias,"O prazo de vigência do contrato será de 6 (seis) anos, contados a partir da data",0,5.9415
+5,17,instruct,pr,,8ac5b4cbc28019e2c1b298f10e441f1c.txt,GILBERTO SARAIVA RIBEIRO,O nomeado para exercer o cargo em comissão de Assessor Técnico vinculado ao Gabin,1,23.5729
+5,18,instruct,pr,,8af8d1f6f5d1cbca33f70d8ce819b317.txt,VISITADOR SOCIAL,"A contratação de um(a) assistente administrativo(a), com vínculo temporário, para atuar",1,2771.3007
+5,19,instruct,pr,,8af058a6d855085dd09ba40dba41fb02.txt,Portaria N 95/2025,"A resposta correta para este exercício é:
+
+Portaria Municipal nº 14/2024
+
+Explic",0,13.0611
+5,20,instruct,pr,,8ed36549e4eb15741c12227323135ad0.txt,TABULEIRO,"A marca registrada e o modelo do item 3 são as seguintes:
+- Marca Registrada: ALG",0,2896.4551
+5,21,instruct,pr,,daea27a52f683df99fdc0c95dd64c332.txt,"118.000,00","O valor atualizado da Dotação Atualizada para a Subfunção Defesa Civil, conforme consta no Rel",0,6.2372
+5,22,instruct,pr,,dd9eb5043eb40cbef43ae875d2d31456.txt,NEVES E NEVES PERITOS ASSOCIADOS LTDA,A empresa que foi contratada pela Prefeitura de Valença do Piauí para prestar serviços de contabilidade,1,50.594
+5,23,instruct,pr,,f5c1b76d1b4bfa063c65bedda6feabfc.txt,DEUSA DE ARAUJO VIANA,A secretária que foi nomeada para exercer a função de Secretária das Relações Institucionais e Sociais,0,44.918
+5,24,instruct,pr,,f38dfd4a502822b4166109c8996caf37.txt,30.000 BTUs,A capacidade térmica mínima (em BTUs) do sistema de Ar Condicionado do Compartimento,0,5.6165
+5,25,instruct,pr,,f888826b761a5c6cde366bb97c8666c8.txt,"MARCOS ALESSANDRO ARAUJO PEREIRA-ME ""CLINICA ODONTOLOGICA ARTE EM DENTES""","A empresa contratada pela Prefeitura de João Costa, representada pelo nome de Marcos Alessandro Araújo Pere",0,12.3944
+5,26,instruct,pr,,c9ee3969a1ead10001dc4a869bf0ce6b.txt,"R$ 15.709,00",O valor fixado para cada uma das 12 parcelas mensais e sucessivas a serem pagas à,0,8.0026
+5,27,instruct,pr,,d73d4af25f5364dd8c8e04ce8051edaa.txt,Rita de Cassia Leal Barbosa,O primeiro nome listado como classificado sob a atividade específica de Linguagem no resultado final da seleção de medi,1,42.4112
+5,28,instruct,pr,,d81fd8fa0bc280cfedf50ecf41306916.txt,0,O valor exato listado como inscrito em 31 de Dezembro de 2024 para,0,2935.4451
+5,29,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,ISABELA MAGNAGNAGNO,A Prefeitura de Curimatá não realizou a emissão do Extrato de Contrato Administrativo (E,0,301.3257
+5,30,instruct,pr,,d3422c832f17f64db691db01ba9c7836.txt,Luis Pereira de Sousa,O nome completo do representante legal que assina como contratado em nome da empresa Top Pisos Serviços e,0,50.307
+5,31,instruct,pr,,f9038348cefaf32f188e6ce72a544257.txt,"R$ 108.276,65",O valor total exato do contrato firmado entre o Município de Dom Inocêncio e a empresa Castro,0,9.2098
+5,32,instruct,pr,,fb15a92c9132c8fb56f9dde2f3dfc304.txt,"R$ 238.675,00",O valor total exato homologado para o contratado é R$ 1.347.69,0,7.1804
+5,33,instruct,pr,,2aeeceb1f91346ca919cd68ad2929f81.txt,Sra. CLAUDETE XIMENES CAVALCANTE,A cidadã que foi nomeada na Portaria Conjunta nº 386/2025 do,0,49.1509
+5,34,instruct,pr,,4a3458acd0f445b9ba3f8bbd03eda0e5.txt,Nívia Escórcio Alves,"A secretária municipal de educação de Piracuruca, Maria do Socorro dos Santos, nomeou o professor José",0,134.5395
+5,35,instruct,pr,,5aebc8497b64cdb2b9257b8b0b43ac6f.txt,"R$ 313.150,00",O valor total exato registrado para o fornecimento parcelado de gêneros alimentícios pelo fornecedor,0,6.7196
+5,36,instruct,pr,,5bed9f55b41986c3b98e40fcbbc20f65.txt,Médico Clínico ESF,"A resposta correta para essa pergunta seria ""Auxiliar Administrativo"". Essa informação está disponível na Portaria nº",1,64.8696
+5,37,instruct,pr,,06ade48d34f99bb011c76e5424b2a0d3.txt,"3.700.956,93","O valor exato computado como ""VALOR APLICADO EM ASPS (XVI)"" na coluna de",0,13.1431
+5,38,instruct,pr,,6a177c144e75236423276ed544a6a0de.txt,"PROFESSOR CELETISTA DE MATEMÁTICA, 20H",O contrato de prestação de serviços por tempo determinado da Secretaria Municipal de Educação de Fronteiras estabele,0,12.3752
+5,39,instruct,pr,,6d471ec88489d0d28df87fae3d6a3722.txt,UNIDADE ESCOLAR DESDETH VITORIO DIAS,A Unidade Escolar que receberá as obras de reforma na cidade de Várzea Branca será,1,71.5069
+5,40,instruct,pr,,6e6982fb7279cf873f616f4db90b9a4f.txt,"1.025.000,00","O valor de R$ 1.052,76 referente à Receita Corrente (I)",0,4.5832
+5,41,instruct,pr,,026c9c23526d7a16f2973d7210a4bbef.txt,Rafa e Pipo,"A resposta correta é a Banda Nacional de Renome ""Alegria Brasil"". Esta informação está disponível na página",0,216.9116
+5,42,instruct,pr,,38f9c3acaaec0fc7e9541a44ca1d3130.txt,00081.003581/2025-83,O número exato do processo SEI associado à análise da situação funcional do empregado Antônio Pere,0,11.7543
+5,43,instruct,pr,,100d12631e25840d6777ae6a9fb5c6bb.txt,"23.078,00",O valor exato registrado como Receitas Realizadas Até o Bimestre para a rubrica específica de Ali,0,11.9953
+5,44,instruct,pr,,661fbac225c8a913a6909b7a91488565.txt,LUMES CASA DO ELETRICISTA LTDA,"A empresa vencedora é a ""Sociedade Anônima Siderúrgica e Metalúrgica",0,48.6289
+5,45,instruct,pr,,20112c1082147e26880fd844458a9c5f.txt,"130.000,00","R$ 3.746.890,00
+A resposta correta é:
+R$",0,4.7393
+5,46,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,4° Nível,"A servidora Eliene Pires de Sá está no nível especializado de quinquênio.
+Aqui",0,42.8162
+5,47,instruct,pr,,52711fc7bbd56ce4996779ef4172bdd7.txt,"R$ 49,57",O valor unitário fixado para o Item 48 (Fralda Descartável Tamanho XG),0,13.8645
+5,48,instruct,pr,,397240e23e6881a9a6f404da1db30ca5.txt,JULIANA SALES MACHADO,Não há registro de um extrato de contrato referente ao procedimento PE nº 01.1212,0,38.361
+5,49,instruct,pr,,2313253e36f478866f39748183d0d492.txt,"136.012,80","R$ 3.567.890,00
+A resposta está correta.
+O valor",0,12.9992
+5,50,instruct,pr,,0903278130689c92b572701d6f985077.txt,EWERTON GUSTAVO PEREIRA SILVA,O cidadão nomeado para ocupar o cargo comissionado de Diretor Geral será o(a) Pref,1,51.0578
