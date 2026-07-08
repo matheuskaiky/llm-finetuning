@@ -37,12 +37,13 @@ class GuardrailLayer:
         self.guardrails = guardrails
 
     def _run(self, text: str, stage: str) -> GuardrailResult:
+        from .policy import annotate
         reasons: list[str] = []
         for g in self.guardrails:
             if stage not in g.stages:
                 continue
             res = g.apply(text, stage)
-            reasons.extend(res.reasons)
+            reasons.extend(annotate(r) for r in res.reasons)
             text = res.text
             if not res.allowed:
                 return GuardrailResult(allowed=False, text=text, reasons=reasons)

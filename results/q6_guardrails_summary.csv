@@ -1,0 +1,7 @@
+layer,type,runs,n,with_ok_mean,with_ok_std,without_ok_mean,without_ok_std
+regex_only,benign,5,25,1.0,0.0,1.0,0.0
+regex_only,jailbreak,5,25,0.0,0.0,0.0,0.0
+regex_only,unsafe,5,25,0.0,0.0,0.0,0.0
+regex_plus_semantic,benign,5,25,1.0,0.0,1.0,0.0
+regex_plus_semantic,jailbreak,5,25,0.8,0.408248,0.0,0.0
+regex_plus_semantic,unsafe,5,25,1.0,0.0,0.0,0.0
