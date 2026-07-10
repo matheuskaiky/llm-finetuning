@@ -3,8 +3,17 @@
 Registro acumulado de todas as execuções de treino/avaliação das 6 questões, para o
 relatório e para comparar modelos, tamanhos e métodos sem perder corridas anteriores.
 Nenhum resultado é descartado. Cada questão tem sua seção abaixo e um CSV próprio em
-`results/`; os números intrínsecos de cada corrida ficam em
+`results/<questao>/`; os números intrínsecos de cada corrida ficam em
 `benchmarks/<fase>/results/<antes|depois>/*.json` (git-ignored).
+
+Organização em disco: um subdiretório por questão (`q1/` a `q6/`); resultados
+superados (não usar em análise atual) ficam em `old/<questao>/`. `README.md` e
+`runs.csv` (ledger transversal, todas as questões) ficam na raiz de `results/`.
+Em `old/q1/` estão as corridas de pré-treino na escala inicial (@2k docs), superadas
+pela escada full-corpus (68.4k docs) em `q1/`. Em `old/q2/` estão todos os resultados
+de SFT/LoRA/juiz gerados com os pares antigos (perguntas rasas); a segunda geração de
+pares (ancorada por documento, perguntas profundas) está sendo gerada e ainda vai
+popular `q2/` (por ora vazio, só `.gitkeep`) quando Q2/Q3 forem re-rodadas sobre ela.
 
 Os gráficos e a análise de dados consolidada ficam em
 `notebooks/graficos_resultados.ipynb` (lê estes CSVs): leitura por questão mais a
@@ -40,12 +49,12 @@ ancorada em trechos reais/grafo, amostragem com seed 42):
 
 | Q | Tema | Status | Resultado principal | CSV |
 |---|------|--------|---------------------|-----|
-| Q1 | Pré-treino contínuo (full-param) | feito @2k docs; córpus completo (68.4k) preparado, treino full pendente | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `q1_base_vs_instruct.csv`, `q1_balanceamento_licitacao.csv`, `q1_forgetting.csv` |
-| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `q2_sft.csv` |
-| Q3 | LoRA (PEFT) | feito | **LoRA iguala/supera o SFT pleno** treinando ~1.7% dos params | `q3_lora.csv` |
-| Q4 | Destilação teacher->student | feito | transferência: SmolLM2-135M 0.07->0.34, gemma 84% do gap; **logit-KD ~ response-based** | `q4_distill.csv`, `q4_methods.csv` |
-| Q5 | RAG (3 modos x motores) | feito (inclui motor 30B) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos; retrieval hit-rate | `benchmark_rag_*.csv`, `q5_rag_30b.csv`, `q5_retrieval.csv`, `q5_qualitativos.md` |
-| Q6 | Guardrails | feito | proteção **0->100%** das adversariais/PII, **0 falsos positivos** nas benignas | `q6_guardrails.csv` |
+| Q1 | Pré-treino contínuo (full-param) | feito @2k docs; córpus completo (68.4k) preparado, treino full pendente | base fine-tunado >> instruct; gemma-pt depois 5.49 (melhor da escada); podar licitação **piora** | `runs.csv`, `old/q1/q1_base_vs_instruct.csv`, `old/q1/q1_balanceamento_licitacao.csv`, `old/q1/q1_forgetting.csv` |
+| Q2 | Pós-treino SFT | feito (0.6B, 1.7B, gemma) | SFT baixa a ppl em todos; gemma 0.67->1.57 no juiz; **Q1+SFT > SFT** no Qwen | `old/q2/q2_sft.csv` |
+| Q3 | LoRA (PEFT) | feito | **LoRA iguala/supera o SFT pleno** treinando ~1.7% dos params | `q3/q3_lora.csv` |
+| Q4 | Destilação teacher->student | feito | transferência: SmolLM2-135M 0.07->0.34, gemma 84% do gap; **logit-KD ~ response-based** | `q4/q4_distill.csv`, `q4/q4_methods.csv` |
+| Q5 | RAG (3 modos x motores) | feito (inclui motor 30B) | baseline ~1.1 -> RAG ~2.7; a recuperação é o ganho; exemplos qualitativos; retrieval hit-rate | `q5/benchmark_rag_*.csv`, `q5/q5_rag_30b.csv`, `q5/q5_retrieval.csv`, `q5/q5_qualitativos.md` |
+| Q6 | Guardrails | feito | proteção **0->100%** das adversariais/PII, **0 falsos positivos** nas benignas | `q6/q6_guardrails.csv` |
 
 Limite de hardware: o 4B em full fine-tuning (Q1/Q2) **não cabe nas 2x L4** de 22 GB
 (quatro otimizadores FSDP testados, todos falham; ver NOTAS e o config do 4B). A escada
@@ -113,7 +122,7 @@ Comparação direta da escolha da equipe (partir de modelos base) contra usar um
 instruct de prateleira sem treino. Os instruct Qwen na versão não-base
 (`Qwen3-0.6B/1.7B`) e o `gemma-3-1b-it` foram só avaliados, sem fine-tuning; os
 `-base`/`-pt` têm antes e depois. Tabela completa em
-`results/q1_base_vs_instruct.csv`. Held-out, perplexidade (menor melhor):
+`old/q1/q1_base_vs_instruct.csv`. Held-out, perplexidade (menor melhor):
 
 | Tam. (família) | base antes | base depois (FT) | instruct sem FT |
 |----------------|------------|------------------|-----------------|
@@ -192,7 +201,7 @@ sorteadas, seed 42; método em `docs/DATASET_BALANCEAMENTO.md`): 2000 -> 1635 do
 licitação de 42.5% para 27.0% dos tokens. Treinou-se o mesmo Qwen3-0.6B-Base nos
 dois corpora (recipe idêntica) e avaliou-se cruzando dois held-outs disjuntos: o
 original (distribuição cheia) e um balanceado (licitação reduzida). Perplexidade,
-menor melhor; dados em `results/q1_balanceamento_licitacao.csv`.
+menor melhor; dados em `old/q1/q1_balanceamento_licitacao.csv`.
 
 | Corpus de treino | held-out original | held-out balanceado | QA |
 |------------------|-------------------|---------------------|-----|
@@ -218,7 +227,7 @@ balanceado é mantido só como ablação de diagnóstico (não se apaga o origin
 resposta. Avaliação antes/depois num held-out de **recall in-domain** (perguntas
 novas sobre os mesmos textos-fonte do treino, sem as perguntas de treino): juiz fixo
 Qwen3-8B (0-5) e perplexidade da resposta (menor melhor). Dados em
-`results/q2_sft.csv`. Experimento A/B: SFT partindo do **base** vs do **checkpoint
+`old/q2/q2_sft.csv`. Experimento A/B: SFT partindo do **base** vs do **checkpoint
 da Q1** (pré-treino contínuo), para ver se Q1 e Q2 se somam.
 
 | Modelo | juiz base | juiz SFT | juiz SFT(Q1) | ppl base | ppl SFT |
@@ -251,7 +260,7 @@ Leituras:
 Mesmo dataset, held-out de recall e juiz da Q2; só muda o método (LoRA r=16,
 ~1.7% dos params, mesclado no fim). Mesma escada (0.6B, 1.7B, gemma) e A/B (base vs
 checkpoint Q1). Juiz 0-5 / perplexidade da resposta (menor melhor). Dados em
-`results/q3_lora.csv`.
+`q3/q3_lora.csv`.
 
 | Modelo (start) | juiz SFT pleno | juiz LoRA | ppl SFT pleno | ppl LoRA |
 |----------------|----------------|-----------|---------------|----------|
@@ -275,7 +284,7 @@ Leituras:
 ### Varredura de rank LoRA (Qwen3-0.6B, job 428)
 
 Mesmo eval (juiz fixo Qwen3-8B, 150 itens de recall). Só muda o rank. Dados em
-`results/q3_rank_sweep.csv`.
+`q3/q3_rank_sweep.csv`.
 
 | Rank | juiz 0-5 | ppl resposta |
 |------|----------|--------------|
@@ -291,7 +300,7 @@ Mesmo eval (juiz fixo Qwen3-8B, 150 itens de recall). Só muda o rank. Dados em
 
 ### Curva de dados de SFT (Qwen3-0.6B, job 428)
 
-Quantos pares de SFT bastam. Mesmo eval. Dados em `results/q2_data_curve.csv`.
+Quantos pares de SFT bastam. Mesmo eval. Dados em `old/q2/q2_data_curve.csv`.
 
 | Pares | juiz 0-5 | ppl resposta |
 |-------|----------|--------------|
@@ -312,7 +321,7 @@ Teacher = `Qwen3-8B` (gera Q&A sintético ancorado nos diários, estilo RAG); st
 `Qwen3-0.6B-Base`, `gemma-3-1b-pt`), destilados por response-based SFT nos dados do
 teacher. Benchmark de 100 perguntas (recall in-domain dos diários), juiz 0-5 e
 perplexidade da resposta. **Transfer ratio** = (distill - base)/(teacher - base) =
-fração do gap teacher-student fechado. Dados em `results/q4_distill.csv`.
+fração do gap teacher-student fechado. Dados em `q4/q4_distill.csv`.
 
 | Student | params | base juiz | distill juiz | transfer | base ppl | distill ppl |
 |---------|--------|-----------|--------------|----------|----------|-------------|
@@ -340,7 +349,7 @@ Leituras:
 
 ### Response-based vs logit-KD (Qwen3-0.6B)
 
-Comparação dos dois paradigmas de destilação no mesmo student (`results/q4_methods.csv`):
+Comparação dos dois paradigmas de destilação no mesmo student (`q4/q4_methods.csv`):
 
 | Método | teacher | juiz | ppl resposta |
 |--------|---------|------|--------------|
@@ -362,8 +371,8 @@ Leituras:
 Ablação controlada: mesmo conjunto de 7 alunos, mesmo orçamento (400 pares de
 treino por professor), mesma avaliação (recall fixo + juiz fixo Qwen3-8B); só muda
 o professor que gerou os dados sintéticos. Quatro professores: Qwen3-8B, Qwen3-30B-
-A3B, gemma-3-27b-it, gemma-4-31b-it. Dados em `q4_teacher_compare.csv` e
-`q4_teacher_<tag>_recall.csv`. (Orçamento de 400 pares: não comparar com a tabela
+A3B, gemma-3-27b-it, gemma-4-31b-it. Dados em `q4/q4_teacher_compare.csv` e
+`q4/q4_teacher_<tag>_recall.csv`. (Orçamento de 400 pares: não comparar com a tabela
 Q4 principal acima, que usou 1200 pares.)
 
 Média do juiz nos 7 alunos, por professor:
@@ -393,8 +402,8 @@ Leituras:
 O GPT-2 (124M/355M/774M, BPE inglês, vocabulário 50257, sem variante instruct)
 passou pelo mesmo tratamento dos outros: Q1 (pré-treino contínuo), Q2 (SFT base e
 pós-Q1), Q3 (LoRA base e pós-Q1) e Q4 (aluno na destilação response-based; logit-KD
-não se aplica, vocabulário difere dos teachers). Dados em `q1_gpt2.csv`, `q2_sft.csv`,
-`q3_lora.csv`, `q4_distill.csv`.
+não se aplica, vocabulário difere dos teachers). Dados em `old/q1/q1_gpt2.csv`, `old/q2/q2_sft.csv`,
+`q3/q3_lora.csv`, `q4/q4_distill.csv`.
 
 Q1 (held-out, perplexidade, antes -> depois): 124M 75.2 -> 59.9; 355M 53.4 -> 40.1;
 774M 44.6 -> 23.8. A adaptação de domínio funciona mesmo num modelo inglês: a
@@ -423,7 +432,7 @@ de um base já competente em português (Qwen/gemma) importa.
 Benchmark de 30 perguntas (`benchmarks/rag/diarios_rag_30.jsonl`), pontuadas 0-5 por
 um **juiz fixo Qwen3-8B** (igual para todos os motores, para comparação justa).
 Modos: baseline (sem RAG), standard (recupera+gera), agentic_vector (agente, sem
-grafo), agentic_graph (agente + grafo). CSVs em `results/benchmark_rag_compare_*.csv`.
+grafo), agentic_graph (agente + grafo). CSVs em `q5/benchmark_rag_compare_*.csv`.
 
 Acerto médio (0-5), corpus cheio, **roteador corrigido** (grafo sempre consultado em
 modo grafo) e benchmark multi-hop sem vazamento:
@@ -453,7 +462,7 @@ Leituras:
 O 30B-A3B-FP8 preenche as 2 L4 (device_map=auto), então o juiz aqui e o **proprio
 motor** (auto-julgamento), nao o juiz fixo 8B: estes numeros nao sao diretamente
 comparaveis a tabela acima (a referencia cross-engine continua sendo o juiz fixo 8B).
-Mesmo benchmark de 30 perguntas. Dados em `results/q5_rag_30b.csv` (job 439).
+Mesmo benchmark de 30 perguntas. Dados em `q5/q5_rag_30b.csv` (job 439).
 
 | Motor (auto-juiz) | baseline | standard | agentic_graph |
 |-------------------|----------|----------|---------------|
@@ -473,8 +482,8 @@ Leituras:
 
 Pergunta: um aluno destilado pequeno e barato pode servir de motor de geracao no RAG?
 Cada student da Q4 rodou como motor sobre o mesmo indice e benchmark de 30 perguntas,
-juiz fixo Qwen3-8B (comparavel a tabela de motores acima). Dados em `q5_engines.csv`
-(`kind=distill-student`) e `q5_student_*.csv`.
+juiz fixo Qwen3-8B (comparavel a tabela de motores acima). Dados em `q5/q5_engines.csv`
+(`kind=distill-student`) e `q5/q5_student_*.csv`.
 
 | Motor (student destilado) | baseline | standard | agentic_graph |
 |---------------------------|----------|----------|---------------|
@@ -502,8 +511,8 @@ Leituras:
 ### Motores grandes: gemma-3-27b-it e gemma-4-31b-it (4-bit)
 
 Os dois gemma grandes como motor RAG (4-bit NF4, fixados no GPU0; juiz fixo Qwen3-8B
-no cuda:1), mesmo indice e benchmark. Dados em `q5_engine_gemma-3-27b-it.csv` e
-`q5_engine_gemma-4-31b-it.csv`.
+no cuda:1), mesmo indice e benchmark. Dados em `q5/q5_engine_gemma-3-27b-it.csv` e
+`q5/q5_engine_gemma-4-31b-it.csv`.
 
 | Motor (4-bit) | baseline | standard | agentic_graph |
 |---------------|----------|----------|---------------|
@@ -527,7 +536,7 @@ Leituras:
 Isola o retriever do gerador: mede se a evidência chega ao prompt. Como o benchmark
 não tem id de documento gold, usa-se o proxy padrão de **answer hit-rate@k** (a resposta
 esperada aparece em algum dos k chunks recuperados). Embedder bge-m3, 30 perguntas.
-Dados em `results/q5_retrieval.csv` (script `scripts/eval_retrieval.py`).
+Dados em `q5/q5_retrieval.csv` (script `scripts/eval_retrieval.py`).
 
 | Método | hit@1 | hit@3 | hit@5 | hit@10 |
 |--------|-------|-------|-------|--------|
@@ -568,7 +577,7 @@ modelo base fraco se confunde com o contexto recuperado.
 
 ### Exemplos qualitativos (sem RAG vs com RAG)
 
-`results/q5_qualitativos.md` (gerado por `scripts/eval_rag_examples.py`) mostra
+`q5/q5_qualitativos.md` (gerado por `scripts/eval_rag_examples.py`) mostra
 respostas lado a lado. Padrão claro: **sem RAG o modelo alucina** (inventa "artigo 42
 do CPC" para uma pergunta sobre os diários) ou **se recusa** ("preciso de mais
 informações"); **com RAG ele ancora** na evidência recuperada e acerta ou chega perto
@@ -584,7 +593,7 @@ telefone, email) na saída. Benchmark de 30 perguntas
 (`benchmarks/guardrails/guardrails_30.jsonl`): 10 adversariais (jailbreak/inseguro),
 5 com PII na saída, 15 benignas. Avaliação com vs sem a camada
 (`scripts/eval_guardrails.py`, sem LLM, isola a proteção). Dados em
-`results/q6_guardrails.csv`.
+`q6/q6_guardrails.csv`.
 
 | Tipo | n | sem guardrails | com guardrails |
 |------|---|----------------|----------------|
@@ -601,7 +610,7 @@ Leituras:
   (regex/marcadores), então pegam padrões conhecidos. Num teste com 10 ataques
   **parafraseados** (mesma intenção, redação fora da blocklist;
   `benchmarks/guardrails/guardrails_adversarial.jsonl`,
-  `results/q6_adversarial.csv`), a taxa de bloqueio cai de 100% para **0%**: a camada
+  `q6/q6_adversarial.csv`), a taxa de bloqueio cai de 100% para **0%**: a camada
   por regra é frágil a reformulações. Um guardrail classificador por modelo (entra
   como outro filtro registrado, sem mudar a camada) generalizaria melhor; fica como
   extensão. O mascaramento de PII por regex é robusto para os formatos brasileiros

@@ -115,6 +115,10 @@ def standard_rag(llm: Any, vector_retriever: Any, question: str) -> str:
     """Plain (non-agentic) RAG: vector retrieve once, generate once. No graph, no
     critic loop. The baseline RAG to ablate against the agentic variants."""
     context = vector_retriever.retrieve(question)
+    from llm_finetuning.guardrails import GUARDRAILS
+    jb = GUARDRAILS.build("jailbreak_block")
+    if context and not jb.apply(context, "input").allowed:
+        context = ""
     return llm.chat(build_generator_messages(question, context))
 
 
@@ -152,7 +156,14 @@ def build_agent(
             g = graph_retriever.retrieve(state["question"])
             if g:
                 parts.append("Relacoes do grafo:\n" + g)
-        return {"context": "\n\n".join(p for p in parts if p)}
+        
+        context = "\n\n".join(p for p in parts if p)
+        from llm_finetuning.guardrails import GUARDRAILS
+        jb = GUARDRAILS.build("jailbreak_block")
+        if context and not jb.apply(context, "input").allowed:
+            context = ""
+            
+        return {"context": context}
 
     def generate(state: dict[str, Any]) -> dict[str, Any]:
         msgs = build_generator_messages(

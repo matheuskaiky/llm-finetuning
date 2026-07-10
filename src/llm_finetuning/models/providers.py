@@ -31,12 +31,14 @@ class LocalModelProvider(ModelProvider):
         device_map: str | None = None,
         trust_remote_code: bool = False,
         tokenizer_name: str | None = None,
+        load_in_4bit: bool = False,
     ) -> None:
         self.model_name = model_name
         self.dtype = dtype
         self.device_map = device_map
         self.trust_remote_code = trust_remote_code
         self.tokenizer_name = tokenizer_name or model_name
+        self.load_in_4bit = load_in_4bit
 
     def load(self) -> ModelBundle:
         import os
@@ -50,13 +52,31 @@ class LocalModelProvider(ModelProvider):
         )
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
+
+        # QLoRA: load the base in NF4 4-bit. bitsandbytes places the weights via a
+        # device_map, so pin to one GPU (LOCAL_RANK) and skip the .to() below.
+        quant_kwargs: dict[str, object] = {}
+        device_map = self.device_map
+        if self.load_in_4bit:
+            from transformers import BitsAndBytesConfig
+
+            quant_kwargs["quantization_config"] = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_compute_dtype=torch_dtype or torch.bfloat16,
+            )
+            if device_map is None:
+                device_map = {"": int(os.environ.get("LOCAL_RANK", "0"))}
+
         model = AutoModelForCausalLM.from_pretrained(
             self.model_name,
             torch_dtype=torch_dtype,
-            device_map=self.device_map,
+            device_map=device_map,
             trust_remote_code=self.trust_remote_code,
+            **quant_kwargs,
         )
-        if self.device_map is None and torch.cuda.is_available():
+        if not self.load_in_4bit and self.device_map is None and torch.cuda.is_available():
             # Under a distributed launch (torchrun), each process owns one GPU
             # (cuda:LOCAL_RANK); otherwise use the default device.
             local_rank = os.environ.get("LOCAL_RANK")

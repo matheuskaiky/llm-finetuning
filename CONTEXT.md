@@ -35,12 +35,22 @@ real: código desacoplado, configurável e reprodutível.
 > O que construímos por conta própria são os datasets/benchmarks específicos de
 > cada questão (ex.: os >= 1.000 pares de SFT, os benchmarks de Q1/Q4/Q5/Q6).
 
+> **Segunda geração dos pares de SFT (Q2).** A primeira geração (Qwen3-8B, 2
+> pares/trecho) permitia perguntas rasas de definição ("o que é X?"). Uma segunda
+> geração foi criada por extensão (dataset antigo preservado em
+> `data/processed/sft/old/`, não apagado): 1 pergunta **profunda** por documento
+> (prompt revisado e aprovado explicitamente antes de rodar), motor
+> `gemma-4-31b-it` (o maior instruct local), e um dataset auxiliar com a fonte
+> (professor + trecho) de cada par para auditoria. Detalhe técnico em
+> `PROJECT_CONTEXT.md` e a motivação/decisão completa em `NOTAS.md`
+> (2026-07-03).
+
 ### Escolhas desta equipe
 
 | Item | Escolha | Observação |
 |------|---------|------------|
-| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B e 1.7B feitos; o 4B não cabe, limite de hardware documentado nas NOTAS). |
-| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, 1 L4) | Instruct de texto puro para extração de grafo, geração e juiz. Variante maior `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (2 L4, MoE) reservada para quando o multi-GPU (NCCL) for corrigido. Embeddings: `BAAI/bge-m3`. |
+| Base de Q1-Q3 (texto) | família `Qwen/Qwen3-*-Base` (densa, texto puro) | Modelos **base** (só pré-treino, sem instruct), `Qwen3ForCausalLM`. Q1 usa o maior que cabe em full fine-tune nas 2x L4 (0.6B e 1.7B feitos single-GPU; com o multi-GPU destravado a escada foi ampliada ate o 3B via FSDP; o 4B nao cabe por limite de otimizador/memoria sob FSDP, nao mais de driver, documentado nas NOTAS). |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, 1 L4) | Instruct de texto puro para extração de grafo, geração e juiz. Variante maior `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (2 L4, MoE), ja rodada com sucesso apos o multi-GPU ser destravado. Embeddings: `BAAI/bge-m3`. |
 | Corpus de diários | `gutoportelaa/dom-pi-corpus-2025` | Diário Oficial dos Municípios do Piauí 2025 (parquet, ~195M tokens). |
 
 > **Princípio base vs instruct (Q1-Q3).** Partimos de modelos **base** (só
@@ -65,12 +75,15 @@ Como baixar o modelo e o dataset, configurar o ambiente (`uv`) e o `.env`: ver
 > fine-tune em uma única L4 (1.7B com activation checkpointing); 4B em diante
 > precisaria dividir os estados entre as duas placas (FSDP). A Q1 usa a família
 > densa de texto `Qwen/Qwen3-*-Base` como escada de tamanho: `Qwen3-0.6B-Base` e
-> `Qwen3-1.7B-Base` (feitos, single-GPU). O `Qwen3-4B-Base` está pronto (config e
-> pipeline FSDP), mas bloqueado: o treino multi-GPU via NCCL não inicializa nesta
-> máquina porque a NVML está quebrada (driver/library version mismatch, o mesmo
-> defeito do `nvidia-smi`); pedido de suporte em `docs/SUPORTE_INFRA_MULTIGPU.md`.
-> Os VLM grandes (`Qwen3.5-9B-Base`, `Qwen3.5-35B-A3B-Base`) ficam para a Q3 (PEFT
-> em 4-bit) e RAG/inferência. Ver `NOTAS.md` e `results/`.
+> `Qwen3-1.7B-Base` (feitos, single-GPU). Em 2026-06-15 a infra corrigiu o mismatch
+> de driver/NVML que travava o `nvidia-smi` e o NCCL: o multi-GPU (FSDP em 2 GPUs)
+> passou a funcionar, validado com `torchrun --nproc_per_node=2`, e a escada
+> full-parameter foi estendida ate o `Qwen2.5-3B-Base` (FSDP full_shard + CPU
+> offload, `adamw_torch` puro). O `Qwen3-4B-Base` continua nao coube: nao e mais
+> bloqueio de driver, e sim de otimizador/memoria sob FSDP (adamw 8-bit nao tem
+> sharding de DTensor implementado; adamw fp32 puro da OOM antes do
+> optimizer.step). Os VLM grandes (`Qwen3.5-9B-Base`, `Qwen3.5-35B-A3B-Base`) ficam
+> para a Q3 (PEFT em 4-bit) e RAG/inferência. Ver `NOTAS.md` e `results/`.
 
 ## 2. Escopo macro (as 6 frentes)
 

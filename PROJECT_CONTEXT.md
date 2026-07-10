@@ -87,7 +87,7 @@ Marcadas com [x] as já implementadas (Marco 1); as demais nascem sob demanda.
 ```
 src/llm_finetuning/
 ├── core/          # [x] Interfaces (ABCs), registry/factory, config loader, seed.
-├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, sft_pairs (build_prompt/labels, mascara so na resposta).
+├── data/          # [x] DatasetLoader: PdfToTextLoader (PDF->txt), TextCorpusLoader, sft_pairs (build_prompt/labels, mascara so na resposta), anchored_qa_pairs (Q2 v2: prompt de pergunta profunda, projecao SFT vs. registro com fonte, geracao com validacao/circuit-breaker).
 ├── models/        # [x] ModelProvider: LocalModelProvider (4-bit NF4 opcional, device_map str|dict), CloudModelProvider (placeholder).
 ├── evaluation/    # [x] Evaluator + Metrics (perplexidade, entropia, acurácia de token).
 ├── training/      # [x] Trainers (Strategy): ContinualPretrainTrainer (Q1), SupervisedFineTuneTrainer (Q2, loss so na resposta; reaproveitado para LoRA/QLoRA da Q3 via config peft), DistillationTrainer (Q4, logit-KD). Destilacao response-based (Q4) feita via geracao sintetica + SFT, sem trainer dedicado.
@@ -169,6 +169,23 @@ em `data/raw/docentesDC/` (jsonl + parquet). A extracao propria do SIGAA
 (`DocenteExtractor`, triagem + dedup) foi removida do codigo: o dataset chega pronto
 e a geracao de pares Q&A da Q2 parte direto desse formato.
 
+### Geracao dos pares Q2 (v2: ancorados por documento, pergunta profunda)
+A primeira geracao (`scripts/build_sft_pairs.py`, motor Qwen3-8B, 2 pares/trecho) nao
+proibia perguntas rasas de definicao ("o que e X?"). Uma segunda geracao foi criada
+por extensao (sem tocar no script/prompt antigo, so OCP): `scripts/build_sft_pairs_
+anchored.py` + `data/anchored_qa_pairs.py`, mesma limpeza/split de fonte de
+`sft_pairs.py` (reusada, nao duplicada), mas 1 par PROFUNDO por documento (prompt
+`DEEP_QA_SYSTEM_PROMPT`, aprovado explicitamente pelo usuario antes de codificar),
+motor `gemma-4-31b-it` (4-bit, o maior instruct local), e dois arquivos por split:
+`docentes_sft_{train,heldout}.jsonl` (SFT-ready, mesmo schema/paths de antes - os
+configs de treino nao mudam) e `docentes_sft_{train,heldout}_sources.jsonl` (mesmos
+pares + `professor`/`doc_index`/`source_excerpt` para auditoria). O dataset antigo e
+arquivado (nao apagado) em `data/processed/sft/old/` por `archive_existing_outputs`
+na primeira execucao. Geracao com validacao de qualidade (`is_deep_enough`) e
+circuit-breaker contra falha sistemica do motor (`generate_pairs_for_records`,
+aborta so em 5 falhas consecutivas de `llm.chat`, nao em uma resposta ruim isolada).
+Detalhe completo da motivacao e decisao em `NOTAS.md` (2026-07-03).
+
 ### Empacotamento em blocos (`data/text_corpus.py::chunk_token_ids`)
 Para o pré-treino contínuo (Q1), os documentos são tokenizados, concatenados (com
 EOS entre eles) e divididos em blocos de `block_size` tokens. O resto final menor
@@ -202,17 +219,19 @@ env separado, sem sujar o base.
 **Hardware de referência.** Máquina de desenvolvimento com 2x NVIDIA L4 (24 GB
 cada, ~48 GB no total), que suportam bf16 e FP8. Sem NVLink: modelos maiores que
 24 GB precisam ser shardados entre as duas GPUs (tensor-parallel na inferência;
-ZeRO/FSDP ou 4-bit no treino). Observação: `nvidia-smi`/NVML falham por mismatch de
-driver; o CUDA compute de uma placa funciona normalmente, mas o treino multi-GPU
-via NCCL não inicializa (a NCCL chama `nvmlInit` e aborta), então hoje só roda
-single-GPU. Detalhe e pedido de suporte: `docs/SUPORTE_INFRA_MULTIGPU.md`.
+ZeRO/FSDP ou 4-bit no treino). Observação histórica: entre 2026-06-11 e
+2026-06-15 o `nvidia-smi`/NVML falhava por mismatch de driver e o NCCL não
+inicializava (só rodava single-GPU); a infra corrigiu o driver em 2026-06-15 e o
+multi-GPU (NCCL/FSDP) está operacional desde então, validado com
+`torchrun --nproc_per_node=2` e usado em produção (treino full-parameter do 3B em
+FSDP, motor RAG 30B via `device_map=auto`). Ver `NOTAS.md`.
 
 **Modelo e dataset escolhidos.**
 
 | Asset | ID/Origem | Observação |
 |-------|-----------|-----------|
-| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B (feitos, single-GPU). O 4B em full fine-tuning não cabe nas 2x L4 (limite de hardware: quatro otimizadores FSDP falham; ver NOTAS), fica só sem treino. Texto puro, vocab 151936. |
-| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map`, reservado p/ quando o NCCL for resolvido). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
+| Base de texto (Q1-Q3) | família `Qwen/Qwen3-*-Base` (densa, `Qwen3ForCausalLM`) + `Qwen2.5-*-Base` (0.5B/1.5B/3B) | Modelos base (só pré-treino). Escada da Q1 full-parameter: 0.6B e 1.7B feitos single-GPU; com o multi-GPU (NCCL/FSDP) destravado em 2026-06-15, a escada foi ampliada até o 3B (FSDP full_shard + CPU offload, `adamw_torch` puro). O 4B em full fine-tuning não cabe nas 2x L4 (não é mais limite de driver/NCCL: é otimizador/memória sob FSDP - adamw 8-bit sem sharding de DTensor, adamw fp32 puro dá OOM antes do optimizer.step; ver NOTAS). Texto puro, vocab 151936. |
+| Motor do RAG (Q5) | `Qwen/Qwen3-8B` (instruct, bf16, padrão) e `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (MoE FP8, multi-GPU por `device_map=auto`, já rodado com sucesso - job 439). Embeddings `BAAI/bge-m3`. | Trocável por config. O `Qwen3.5-9B` multimodal foi removido (complexo, não cabia na estratégia de texto). |
 | Cross-family (Q1/Q5) | `google/gemma-3-1b-pt` e `google/gemma-3-1b-it` (texto puro, gated) | Comparação de família vs Qwen. Gemma 3 4b+ são multimodais. |
 | Cross-family extra (Q1-Q4) | família `gpt2` (124M/355M/774M) | Segunda família, vocab BPE ingles 50257, contexto 1024, sem instruct. LoRA mira `c_attn`/`c_proj`/`c_fc`. Adapta lingua (ppl cai) mas nao a tarefa PT (juiz <= 0.5). |
 | Professores grandes (Q4/Q5) | `google/gemma-3-27b-it`, `google/gemma-4-31b-it`, `Qwen/Qwen3-30B-A3B-Instruct-2507-FP8` (4-bit/FP8) | Comparados como professor da destilacao (vs Qwen3-8B) e como motor de RAG. 27b roda limpo pinado em 1 L4; 31b 4-bit nao cabe ao lado do juiz (limite de hardware). |

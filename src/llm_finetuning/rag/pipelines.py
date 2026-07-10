@@ -28,6 +28,16 @@ class RagRunner(Protocol):
     def answer(self, question: str) -> RunResult: ...
 
 
+from llm_finetuning.guardrails import GUARDRAILS, GuardrailLayer
+
+def _build_guardrail_layer() -> GuardrailLayer:
+    return GuardrailLayer([
+        GUARDRAILS.build("jailbreak_block"),
+        GUARDRAILS.build("unsafe_block"),
+        GUARDRAILS.build("semantic_block"),
+        GUARDRAILS.build("pii_mask"),
+    ])
+
 class StandardRunner:
     """Plain RAG: vector retrieve once, generate once (no agent, no graph)."""
 
@@ -36,9 +46,17 @@ class StandardRunner:
     def __init__(self, llm: Any, vector_retriever: Any, **_: Any) -> None:
         self.llm = llm
         self.vector_retriever = vector_retriever
+        self.layer = _build_guardrail_layer()
 
     def answer(self, question: str) -> RunResult:
-        return RunResult(standard_rag(self.llm, self.vector_retriever, question))
+        in_res = self.layer.process_input(question)
+        if not in_res.allowed:
+            return RunResult(in_res.text)
+            
+        ans = standard_rag(self.llm, self.vector_retriever, question)
+        
+        out_res = self.layer.process_output(ans)
+        return RunResult(out_res.text)
 
 
 class AgenticRunner:
@@ -57,10 +75,18 @@ class AgenticRunner:
         self._agent = build_agent(
             llm, vector_retriever, graph_retriever, max_reflections, use_graph=use_graph
         )
+        self.layer = _build_guardrail_layer()
 
     def answer(self, question: str) -> RunResult:
+        in_res = self.layer.process_input(question)
+        if not in_res.allowed:
+            return RunResult(in_res.text)
+            
         state = self._agent.invoke({"question": question})
-        return RunResult(state.get("answer", ""), bool(state.get("corrected", False)))
+        ans = state.get("answer", "")
+        
+        out_res = self.layer.process_output(ans)
+        return RunResult(out_res.text, bool(state.get("corrected", False)))
 
 
 # Mode name -> factory. Register a new mode here; the evaluator stays unchanged.

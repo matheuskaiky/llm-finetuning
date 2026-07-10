@@ -14,6 +14,7 @@ from .core import Guardrail, GuardrailLayer, GuardrailResult
 GUARDRAILS: Registry[Guardrail] = Registry("guardrail")
 
 from . import filters as _filters  # noqa: E402,F401  (registers built-ins)
+from . import embeddings as _embeddings  # noqa: E402,F401  (registra semantic_block)
 from .pii import mask_pii  # noqa: E402
 
 __all__ = [

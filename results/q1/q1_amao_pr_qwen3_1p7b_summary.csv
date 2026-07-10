@@ -1,0 +1,4 @@
+model,runs,n,exact_match_mean,exact_match_std,target_ppl_mean,target_ppl_std
+base,5,250,0.18,0.384958,275.15937,1171.534544
+ep1,5,250,0.14,0.347683,106.486764,375.45355
+instruct,5,250,0.18,0.384958,5995.823208,30790.417894

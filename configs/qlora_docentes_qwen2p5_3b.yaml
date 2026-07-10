@@ -1,0 +1,40 @@
+# Q2 (base up to 3B): QLoRA SFT of Qwen2.5-3B on the docentesDC pairs. The 3B base
+# is loaded in NF4 4-bit (load_in_4bit) so it fits one L4; only LoRA params train,
+# then merge into the dequantized base and save a standalone checkpoint that
+# evaluates like a full model. Full-parameter 3B SFT would need FSDP over 2 GPUs;
+# QLoRA keeps it single-GPU. A/B override for the Q1 continued-pretrain checkpoint:
+#   python scripts/train.py --config configs/qlora_docentes_qwen2p5_3b.yaml \
+#     --model-name outputs/pretrain_qwen2p5_3b_diarios_full/checkpoint-16027 \
+#     --output-dir outputs/qlora_qwen2p5_3b_q1
+name: qlora_docentes_qwen2p5_3b
+seed: 42
+
+model:
+  type: local
+  params:
+    model_name: models/Qwen2.5-3B
+    dtype: bfloat16
+    load_in_4bit: true
+
+dataset:
+  type: sft_pairs
+  params:
+    path: data/processed/sft/docentes_sft_train.jsonl
+
+trainer:
+  type: sft
+  params:
+    output_dir: outputs/qlora_qwen2p5_3b_base
+    max_length: 1024
+    num_train_epochs: 3
+    learning_rate: 0.0002
+    per_device_train_batch_size: 1
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    logging_steps: 20
+    bf16: true
+    gradient_checkpointing: true
+    peft:
+      r: 16
+      alpha: 32
+      dropout: 0.05
